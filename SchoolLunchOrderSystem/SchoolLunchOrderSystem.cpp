@@ -74,10 +74,6 @@ struct Payment {
 
 int main()
 {
-void printMenuList();
-
-int main()
-{
     printMenuList();
 
     return 0;
