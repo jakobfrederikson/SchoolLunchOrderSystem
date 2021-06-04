@@ -1,5 +1,6 @@
 #include <iostream>
 #include <string>
+#include <fstream>
 using namespace std;
 
 // Structures written by Jakob, originally by Jay in an excel sheet
@@ -8,6 +9,11 @@ struct Admin {
 	string fullName;
 	struct Parent;
 	struct Staff;
+
+	Admin(int defAdminID = 0, string defFullName = "Default Admin") {
+		adminID = defAdminID;
+		fullName = defFullName;
+	}
 };
 
 struct Parent {
@@ -19,7 +25,7 @@ struct Parent {
 	int countNum;
 	string childFullName;
 	int childRoomNum;
-	int visaCardNo;
+	string visaCardNo;
 	string visaCardExpiry;
 	string email;
 	struct Order;
@@ -27,6 +33,23 @@ struct Parent {
 	struct Complaint;
 	struct BulkPayment;
 	struct Payment;
+
+	Parent(int defID = 0, bool defAccountStatus = false, string defFullName = "Default Parent", string defGender = "Default Gender",
+		   string defDOB = "00/00/0000", int defCountNum = 0, string defChildName = "Default Child", int defRoomNum = 0,
+		   string defVisaNum = "Default Visa Num", string defVisaExpiry = "Def Expiry", string defEmail = "default@email.com") {
+
+		parentID = defID;
+		accountStatus = defAccountStatus;
+		fullName = defFullName;
+		gender = defGender;
+		dob = defDOB;
+		countNum = defCountNum;
+		childFullName = defChildName;
+		childRoomNum = defRoomNum;
+		visaCardNo = defVisaNum;
+		visaCardExpiry = defVisaExpiry;
+		email = defEmail;
+	}
 };
 
 struct Staff {
@@ -35,13 +58,25 @@ struct Staff {
 	string fullName;
 	string gender;
 	string dob;
-	int visaCardNo;
+	string visaCardNo;
 	string visaCardExpiry;
 	struct Order;
 	struct Login;
 	struct Complaint;
 	struct BulkPayment;
 	struct Payment;
+
+	Staff(int defID = 0, bool defAccountStatus = false, string defFullName = "Default Staff", string defGender = "Default Gender",
+	      string defDOB = "00/00/0000", string defVisaNum = "Default Visa Num", string defVisaExpiry = "Def Expiry") {
+
+		staffID = defID;
+		accountStatus = defAccountStatus;
+		fullName = defFullName;
+		gender = defGender;
+		dob = defDOB;
+		visaCardNo = defVisaNum;
+		visaCardExpiry = defVisaExpiry;
+	}
 };
 
 struct Order {
@@ -52,25 +87,58 @@ struct Order {
 	float price;
 	float totalPrice;
 	bool paymentStatus;
+
+	Order(int defOrderNum = 0, string defOrderDate = "00/00/000", string defItemName = "Default Item Name", int defQuantity = 0,
+		float defPrice = 0, float defTotalPrice = 0, bool defPaymentStatus = false) {
+		orderNum = defOrderNum;
+		orderDate = defOrderDate;
+		itemName = defItemName;
+		quantity = defQuantity;
+		price = defPrice;
+		totalPrice = defTotalPrice;
+		paymentStatus = defPaymentStatus;
+	}
 };
 
 struct Complaint {
 	int complaintID;
 	string itemOrdered;
 	string complaintDescription;
-	string actionStatus;
+	bool actionStatus;
+
+	Complaint(int defComplaintID = 0, string defItemOrdered = "Default Item Ordered", string defComplaintDesc = "Default Complaint",
+		bool defActionStatus = false) {
+
+		complaintID = defComplaintID;
+		itemOrdered = defItemOrdered;
+		complaintDescription = defComplaintDesc;
+		actionStatus = defActionStatus;
+	}
 };
 
 struct Login {
 	int loginID;
 	string username;
 	string password;
+
+	Login(int defLoginID = 0, string defUsername = "Def Username", string defPassword = "Def Password") {
+
+		loginID = defLoginID;
+		username = defUsername;
+		password = defPassword;
+	}
 };
 
 struct Payment {
 	int paymentID;
 	float GST;
 	string typeOfPayment;
+
+	Payment(int defPaymentID = 0, float defGST = 0.15, string defPaymentType = "def payment type") {
+		paymentID = defPaymentID;
+		GST = defGST;
+		typeOfPayment = defPaymentType;
+	}
 };
 
 //code written by Jay
@@ -79,6 +147,7 @@ void printBulkDiscounts();
 void printContactLocationDetails();
 void printWeeklyMenu();
 void loginRegistrationScreen();
+void registerUser(struct Staff staffRegister);
 
 int main()
 {
@@ -196,13 +265,15 @@ void loginRegistrationScreen() {
 	}
 	else if (choice == 2) {
 		system("cls");
-		cout << "\nREGISTER SCREEN\n";
+		cout << "REGISTER SCREEN\n";
+		cout << "***************\n";
 		cout << "1. Staff account\n";
-		cout << "2. Parent account\n\n";
-		cout << "Enter choice: ";
+		cout << "2. Parent account\n";
+		cout << "\nEnter choice: ";
 		cin >> registerChoice;
-		if (registerChoice == 1) {
 
+		if (registerChoice == 1) {
+			registerUser(staffRegister);		
 		}
 		else if (registerChoice == 2) {
 
@@ -210,8 +281,46 @@ void loginRegistrationScreen() {
 		else {
 			cout << "\nPlease enter a number relevant to the given menu.\n";
 		}
+
 	}
 	else {
 		cout << "\nPlease enter a number relevant to the given menu.\n";
+	}
+}
+
+void registerUser(struct Staff staffRegister) {
+	char ans;
+
+	system("cls");
+	cout << "STAFF REGISTRATION";
+	cout << "\n******************";
+	cout << "\nFull name: ";
+	cin.ignore();
+	getline(cin, staffRegister.fullName);
+	cout << "Gender: ";
+	cin >> staffRegister.gender;
+	cout << "Date of birth: ";
+	cin >> staffRegister.dob;
+	cout << "Visa Card Number: ";
+	cin >> staffRegister.visaCardNo;
+	cout << "Visa Card Expiry Date: ";
+	cin >> staffRegister.visaCardExpiry;
+	cout << "\nConfirm registration(y/n): ";
+	cin >> ans;
+
+	if (ans == 'y') {
+		ofstream staffFile;
+		staffFile.open("staff_file.csv", ios::app);
+		cout << "\nWriting to file\n";
+		
+		staffFile << staffRegister.fullName << ", " << staffRegister.gender << ", " << staffRegister.dob << ", " << staffRegister.visaCardNo << ", " << staffRegister.visaCardExpiry << endl;
+
+		staffFile.close();
+	}
+	else if (ans == 'n') {
+		cout << "\nRegistration canceled.\n";
+	}
+	else {
+		cout << "\nPlease enter a character relevant to the given menu.\n";
 	}
 }
