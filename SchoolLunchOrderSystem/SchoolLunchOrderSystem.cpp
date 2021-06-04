@@ -83,9 +83,9 @@ void loginRegistrationScreen();
 int main()
 {
 	// Code written by Jay
-    printMenuList();
+	printMenuList();
 
-    return 0;
+	return 0;
 }
 
 // Jay's code
@@ -154,7 +154,7 @@ void printWeeklyMenu() {
 	cout << "\nWEEKLY MENU\n";
 	cout << "***********\n";
 
-	
+
 	cout << "1.\t\t\t\t2.\t\t\t\t3.\n";
 	cout << "BEEF NOODLES\t\t\tCHICKEN BURGER\t\t\tCHICKEN BURGER\n";
 	cout << "---------------------\t\t---------------------\t\t---------------------\n";
