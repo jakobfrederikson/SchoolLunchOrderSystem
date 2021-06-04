@@ -177,7 +177,8 @@ void printWeeklyMenu() {
 
 // Code written by Jakob
 void loginRegistrationScreen() {
-	int choice;
+	int choice, registerChoice;
+	struct Staff staffRegister;
 
 	system("cls");
 	cout << "1. Login\n";
@@ -199,7 +200,16 @@ void loginRegistrationScreen() {
 		cout << "1. Staff account\n";
 		cout << "2. Parent account\n\n";
 		cout << "Enter choice: ";
-		cout << "\n\n";
+		cin >> registerChoice;
+		if (registerChoice == 1) {
+
+		}
+		else if (registerChoice == 2) {
+
+		}
+		else {
+			cout << "\nPlease enter a number relevant to the given menu.\n";
+		}
 	}
 	else {
 		cout << "\nPlease enter a number relevant to the given menu.\n";
