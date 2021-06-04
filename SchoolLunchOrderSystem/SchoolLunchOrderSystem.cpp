@@ -2,6 +2,7 @@
 #include <string>
 using namespace std;
 
+// Structures written by Jakob, originally by Jay in an excel sheet
 struct Admin {
 	int adminID;
 	string fullName;
@@ -72,29 +73,103 @@ struct Payment {
 	string typeOfPayment;
 };
 
+void printMenuList();
+void printWeeklyMenu();
+void loginRegistrationScreen();
+
 int main()
 {
+	// Code written by Jay
     printMenuList();
 
     return 0;
 }
 
+// Code written by Jay
 void printMenuList() {
     int choice;
 
-    cout << "Enter option: ";
+	// Code written by Jakob
+	cout << "SCHOOL LUNCH ORDER SYSTEM\n";
+	cout << "*************************\n";
+	cout << "1. Weekly Menu\n";
+	cout << "2. Bulk Booking Discounts\n";
+	cout << "3. Contact Details and Office Locations\n";
+	cout << "4. Login or Register\n";
+	cout << "5. Exit Program\n";
+    cout << "\nEnter option: ";
     cin >> choice;
 
+	// Code written by Jay
     switch (choice) {
-    case 1:
+    case 1: // Case 1 written by Jakob
+		printWeeklyMenu();
         break;
     case 2:
         break;
     case 3:
         break;
-    case 4:
+    case 4: // Case 4 written by Jakob
+		loginRegistrationScreen();
         break;
     case 5:
         break;
     }
+}
+
+// Code written by Jakob
+void printWeeklyMenu() {
+	cout << "\nWEEKLY MENU\n";
+	cout << "***********\n";
+
+	// 
+	cout << "1.\t\t\t\t2.\t\t\t\t3.\n";
+	cout << "BEEF NOODLES\t\t\tCHICKEN BURGER\t\t\tCHICKEN BURGER\n";
+	cout << "---------------------\t\t---------------------\t\t---------------------\n";
+	cout << "Noodles cooked with\t\tGrilled chicken with\t\tGrilled chicken with\n";
+	cout << "beautiful beef.\t\t\tlettuce and ketchup.\t\tlettuce and ketchup.\n";
+	cout << "VEGAN: No  GLUTEN: No\t\tVEGAN: No  GLUTEN: No\t\tVEGAN: No  GLUTEN: No\n";
+	cout << "---------------------\t\t---------------------\t\t---------------------\n";
+	cout << "$5.00\t\t\t\t$5.00\t\t\t\t$5.00\n\n";
+
+	cout << "4.\t\t\t\t5.\t\t\t\t6.\n";
+	cout << "FRUIT SALAD\t\t\tCRAZY FOOD\t\t\tCHICKEN BURGER\n";
+	cout << "---------------------\t\t---------------------\t\t---------------------\n";
+	cout << "Mixed fruit with some\t\tGrilled chicken with\t\tGrilled chicken with\n";
+	cout << "leaf and stick.\t\t\tlettuce and ketchup.\t\tlettuce and ketchup.\n";
+	cout << "VEGAN: Yes  GLUTEN: Yes\t\tVEGAN: No  GLUTEN: No\t\tVEGAN: No  GLUTEN: No\n";
+	cout << "---------------------\t\t---------------------\t\t---------------------\n";
+	cout << "$5.00\t\t\t\t$5.00\t\t\t\t$5.00\n\n";
+	system("pause");
+}
+
+// Code written by Jakob
+void loginRegistrationScreen() {
+	int choice;
+
+	system("cls");
+	cout << "1. Login\n";
+	cout << "2. Register\n\n";
+	cout << "Enter choice: ";
+	cin >> choice;
+
+	if (choice == 1) {
+		system("cls");
+		cout << "LOGIN SCREEN\n";
+		cout << "************\n";
+		cout << "Username: \n";
+		cout << "Password: \n";
+		cout << "Login successful.\n";
+	}
+	else if (choice == 2) {
+		system("cls");
+		cout << "\nREGISTER SCREEN\n";
+		cout << "1. Staff account\n";
+		cout << "2. Parent account\n\n";
+		cout << "Enter choice: ";
+		cout << "\n\n";
+	}
+	else {
+		cout << "\nPlease enter a number relevant to the given menu.\n";
+	}
 }
