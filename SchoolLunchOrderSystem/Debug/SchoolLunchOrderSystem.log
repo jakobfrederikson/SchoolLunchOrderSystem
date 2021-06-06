@@ -1,4 +1,8 @@
+<<<<<<< HEAD
+﻿  SchoolLunchOrderSystem.vcxproj -> C:\Users\test\Desktop\CS103\SchoolLunchOrderSystem\SchoolLunchOrderSystem\Debug\SchoolLunchOrderSystem.exe
+=======
 ﻿  SchoolLunchOrderSystem.cpp
 C:\Users\Jay\Desktop\CS103 Group Project\SchoolLunchOrderSystem\SchoolLunchOrderSystem\SchoolLunchOrderSystem.cpp(577,12): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
 C:\Users\Jay\Desktop\CS103 Group Project\SchoolLunchOrderSystem\SchoolLunchOrderSystem\SchoolLunchOrderSystem.cpp(677,20): warning C4018: '<': signed/unsigned mismatch
   SchoolLunchOrderSystem.vcxproj -> C:\Users\Jay\Desktop\CS103 Group Project\SchoolLunchOrderSystem\SchoolLunchOrderSystem\Debug\SchoolLunchOrderSystem.exe
+>>>>>>> 62b0295838e8408a655783bb0890af188d939199

@@ -152,7 +152,7 @@ void printBulkDiscounts();
 void printContactLocationDetails();
 void printWeeklyMenu();
 void loginRegistrationScreen();
-void registerUser(struct Staff staffRegister);
+void registerStaff();
 void registerParent();
 string generateID(int);
 bool checkUniqueID(int, string);
@@ -256,13 +256,23 @@ void printWeeklyMenu() { // Code written by Jakob
 
 void loginRegistrationScreen() { // Code written by Jakob
 	int choice, registerChoice;
-	struct Staff staffRegister;
 
 	system("cls");
 	cout << "1. Login\n";
 	cout << "2. Register\n\n";
 	cout << "Enter choice: ";
 	cin >> choice;
+
+	// switch (choice) {
+	// 	   case 1:
+	//	       loginScreen();
+	// 	   case 2:
+	// 	       switch (registerChoice) {
+	//		
+	// 	   }
+	// 	   default:
+	// 	       cout << "\nPlease enter a number relevant to the given menu.\n";
+	// }
 
 	if (choice == 1) {
 		loginScreen();
@@ -277,7 +287,7 @@ void loginRegistrationScreen() { // Code written by Jakob
 		cin >> registerChoice;
 
 		if (registerChoice == 1) {
-			registerUser(staffRegister);
+			registerStaff();
 		}
 		else if (registerChoice == 2) {
 			registerParent(); //code by jay
@@ -292,8 +302,9 @@ void loginRegistrationScreen() { // Code written by Jakob
 	}
 }
 
-void registerUser(struct Staff staffRegister) {
+void registerStaff() {
 	char ans;
+	struct Staff staffRegister;
 
 	system("cls");
 	cout << "STAFF REGISTRATION";
