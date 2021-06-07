@@ -71,29 +71,34 @@ struct Parent {
 };
 
 struct Staff {
-	int staffID;
+	string staffID;
 	bool accountStatus;
 	string fullName;
 	string gender;
 	string dob;
+	int countNum;
 	string visaCardNo;
 	string visaCardExpiry;
+	string email;
 	struct Order;
-	struct Login;
+	struct Login login;
 	struct Complaint;
 	struct BulkPayment;
 	struct Payment;
 
 	Staff(int defID = 0, bool defAccountStatus = false, string defFullName = "Default Staff", string defGender = "Default Gender",
-		string defDOB = "00/00/0000", string defVisaNum = "Default Visa Num", string defVisaExpiry = "Def Expiry") {
+		string defDOB = "00/00/0000", int defCountNum = 0, string defVisaNum = "Default Visa Num", string defVisaExpiry = "Def Expiry",
+		string defEmail = "default@email.com") {
 
 		staffID = defID;
 		accountStatus = defAccountStatus;
 		fullName = defFullName;
 		gender = defGender;
 		dob = defDOB;
+		countNum = defCountNum;
 		visaCardNo = defVisaNum;
 		visaCardExpiry = defVisaExpiry;
+		email = defEmail;
 	}
 };
 
@@ -295,50 +300,205 @@ void loginRegistrationScreen() { // Code written by Jakob
 		else {
 			cout << "\nPlease enter a number relevant to the given menu.\n";
 		}
-
 	}
 	else {
 		cout << "\nPlease enter a number relevant to the given menu.\n";
 	}
 }
-
+// Code written by Jakob
+// This allows staff to register an account, create a username + password and also generate a unique ID.
 void registerStaff() {
-	char ans;
 	struct Staff staffRegister;
+	char choice = ' ', choice2 = ' ';
+	string password, verifyPass, uniqueID;
 
-	system("cls");
-	cout << "STAFF REGISTRATION";
-	cout << "\n******************";
-	cout << "\nFull name: ";
-	cin.ignore();
-	getline(cin, staffRegister.fullName);
-	cout << "Gender: ";
-	cin >> staffRegister.gender;
-	cout << "Date of birth: ";
-	cin >> staffRegister.dob;
-	cout << "Visa Card Number: ";
-	cin >> staffRegister.visaCardNo;
-	cout << "Visa Card Expiry Date: ";
-	cin >> staffRegister.visaCardExpiry;
-	cout << "\nConfirm registration(y/n): ";
-	cin >> ans;
+	
+	do { // Taking input for staff details
+		cin.ignore();
+		system("cls");
+		cout << "\n\t\t\t|----------------------------|"
+			<< "\n\t\t\t|     Staff REGISTRATION     |"
+			<< "\n\t\t\t|----------------------------|";
+		do {
+			cout << "\n\t\t\t|Enter Full name" << setw(16) << "|: ";
+			getline(cin, staffRegister.fullName);
+			if (staffRegister.fullName == "")
+				cout << "\n\t\t\tInvalid input, please Enter your name.\n";
+			else
+				break;
+		} while (true);
 
-	if (ans == 'y') {
-		ofstream staffFile;
-		staffFile.open("staff_file.csv", ios::app);
-		cout << "\nWriting to file\n";
+		do {
+			cout << "\t\t\t|Enter Gender" << setw(19) << "|: ";
+			getline(cin, staffRegister.gender);
+			if (staffRegister.gender == "")
+				cout << "\n\t\t\tInvalid input, please Enter your gender.\n";
+			else
+				break;
+		} while (true);
 
-		staffFile << staffRegister.fullName << ", " << staffRegister.gender << ", " << staffRegister.dob << ", " << staffRegister.visaCardNo << ", " << staffRegister.visaCardExpiry << endl;
+		do {
+			cout << "\t\t\t|Enter Date of birth" << setw(12) << "|: ";
+			getline(cin, staffRegister.dob);
+			if (staffRegister.dob == "")
+				cout << "\n\t\t\tInvalid input, please Enter your date of birth.\n";
+			else
+				break;
+		} while (true);
 
-		staffFile.close();
-	}
-	else if (ans == 'n') {
-		cout << "\nRegistration canceled.\n";
-	}
-	else {
-		cout << "\nPlease enter a character relevant to the given menu.\n";
-	}
+		do {
+			cout << "\t\t\t|Enter Contact Number" << setw(11) << "|: ";
+			cin >> staffRegister.countNum;
+			cin.ignore();
+			if (staffRegister.countNum == 0) {
+				cout << "\n\t\t\tInvalid input, please enter your contact number.\n";
+			}
+			else {
+				break;
+			}
+		} while (true);
+		
+
+		do {
+			cout << "\t\t\t|Enter Email Address" << setw(12) << "|: ";
+			getline(cin, staffRegister.email);
+			if (staffRegister.email == "")
+				cout << "\n\t\t\tInvalid input, please Enter your email address.\n";
+			else
+				break;
+		} while (true);
+
+		do {
+			cout << "\t\t\t|Enter Visa Card Number" << setw(9) << "|: ";
+			getline(cin, staffRegister.visaCardNo);
+			if (staffRegister.visaCardNo == "")
+				cout << "\n\t\t\tInvalid input, please Enter your visa card number.\n";
+			else
+				break;
+		} while (true);
+
+		do {
+			cout << "\t\t\t|Enter Visa Card Expiry Date |: ";
+			getline(cin, staffRegister.visaCardExpiry);
+			if (staffRegister.visaCardExpiry == "")
+				cout << "\n\t\t\tInvalid input, please Enter your visa card expiry date.\n";
+			else
+				break;
+		} while (true);
+
+		// USERNAME AND PASSWORD DETAILS
+		do {
+			cout << "\t\t\t|---------------------------------------|"
+				<< "\n\t\t\t| Use 8 or more characters for Username |"
+				<< "\n\t\t\t|---------------------------------------|"
+				<< "\n\t\t\t|Enter Username" << setw(17) << "|: ";
+			getline(cin, staffRegister.login.username);
+
+			if (staffRegister.login.username.length() >= 8) {
+				if (checkUsername(staffRegister.login.username))
+					break;
+				else
+					cout << "\n\t\t\tSorry Username is already taken, Please try again..\n";
+			}
+			else
+				cout << "\n\t\t\tInvalid Username, Please Try Again...\n";
+		} while (true);
+
+		do {
+			do {
+				cout << "\t\t\t|-------------------------------------------------------------------|"
+					<< "\n\t\t\t| Use 8 or more characters with a mix of letters, numbers & symbols |"
+					<< "\n\t\t\t|-------------------------------------------------------------------|"
+					<< "\n\t\t\t|Enter Password" << setw(17) << "|: ";
+				getline(cin, password);
+
+				if (checkPassword(password))
+					break;
+				else
+					cout << "\n\t\t\tInvalid password, Please try again\n";
+			} while (true);
+
+			do {
+				cout << "\t\t\t|Verify Password       " << setw(10) << "|: ";
+				getline(cin, verifyPass);
+
+				if (verifyPass == "")
+					cout << "\n\t\t\tPassword did not match, Please try again\n";
+				else
+					break;
+			} while (true);
+
+			if (password != verifyPass)
+				cout << "\n\t\t\tPassword did not match please try again...\n";
+			else {
+				staffRegister.login.password = password;
+				break;
+			}
+		} while (true);
+
+		// CONFIRM REGISTRATION OR OTHER OPTIONS
+		do {
+			cout << "\n\t\t\t|-----------------------------------|"
+				<< "\n\t\t\t|  Press Y to confirm Registration  |"
+				<< "\n\t\t\t|  Press N to choose other option   |"
+				<< "\n\t\t\t|-----------------------------------|"
+				<< "\n\t\t\t|Please enter your option: ";
+			cin >> choice;
+			cin.ignore();
+
+			if (tolower(choice) == 'y') {
+				do {//generate a unique id for staff and check if id is unique
+					uniqueID = generateID(2);
+					if (checkUniqueID(2, uniqueID)) {
+						staffRegister.staffID = uniqueID;
+						break;
+					}
+				} while (true);
+
+				do {//generate a unique id for login and check if id is unique
+					uniqueID = generateID(3);
+					if (checkUniqueID(3, uniqueID)) {
+						staffRegister.login.loginID = uniqueID;
+						staffRegister.login.userForeignID = staffRegister.staffID;
+						break;
+					}
+				} while (true);
+
+				// Writing Staff details to the staff file
+				ofstream staffFile("Staff_file.csv", ios::app);
+				staffFile << staffRegister.staffID << "," << staffRegister.fullName << "," << staffRegister.gender << "," << staffRegister.dob << "," << staffRegister.countNum << ","
+					<< staffRegister.email << "," << staffRegister.visaCardNo << "," << staffRegister.visaCardExpiry << endl;
+				staffFile.close();
+
+				// Writing the staff login details to the login file
+				ofstream loginFile("Login_file.csv", ios::app);
+				loginFile << staffRegister.login.loginID << "," << staffRegister.login.userForeignID << "," << staffRegister.login.username << "," << staffRegister.login.password << endl;
+				loginFile.close();
+
+				cout << "\n\t\t\tAccount has been successfully created\n\t\t\t";
+				system("pause");
+				break;
+			}
+			else if (tolower(choice) == 'n') {
+				do {
+					cout << "\n\t\t\t|---------------------------------|"
+						<< "\n\t\t\t|Enter 'M' to go back to Main menu|"
+						<< "\n\t\t\t|Enter 'N'to re-enter your details|"
+						<< "\n\t\t\t|---------------------------------|"
+						<< "\n\t\t\t|Please enter your option: ";
+					cin >> choice;
+
+					if (tolower(choice) == 'm' || tolower(choice) == 'n')
+						break;
+				} while (true);
+				break;
+			}
+			else
+				cout << "\n\t\t\tInvalid input, Please try again...\n";
+		} while (true);
+	} while (choice == 'n');
 }
+
 //This Function lets the user logged in
 //Code by Jay
 void loginScreen() {
@@ -374,7 +534,7 @@ void loginScreen() {
 		if (pass != accPass)
 			cout << "\n\t\t\tWrong password, Please try again...\n";
 		else {
-			cout << "\n\t\t\tYou have logged In\n";
+			cout << "\n\t\t\tYou have logged In\n\t\t\t";
 			break;
 		}
 	} while (true);
@@ -628,7 +788,7 @@ bool checkUniqueID(int choice, string id) {
 		parentfile.close();
 		break;
 	case 2://Checks all unique ID for Staff
-		staffFile.open("staff_file.csv", ios::in);
+		staffFile.open("Staff_file.csv", ios::in);
 		while (getline(staffFile, line)) {
 			stringstream ss(line);
 			while (!ss.eof()) {
