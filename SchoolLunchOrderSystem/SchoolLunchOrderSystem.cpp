@@ -169,6 +169,7 @@ bool checkUsername(string);
 bool does_file_exist(const char*);
 void loginScreen();
 string checkLoginInput(string);
+string checkAdminInput(string);
 
 int main()
 {
@@ -917,31 +918,101 @@ string checkLoginInput(string input) {
 }
 
 // Code by Jakob
-// This function can only be accessed after the user has entered the secret code in printMenuList().
-// The function allows the user to enter the admin login to access the program in the admin account.
+// This function can only be accessed after the user has entered 1234 in printMenuList().
+// The function allows the user to enter the admin login to access admin only functions in the application.
 void adminLogin() {
 	const char admin_file[15] = "Admin_file.csv";
 	const char* adminptr;
 	adminptr = admin_file;
 
+	struct Admin admin;
+	string accPass, pass, username;
+
+	int loginAttempt = 0;
+	int maxLoginAttempt = 3;
+
+	// Check if admin file exists.
 	bool file_check = does_file_exist(adminptr);
-	
-	system("cls");
-	if (file_check == 1) {
-		cout << "\n\t\t\t hello file exist";
-	}
-	else {
-		cout << "\n\t\t\t file don't exist";
-		ofstream adminFile("Admin_file.csv");
+	if (file_check == 0) {
+		system("cls");
+		cout << "\n\t\t\tADMIN FILE DOESN'T EXIST . . .";
+		ofstream adminFile;
 		adminFile.open("Admin_file.csv", ios::out);
+		adminFile << "admin" << "," << "cs103" << endl; // ADMIN USERNAME AND PASSWORD!
 		adminFile.close();
+		cout << "\n\t\t\t";
+		system("pause");
 	}
-	cout << "\n\t\t\t";
-	system("pause");
-	/*ifstream adminFile("Admin_file.csv");
-	adminFile.open("Admin_file.csv", ios::in);
+
 	system("cls");
-	cout << "\n\t\t\t";*/
+	ifstream adminFile;
+	cout << "\n\t\t\t|----------------------------|"
+		 << "\n\t\t\t|        ADMIN LOGIN         |"
+		 << "\n\t\t\t|----------------------------|";
+
+	do {
+		adminFile.open("Admin_file.csv", ios::in);
+		cout << "\n\t\t\t|Enter admin username:" << setw(8) << "       |: ";
+		cin >> username;
+
+		accPass = checkAdminInput(username);
+		if (accPass == " ") {
+			cout << "\n\t\t\tCouldn't find your account, please try again...\n";
+		}
+		else {
+			adminFile.close();
+			break;
+		}
+	} while (true);
+	
+	do {
+		cout << "\n\t\t\t|Enter admin password:" << setw(8) << "       |: ";
+		cin >> pass;
+
+		if (pass != accPass) {
+			loginAttempt++;
+			if (loginAttempt < maxLoginAttempt) {
+				cout << "\n\t\t\tWrong password. You have " << (maxLoginAttempt - loginAttempt) << " attempts left. Please try again...\n";
+			}
+			else if (loginAttempt == maxLoginAttempt) {
+				cout << "\n\t\t\tPlease try again after 2 seconds.\n\t\t\t";
+				this_thread::sleep_for(chrono::seconds(2));
+				maxLoginAttempt = maxLoginAttempt + 3;
+				system("pause");
+			}
+			
+		}
+		else {
+			cout << "\n\t\t\tCorrect password, you have logged in.\n\t\t\t";
+			system("pause");
+			break;
+		}
+	} while (true);
+
+	adminFile.close();
+}
+
+// Code by Jakob
+// This function works the same as checkLoginInput() but checks for the admin input instead.
+string checkAdminInput(string input) {
+	bool isUnique = true;
+	string line, tempStr;
+	ifstream adminFile;
+
+	adminFile.open("Admin_file.csv", ios::in);
+	while (getline(adminFile, line)) {
+		stringstream ss(line);
+		while (!ss.eof()) {
+			getline(ss, tempStr, ',');
+			if (tempStr == input) {
+				getline(ss, tempStr, ',');
+				return tempStr;
+			}
+		}
+	}
+	adminFile.close();
+
+	return " ";
 }
 
 // Code by Jakob
