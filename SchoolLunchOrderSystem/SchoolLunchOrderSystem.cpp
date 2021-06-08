@@ -4,6 +4,8 @@
 #include <iomanip>
 #include <ctime>
 #include <sstream>
+#include <chrono>
+#include <thread>
 using namespace std;
 
 // Structures written by Jakob, originally by Jay in an excel sheet
@@ -305,6 +307,7 @@ void loginRegistrationScreen() { // Code written by Jakob
 		cout << "\nPlease enter a number relevant to the given menu.\n";
 	}
 }
+
 // Code written by Jakob
 // This allows staff to register an account, create a username + password and also generate a unique ID.
 void registerStaff() {
@@ -506,6 +509,10 @@ void loginScreen() {
 	bool notExist = true;
 	ifstream loginFile;
 
+	// Code by Jakob
+	int loginAttempt = 0;
+	int maxLoginAttempt = 3;
+
 	cin.ignore();
 	system("cls");
 	cout << "\n\t\t\t|----------------------------|"
@@ -531,8 +538,22 @@ void loginScreen() {
 		cout << "\n\t\t\t|Password" << setw(8) << "|: ";
 		getline(cin, pass);
 
-		if (pass != accPass)
-			cout << "\n\t\t\tWrong password, Please try again...\n";
+		if (pass != accPass) {
+			loginAttempt++;
+			if (loginAttempt < maxLoginAttempt) { // Code by Jakob
+				cout << "\n\t\t\tWrong password. You have " << (maxLoginAttempt - loginAttempt) - 1 << " attempts left. Please try again...\n"; // come back to this
+			}
+			else if (loginAttempt == maxLoginAttempt) {
+				// block login for 10 seconds
+				cout << "\n\t\t\tPlease try again after 2 seconds.\n\t\t\t";
+				this_thread::sleep_for(chrono::seconds(2)); // sleep for two seconds
+				maxLoginAttempt = maxLoginAttempt + 3;
+				system("pause");
+			}
+			else {
+				cout << "\n\t\t\tLogin attempts will be blocked for two seconds. Please try again later!\n";
+			}
+		}		
 		else {
 			cout << "\n\t\t\tYou have logged In\n\t\t\t";
 			break;
@@ -541,6 +562,7 @@ void loginScreen() {
 
 	system("pause");
 }
+
 //Code by jay
 //This function allows the user to register an account
 void registerParent() {
@@ -738,6 +760,7 @@ void registerParent() {
 		} while (true);
 	} while (choice == 'n');
 }
+
 //Code by jay
 //This function generates an ID for the user
 //To use this function you need 1 integer argument, for example if you want to generate a unique id for staff you mass pass number 2 *generateID(2)* as an argument to generate a unique id for staff
@@ -766,6 +789,7 @@ string generateID(int choice) {
 
 	return uniqueID;
 }
+
 //Code by jay
 //To use this function you need to pass the generated ID and a case number to which ID you want to verify it with i.e., case 1 for parent
 //This function checks if the ID is unique
@@ -839,6 +863,7 @@ bool checkUsername(string username) {
 
 	return isUnique;
 }
+
 //Code by jay
 //This function checks if the password has met the requirements
 bool checkPassword(string pass) {
@@ -860,6 +885,7 @@ bool checkPassword(string pass) {
 	else
 		return false;
 }
+
 //This functions checks if username exist and if it exist return the password
 //Code by Jay
 string checkLoginInput(string input) {
