@@ -161,6 +161,7 @@ void printWeeklyMenu();
 void loginRegistrationScreen();
 void registerStaff();
 void registerParent();
+void adminLogin();
 string generateID(int);
 bool checkUniqueID(int, string);
 bool checkPassword(string);
@@ -207,6 +208,8 @@ int printMenuList() {
 			break;
 		case 5:
 			return 0; //written by Jay
+		case 1234:
+			adminLogin(); // Written by Jakob
 		}
 	} while (true);
 }
@@ -910,4 +913,8 @@ string checkLoginInput(string input) {
 	loginFile.close();
 
 	return " ";
+}
+
+void adminLogin() {
+
 }
