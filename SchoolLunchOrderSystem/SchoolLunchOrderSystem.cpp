@@ -166,6 +166,7 @@ string generateID(int);
 bool checkUniqueID(int, string);
 bool checkPassword(string);
 bool checkUsername(string);
+bool does_file_exist(const char*);
 void loginScreen();
 string checkLoginInput(string);
 
@@ -915,6 +916,37 @@ string checkLoginInput(string input) {
 	return " ";
 }
 
+// Code by Jakob
+// This function can only be accessed after the user has entered the secret code in printMenuList().
+// The function allows the user to enter the admin login to access the program in the admin account.
 void adminLogin() {
+	const char admin_file[15] = "Admin_file.csv";
+	const char* adminptr;
+	adminptr = admin_file;
 
+	bool file_check = does_file_exist(adminptr);
+	
+	system("cls");
+	if (file_check == 1) {
+		cout << "\n\t\t\t hello file exist";
+	}
+	else {
+		cout << "\n\t\t\t file don't exist";
+		ofstream adminFile("Admin_file.csv");
+		adminFile.open("Admin_file.csv", ios::out);
+		adminFile.close();
+	}
+	cout << "\n\t\t\t";
+	system("pause");
+	/*ifstream adminFile("Admin_file.csv");
+	adminFile.open("Admin_file.csv", ios::in);
+	system("cls");
+	cout << "\n\t\t\t";*/
+}
+
+// Code by Jakob
+// This function checks whether the admin file exists. If yes, it returns true. Otherwise returns false.
+bool does_file_exist(const char* fileptr) {
+	ifstream adminFile("Admin_file.csv");
+	return adminFile.good();
 }
