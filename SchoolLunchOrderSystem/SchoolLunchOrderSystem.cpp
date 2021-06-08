@@ -170,6 +170,7 @@ bool does_file_exist(const char*);
 void loginScreen();
 string checkLoginInput(string);
 string checkAdminInput(string);
+//void checkAccount(string);
 
 int main()
 {
@@ -517,6 +518,7 @@ void loginScreen() {
 	// Code by Jakob
 	int loginAttempt = 0;
 	int maxLoginAttempt = 3;
+	// =====================
 
 	cin.ignore();
 	system("cls");
@@ -545,14 +547,14 @@ void loginScreen() {
 
 		if (pass != accPass) {
 			// Code by Jakob - This checks how many times the user has attempted
-			// to log in. Pauses program after 3 attempts.
+			// to log in. Pauses program for 2 seconds after 3 attempts.
 			loginAttempt++;
 			if (loginAttempt < maxLoginAttempt) {
-				cout << "\n\t\t\tWrong password. You have " << (maxLoginAttempt - loginAttempt) - 1 << " attempts left. Please try again...\n";
+				cout << "\n\t\t\tWrong password. You have " << maxLoginAttempt - loginAttempt << " attempts left. Please try again...\n";
 			}
 			else if (loginAttempt == maxLoginAttempt) {
 				// block login for 10 seconds
-				cout << "\n\t\t\tPlease try again after 2 seconds.\n\t\t\t";
+				cout << "\n\t\t\tPlease try again after 2 seconds.";
 				this_thread::sleep_for(chrono::seconds(2)); // sleep for two seconds
 				maxLoginAttempt = maxLoginAttempt + 3;
 				system("pause");
@@ -562,11 +564,13 @@ void loginScreen() {
 			}
 		}		
 		else {
-			cout << "\n\t\t\tYou have logged In\n\t\t\t";
+			//checkAccount(username); // After a successful login, checking the first few letters of an ID to see if it's a parent or staff logging in.
+			cout << "\n\t\t\tYou have logged in.\n";
 			break;
 		}
 	} while (true);
 
+	cout << "\n\t\t\t";
 	system("pause");
 }
 
@@ -952,7 +956,7 @@ void adminLogin() {
 
 	do {
 		adminFile.open("Admin_file.csv", ios::in);
-		cout << "\n\t\t\t|Enter admin username:" << setw(8) << "       |: ";
+		cout << "\n\t\t\t|Enter admin username" << setw(8) << "        |: ";
 		cin >> username;
 
 		accPass = checkAdminInput(username);
@@ -966,7 +970,7 @@ void adminLogin() {
 	} while (true);
 	
 	do {
-		cout << "\n\t\t\t|Enter admin password:" << setw(8) << "       |: ";
+		cout << "\n\t\t\t|Enter admin password" << setw(8) << "        |: ";
 		cin >> pass;
 
 		if (pass != accPass) {
@@ -983,7 +987,7 @@ void adminLogin() {
 			
 		}
 		else {
-			cout << "\n\t\t\tCorrect password, you have logged in.\n\t\t\t";
+			cout << "\n\t\t\tYou have logged in with an admin account.\n\n\t\t\t";
 			system("pause");
 			break;
 		}
@@ -1020,4 +1024,37 @@ string checkAdminInput(string input) {
 bool does_file_exist(const char* fileptr) {
 	ifstream adminFile("Admin_file.csv");
 	return adminFile.good();
+}
+
+// Code by Jakob
+// This function is used after a successful login attempt. It will check whether the account is a staff or parent account.
+void checkAccount(string username) {
+	//ifstream loginFile;
+	//string line, tempStr, test;
+
+	//loginFile.open("Login_file.csv", ios::in);
+	//while (getline(loginFile, line)) {
+	//	stringstream ss(line);
+	//	while (!ss.eof()) {
+	//		getline(ss, tempStr, ',');
+	//		if (tempStr == username) { // find line with the users login details
+	//			cout << "\n\t\t\tUsername found\n";
+	//			stringstream userDetails(line); // get the line again
+
+	//			while (getline(userDetails, test)) {
+	//				if (tempStr.substr(0, 2) == "270") { // parent
+	//					loginFile.close();
+	//					cout << "\n\t\t\tPARENT ACCOUNT\n";
+	//					break;
+	//				}
+	//				else if (tempStr.substr(0, 2) == "280") { // staff
+	//					loginFile.close();
+	//					cout << "\n\t\t\tSTAFF ACCOUNT\n";
+	//					break;
+	//				}
+	//			}
+	//		}
+	//	}
+	//}
+
 }
