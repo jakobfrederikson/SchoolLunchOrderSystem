@@ -539,9 +539,11 @@ void loginScreen() {
 		getline(cin, pass);
 
 		if (pass != accPass) {
+			// Code by Jakob - This checks how many times the user has attempted
+			// to log in. Pauses program after 3 attempts.
 			loginAttempt++;
-			if (loginAttempt < maxLoginAttempt) { // Code by Jakob
-				cout << "\n\t\t\tWrong password. You have " << (maxLoginAttempt - loginAttempt) - 1 << " attempts left. Please try again...\n"; // come back to this
+			if (loginAttempt < maxLoginAttempt) {
+				cout << "\n\t\t\tWrong password. You have " << (maxLoginAttempt - loginAttempt) - 1 << " attempts left. Please try again...\n";
 			}
 			else if (loginAttempt == maxLoginAttempt) {
 				// block login for 10 seconds
