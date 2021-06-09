@@ -6,6 +6,7 @@
 #include <sstream>
 #include <chrono>
 #include <thread>
+#include <vector>
 using namespace std;
 
 // Structures written by Jakob, originally by Jay in an excel sheet
@@ -166,11 +167,13 @@ string generateID(int);
 bool checkUniqueID(int, string);
 bool checkPassword(string);
 bool checkUsername(string);
-bool does_file_exist(const char*);
+bool doesFileExist(const char*);
 void loginScreen();
 string checkLoginInput(string);
 string checkAdminInput(string);
-//void checkAccount(string);
+string checkAccount(string);
+void printMainMenu(vector<string>);
+vector<string> getAccountDetails(string);
 
 int main()
 {
@@ -197,7 +200,7 @@ int printMenuList() {
 		cin >> choice;
 
 		switch (choice) {
-		case 1: // Case 1 written by Jakob
+		case 1: // Written by Jakob
 			printWeeklyMenu();
 			break;
 		case 2:
@@ -206,7 +209,7 @@ int printMenuList() {
 		case 3:
 			printContactLocationDetails(); //Written by Jay
 			break;
-		case 4: // Case 4 written by Jakob
+		case 4: // Written by Jakob
 			loginRegistrationScreen();
 			break;
 		case 5:
@@ -276,27 +279,18 @@ void loginRegistrationScreen() { // Code written by Jakob
 	cout << "Enter choice: ";
 	cin >> choice;
 
-	// switch (choice) {
-	// 	   case 1:
-	//	       loginScreen();
-	// 	   case 2:
-	// 	       switch (registerChoice) {
-	//		
-	// 	   }
-	// 	   default:
-	// 	       cout << "\nPlease enter a number relevant to the given menu.\n";
-	// }
-
 	if (choice == 1) {
 		loginScreen();
 	}
 	else if (choice == 2) {
 		system("cls");
-		cout << "REGISTER SCREEN\n";
-		cout << "***************\n";
-		cout << "1. Staff account\n";
-		cout << "2. Parent account\n";
-		cout << "\nEnter choice: ";
+		cout << "\n\t\t\t|----------------------------|"
+			 << "\n\t\t\t|      REGISTER ACCOUNT      |"
+			 << "\n\t\t\t|----------------------------|";
+		cout << "\n\t\t\t|1. Staff account            |";
+		cout << "\n\t\t\t|2. Parent account           |";
+		cout << "\n\t\t\t|                            |";
+		cout << "\n\t\t\t|Enter choice                |: ";
 		cin >> registerChoice;
 
 		if (registerChoice == 1) {
@@ -428,7 +422,7 @@ void registerStaff() {
 			} while (true);
 
 			do {
-				cout << "\t\t\t|Verify Password       " << setw(10) << "|: ";
+				cout << "\t\t\t|Verify Password      " << setw(10) << "|: ";
 				getline(cin, verifyPass);
 
 				if (verifyPass == "")
@@ -518,6 +512,9 @@ void loginScreen() {
 	// Code by Jakob
 	int loginAttempt = 0;
 	int maxLoginAttempt = 3;
+
+	vector<string> accDetails;
+	string userID;
 	// =====================
 
 	cin.ignore();
@@ -564,8 +561,9 @@ void loginScreen() {
 			}
 		}		
 		else {
-			//checkAccount(username); // After a successful login, checking the first few letters of an ID to see if it's a parent or staff logging in.
-			cout << "\n\t\t\tYou have logged in.\n";
+			userID = checkAccount(username); // Find staff or parent account
+			accDetails = getAccountDetails(userID);
+			printMainMenu(accDetails);
 			break;
 		}
 	} while (true);
@@ -936,13 +934,13 @@ void adminLogin() {
 	int maxLoginAttempt = 3;
 
 	// Check if admin file exists.
-	bool file_check = does_file_exist(adminptr);
+	bool file_check = doesFileExist(adminptr);
 	if (file_check == 0) {
 		system("cls");
 		cout << "\n\t\t\tADMIN FILE DOESN'T EXIST . . .";
 		ofstream adminFile;
 		adminFile.open("Admin_file.csv", ios::out);
-		adminFile << "admin" << "," << "cs103" << endl; // ADMIN USERNAME AND PASSWORD!
+		adminFile << "admin" << "," << "cs103" << endl; // ADMIN USERNAME AND PASSWORD HERE
 		adminFile.close();
 		cout << "\n\t\t\t";
 		system("pause");
@@ -961,7 +959,7 @@ void adminLogin() {
 
 		accPass = checkAdminInput(username);
 		if (accPass == " ") {
-			cout << "\n\t\t\tCouldn't find your account, please try again...\n";
+			cout << "\n\t\t\tCouldn't find that username, please try again...\n";
 		}
 		else {
 			adminFile.close();
@@ -1020,41 +1018,104 @@ string checkAdminInput(string input) {
 }
 
 // Code by Jakob
-// This function checks whether the admin file exists. If yes, it returns true. Otherwise returns false.
-bool does_file_exist(const char* fileptr) {
+// This function checks whether the admin file exists. If yes, it returns true and nothing happens.
+// Otherwise returns false and will prompt the program to create the admin file.
+bool doesFileExist(const char* fileptr) {
 	ifstream adminFile("Admin_file.csv");
 	return adminFile.good();
 }
 
 // Code by Jakob
-// This function is used after a successful login attempt. It will check whether the account is a staff or parent account.
-void checkAccount(string username) {
-	//ifstream loginFile;
-	//string line, tempStr, test;
+// This function is used after a successful user login attempt. It will check whether the account is a staff or parent account and then return their ID.
+string checkAccount(string username) {
+	ifstream loginFile;
+	string line, tempStr;
 
-	//loginFile.open("Login_file.csv", ios::in);
-	//while (getline(loginFile, line)) {
-	//	stringstream ss(line);
-	//	while (!ss.eof()) {
-	//		getline(ss, tempStr, ',');
-	//		if (tempStr == username) { // find line with the users login details
-	//			cout << "\n\t\t\tUsername found\n";
-	//			stringstream userDetails(line); // get the line again
+	loginFile.open("Login_file.csv", ios::in);
+	while (getline(loginFile, line)) {
+		stringstream ss(line);
+		while (!ss.eof()) {
+			getline(ss, tempStr, ',');
+			if (tempStr == username) { // find line with the users login details
+				cout << "\n\t\t\tUsername found\n";
+				stringstream ss(line); // get that specific line where the username was stored
+				while (getline(ss, tempStr, ',')) {
+					if (tempStr.substr(0, 3) == "270") { // Parent account
+						cout << "\n\t\t\tPARENT ACCOUNT\n";
+						return tempStr;
+						break;
+					}
+					else if (tempStr.substr(0, 3) == "280") { // Staff account
+						cout << "\n\t\t\tSTAFF ACCOUNT\n";
+						return tempStr;
+						break;
+					}
+				}
+			}
+		}
+	}
+	loginFile.close();
+}
 
-	//			while (getline(userDetails, test)) {
-	//				if (tempStr.substr(0, 2) == "270") { // parent
-	//					loginFile.close();
-	//					cout << "\n\t\t\tPARENT ACCOUNT\n";
-	//					break;
-	//				}
-	//				else if (tempStr.substr(0, 2) == "280") { // staff
-	//					loginFile.close();
-	//					cout << "\n\t\t\tSTAFF ACCOUNT\n";
-	//					break;
-	//				}
-	//			}
-	//		}
-	//	}
-	//}
+// Code by Jakob
+// This function gathers user details from their respective account file (Parent_file.csv or Staff_file.csv) and returns it in a vector.
+// Thank you to Jay for doing research on vectors and sending me the information in a txt file.
+vector<string> getAccountDetails(string userID) {
 
+	ifstream readFile;
+	string line, tempStr;
+	vector<string> fileData;
+
+	if (userID.substr(0, 3) == "270") {
+		readFile.open("Parent_file.csv");
+	}
+	else if (userID.substr(0, 3) == "280") {
+		readFile.open("Staff_file.csv");
+	}
+
+	while (getline(readFile, line)) {
+		stringstream ss(line);
+		while (!ss.eof()) {
+			getline(ss, tempStr, ',');
+			if (tempStr == userID) { // Once 
+				stringstream ss(line);
+				while (getline(ss, tempStr, ',')) {
+					fileData.push_back(tempStr);
+				}
+			}
+		}
+	}
+
+	readFile.close();
+
+	return fileData;
+}
+
+// Code by Jakob
+// This function displays the main menu for users that have logged in.
+void printMainMenu(vector<string> accDetails) {
+	system("cls");
+	string userAccount, userAccount2;
+	int i;
+
+	if (accDetails[0].substr(0, 3) == "270") {
+		userAccount = "parent";
+		userAccount2 = "Parent";
+	}
+	else {
+		userAccount = "staff";
+		userAccount2 = "Staff";
+	}
+
+	cout << "\n\t\t\t========================================";
+	cout << "\n\t\t\t" << accDetails[1];
+	cout << "\n\t\t\tYou are logged in with a " << userAccount << " account.";
+	cout << "\n\t\t\t" << userAccount2 << " ID: " << accDetails[0];
+	cout << "\n\t\t\t========================================";
+
+	cout << "\n\n\t\t\t1. Order food/View Menu";
+	cout << "\n\t\t\t2. Make Complaint";
+	cout << "\n\t\t\t3. Bulk Payment";
+	cout << "\n\t\t\t4. Update Details";
+	cout << "\n\t\t\t5. Logout";
 }
