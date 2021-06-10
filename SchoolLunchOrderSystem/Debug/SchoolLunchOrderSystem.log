@@ -1,6 +1,10 @@
 ﻿  SchoolLunchOrderSystem.cpp
-C:\Users\test\Desktop\CS103\SchoolLunchOrderSystem\SchoolLunchOrderSystem\SchoolLunchOrderSystem.cpp(780,12): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
-C:\Users\test\Desktop\CS103\SchoolLunchOrderSystem\SchoolLunchOrderSystem\SchoolLunchOrderSystem.cpp(882,20): warning C4018: '<': signed/unsigned mismatch
-C:\Users\test\Desktop\CS103\SchoolLunchOrderSystem\SchoolLunchOrderSystem\SchoolLunchOrderSystem.cpp(1099,6): warning C4101: 'i': unreferenced local variable
-C:\Users\test\Desktop\CS103\SchoolLunchOrderSystem\SchoolLunchOrderSystem\SchoolLunchOrderSystem.cpp(1058): warning C4715: 'checkAccount': not all control paths return a value
-  SchoolLunchOrderSystem.vcxproj -> C:\Users\test\Desktop\CS103\SchoolLunchOrderSystem\SchoolLunchOrderSystem\Debug\SchoolLunchOrderSystem.exe
+C:\Users\Jay\Desktop\CS103 Group Project\SchoolLunchOrderSystem\SchoolLunchOrderSystem\SchoolLunchOrderSystem.cpp(165,13): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+C:\Users\Jay\Desktop\CS103 Group Project\SchoolLunchOrderSystem\SchoolLunchOrderSystem\SchoolLunchOrderSystem.cpp(779,12): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
+C:\Users\Jay\Desktop\CS103 Group Project\SchoolLunchOrderSystem\SchoolLunchOrderSystem\SchoolLunchOrderSystem.cpp(881,20): warning C4018: '<': signed/unsigned mismatch
+C:\Users\Jay\Desktop\CS103 Group Project\SchoolLunchOrderSystem\SchoolLunchOrderSystem\SchoolLunchOrderSystem.cpp(1098,6): warning C4101: 'i': unreferenced local variable
+C:\Users\Jay\Desktop\CS103 Group Project\SchoolLunchOrderSystem\SchoolLunchOrderSystem\SchoolLunchOrderSystem.cpp(1153,26): warning C4101: 'foodNum': unreferenced local variable
+C:\Users\Jay\Desktop\CS103 Group Project\SchoolLunchOrderSystem\SchoolLunchOrderSystem\SchoolLunchOrderSystem.cpp(1367,48): warning C4018: '<': signed/unsigned mismatch
+C:\Users\Jay\Desktop\CS103 Group Project\SchoolLunchOrderSystem\SchoolLunchOrderSystem\SchoolLunchOrderSystem.cpp(1372,53): warning C4018: '<': signed/unsigned mismatch
+C:\Users\Jay\Desktop\CS103 Group Project\SchoolLunchOrderSystem\SchoolLunchOrderSystem\SchoolLunchOrderSystem.cpp(1057): warning C4715: 'checkAccount': not all control paths return a value
+  SchoolLunchOrderSystem.vcxproj -> C:\Users\Jay\Desktop\CS103 Group Project\SchoolLunchOrderSystem\SchoolLunchOrderSystem\Debug\SchoolLunchOrderSystem.exe
