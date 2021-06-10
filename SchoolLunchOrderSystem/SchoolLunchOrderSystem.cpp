@@ -171,9 +171,12 @@ bool doesFileExist(const char*);
 void loginScreen();
 string checkLoginInput(string);
 string checkAdminInput(string);
-string checkAccount(string);
+vector<string> checkAccount(string);
 void printMainMenu(vector<string>);
 vector<string> getAccountDetails(string);
+void makeComplaint(vector<string>);
+int generateComplaintNum();
+int writeComplaintToFile(vector<string>, struct Complaint);
 
 int main()
 {
@@ -561,8 +564,7 @@ void loginScreen() {
 			}
 		}		
 		else {
-			userID = checkAccount(username); // Find staff or parent account
-			accDetails = getAccountDetails(userID);
+			accDetails = checkAccount(username); // Find staff or parent account
 			printMainMenu(accDetails);
 			break;
 		}
@@ -1027,9 +1029,10 @@ bool doesFileExist(const char* fileptr) {
 
 // Code by Jakob
 // This function is used after a successful user login attempt. It will check whether the account is a staff or parent account and then return their ID.
-string checkAccount(string username) {
+vector<string> checkAccount(string username) {
 	ifstream loginFile;
 	string line, tempStr;
+	vector<string> accDetails;
 
 	loginFile.open("Login_file.csv", ios::in);
 	while (getline(loginFile, line)) {
@@ -1042,12 +1045,14 @@ string checkAccount(string username) {
 				while (getline(ss, tempStr, ',')) {
 					if (tempStr.substr(0, 3) == "270") { // Parent account
 						cout << "\n\t\t\tPARENT ACCOUNT\n";
-						return tempStr;
+						accDetails = getAccountDetails(tempStr); // get users details from their respective file
+						return accDetails;
 						break;
 					}
 					else if (tempStr.substr(0, 3) == "280") { // Staff account
 						cout << "\n\t\t\tSTAFF ACCOUNT\n";
-						return tempStr;
+						accDetails = getAccountDetails(tempStr); // get users details from their respective file
+						return accDetails;
 						break;
 					}
 				}
@@ -1094,9 +1099,9 @@ vector<string> getAccountDetails(string userID) {
 // Code by Jakob
 // This function displays the main menu for users that have logged in.
 void printMainMenu(vector<string> accDetails) {
-	system("cls");
+	struct Complaint complaint;
 	string userAccount, userAccount2;
-	int i;
+	int i, choice;
 
 	if (accDetails[0].substr(0, 3) == "270") {
 		userAccount = "parent";
@@ -1107,15 +1112,97 @@ void printMainMenu(vector<string> accDetails) {
 		userAccount2 = "Staff";
 	}
 
-	cout << "\n\t\t\t========================================";
-	cout << "\n\t\t\t" << accDetails[1];
-	cout << "\n\t\t\tYou are logged in with a " << userAccount << " account.";
-	cout << "\n\t\t\t" << userAccount2 << " ID: " << accDetails[0];
-	cout << "\n\t\t\t========================================";
+	do {
+		system("cls");
+		cout << "\n\t\t\t========================================";
+		cout << "\n\t\t\t" << accDetails[1];
+		cout << "\n\t\t\tYou are logged in with a " << userAccount << " account.";
+		cout << "\n\t\t\t" << userAccount2 << " ID: " << accDetails[0];
+		cout << "\n\t\t\t========================================";
 
-	cout << "\n\n\t\t\t1. Order food/View Menu";
-	cout << "\n\t\t\t2. Make Complaint";
-	cout << "\n\t\t\t3. Bulk Payment";
-	cout << "\n\t\t\t4. Update Details";
-	cout << "\n\t\t\t5. Logout";
+		cout << "\n\n\t\t\t1. Order food/View Menu";
+		cout << "\n\t\t\t2. Make Complaint";
+		cout << "\n\t\t\t3. Bulk Payment";
+		cout << "\n\t\t\t4. Update Details";
+		cout << "\n\t\t\t5. Logout";
+
+		cout << "\n\n\t\t\tEnter choice: ";
+		cin >> choice;
+
+		switch (choice) {
+		case 1:
+			// order food
+		case 2: // Code by Jakob
+			makeComplaint(accDetails);
+			break;
+		case 3:
+			// bulk payment
+		case 4:
+			// update details
+		case 5:
+			// logout/exit program
+		default:
+			cout << "\n\t\t\tPlease enter a number relevant to the menu.";
+		}
+	} while (true);
+}
+
+// code by jakob
+// Function allows user to write a complaint about an order.
+void makeComplaint(vector<string> accDetails) {
+	system("cls");
+	int writeFile;
+
+	struct Complaint complaint;
+	complaint.complaintID = generateComplaintNum(); // could generate this by reading the complaint file 
+	cout << "\n\n\t\t\tComplaint ID: " << complaint.complaintID;
+	cout << "\n\t\t\tName: " << accDetails[1];
+	cout << "\n\t\t\tDate of order: 10/06/2021";
+	cout << "\n\t\t\tItem Ordered: Chicken Burger";
+
+	cout << "\n\n\t\t\t|------------------------|";
+	cout << "\n\t\t\t| Complaint Description: |";
+	cout << "\n\t\t\t|------------------------|";
+	cout << "\n\n\t\t\t";
+	cin.ignore();
+	getline(cin, complaint.complaintDescription);
+
+	writeFile = writeComplaintToFile(accDetails, complaint);
+	if (writeFile == 0) {
+		cout << "\n\t\t\tError: Could not open Complaint_file.csv";
+	}
+	cout << "\n\t\t\t";
+	system("pause");
+}
+
+// Code by Jakob
+// Generates random number between 1-1000 for a complaint id.
+// Testing purposes only at the moment. Will potentially generate an id based on the complaint file later on.
+int generateComplaintNum() {
+	int randNum;
+	srand(time(0));
+	randNum = rand() % 999 + 1;
+	return randNum;
+}
+
+// Code by Jakob
+// Writes complaint details to the Complaint_file.csv
+int writeComplaintToFile(vector<string>accDetails, struct Complaint complaint) {
+	ofstream compFile;
+	int fileStatus;
+	compFile.open("Complaint_file.csv", ios::app);
+
+	if (compFile.is_open() == true) {
+		// accDetails[1] = Person Name
+		// accDetails[4] = Contact Number
+		// accDetails[5] = Email
+		compFile << complaint.complaintID << "," << accDetails[1] << "," << "date of order" << "," << "item ordered" << ","
+			<< complaint.complaintDescription << "," << accDetails[4] << "," << accDetails[5] << "," << complaint.actionStatus << endl;
+		return 1;
+	}
+	else {
+		return 0;
+	}
+
+	compFile.close();
 }
