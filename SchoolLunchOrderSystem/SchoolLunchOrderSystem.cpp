@@ -10,6 +10,14 @@
 using namespace std;
 
 // Structures written by Jakob, originally by Jay in an excel sheet
+struct BulkPayment {
+	int bulkID;
+
+	BulkPayment(int defBulkID = 0) {
+		bulkID = defBulkID;
+	}
+};
+
 struct Login {
 	string loginID;
 	string userForeignID;
@@ -52,7 +60,7 @@ struct Parent {
 	struct Order;
 	struct Login login;
 	struct Complaint;
-	struct BulkPayment;
+	struct BulkPayment bulk;
 	struct Payment;
 
 	Parent(int defID = 0, bool defAccountStatus = false, string defFullName = "Default Parent", string defGender = "Default Gender",
@@ -86,7 +94,7 @@ struct Staff {
 	struct Order;
 	struct Login login;
 	struct Complaint;
-	struct BulkPayment;
+	struct BulkPayment bulk;
 	struct Payment;
 
 	Staff(int defID = 0, bool defAccountStatus = false, string defFullName = "Default Staff", string defGender = "Default Gender",
@@ -177,6 +185,8 @@ vector<string> getAccountDetails(string);
 void makeComplaint(vector<string>);
 int generateComplaintNum();
 int writeComplaintToFile(vector<string>, struct Complaint);
+void chooseBulkOrder(int);
+string getCurrentDate();
 
 int main()
 {
@@ -219,6 +229,7 @@ int printMenuList() {
 			return 0; //written by Jay
 		case 1234:
 			adminLogin(); // Written by Jakob
+			break;
 		}
 	} while (true);
 }
@@ -226,13 +237,13 @@ int printMenuList() {
 void printBulkDiscounts() { // Jay's code
 	cout << "\nBULK BOOKING DISCOUNTS\n"
 		<< "**********************\n"
-		<< "1. MONTHLY FOOD PASS \t\t 2. HALF MONTHLY FOOD PASS \t\t 3. WEEKLY FOOD PASS\n"
-		<< "   ----------------- \t\t    ---------------------- \t\t    -----------------\n"
-		<< "Pay for 30 days and \t\t Pay for 15 days and \t\t\t Pay for 7 days and \n"
-		<< "receive a 15% discount. \t receive a 10% discount. \t\t receive a 5% discount.\n\n"
-		<< "Without food pass: $150 \t Without food pass: $75 \t\t Without food pass: $35 \n"
-		<< "with food pass: $127.5 \t\t with food pass: $67.50 \t\t with food pass: $33.25 \n"
-		<< "Save $22.50 \t\t\t Save $7.50 \t\t\t\t Save $1.75\n";
+		<< "1. GOLD FOOD PASS \t\t 2. SILVER FOOD PASS \t\t 3. COPPER FOOD PASS\n"
+		<< "   ----------------- \t\t    ---------------- \t\t    ----------------\n"
+		<< "   Pay for 30 days and \t\t    Pay for 15 days and \t    Pay for 7 days and \n"
+		<< "   receive a 15% discount. \t    receive a 10% discount. \t    receive a 5% discount.\n\n"
+		<< "   Without food pass: $150 \t    Without food pass: $75 \t    Without food pass: $35 \n"
+		<< "   With food pass: $127.5 \t    With food pass: $67.50 \t    With food pass: $33.25 \n"
+		<< "   Save $22.50 \t\t\t    Save $7.50 \t\t\t    Save $1.75\n\n";
 	system("pause");
 }
 
@@ -251,7 +262,6 @@ void printContactLocationDetails() { // Jay's code
 void printWeeklyMenu() { // Code written by Jakob
 	cout << "\nWEEKLY MENU\n";
 	cout << "***********\n";
-
 
 	cout << "1.\t\t\t\t2.\t\t\t\t3.\n";
 	cout << "BEEF NOODLES\t\t\tCHICKEN BURGER\t\t\tCHICKEN BURGER\n";
@@ -344,7 +354,8 @@ void registerStaff() {
 		} while (true);
 
 		do {
-			cout << "\t\t\t|Enter Date of birth" << setw(12) << "|: ";
+			cout << "\t\t\t|Enter Date of birth         |"
+			   << "\n\t\t\t|DD/MM/YYYY                  |: " << setw(12);
 			getline(cin, staffRegister.dob);
 			if (staffRegister.dob == "")
 				cout << "\n\t\t\tInvalid input, please Enter your date of birth.\n";
@@ -384,7 +395,8 @@ void registerStaff() {
 		} while (true);
 
 		do {
-			cout << "\t\t\t|Enter Visa Card Expiry Date |: ";
+			cout << "\t\t\t|Enter Visa Card Expiry Date |"
+			   << "\n\t\t\t|DD/MM/YYYY                  |: ";
 			getline(cin, staffRegister.visaCardExpiry);
 			if (staffRegister.visaCardExpiry == "")
 				cout << "\n\t\t\tInvalid input, please Enter your visa card expiry date.\n";
@@ -541,6 +553,7 @@ void loginScreen() {
 		loginFile.close();
 	} while (notExist);
 
+	string getch;
 	do {
 		cout << "\n\t\t\t|Password" << setw(8) << "|: ";
 		getline(cin, pass);
@@ -1100,14 +1113,17 @@ vector<string> getAccountDetails(string userID) {
 // This function displays the main menu for users that have logged in.
 void printMainMenu(vector<string> accDetails) {
 	struct Complaint complaint;
+	int flag;
 	string userAccount, userAccount2;
 	int i, choice;
 
-	if (accDetails[0].substr(0, 3) == "270") {
+	if (accDetails[0].substr(0, 3) == "270") { // parent
+		flag = 1;
 		userAccount = "parent";
 		userAccount2 = "Parent";
 	}
-	else {
+	else { // staff
+		flag = 2;
 		userAccount = "staff";
 		userAccount2 = "Staff";
 	}
@@ -1132,15 +1148,17 @@ void printMainMenu(vector<string> accDetails) {
 		switch (choice) {
 		case 1:
 			// order food
+			
 		case 2: // Code by Jakob
 			makeComplaint(accDetails);
 			break;
 		case 3:
 			// bulk payment
+			chooseBulkOrder(flag);
 		case 4:
 			// update details
 		case 5:
-			// logout/exit program
+			printMenuList();
 		default:
 			cout << "\n\t\t\tPlease enter a number relevant to the menu.";
 		}
@@ -1152,12 +1170,13 @@ void printMainMenu(vector<string> accDetails) {
 void makeComplaint(vector<string> accDetails) {
 	system("cls");
 	int writeFile;
-
 	struct Complaint complaint;
+	string date = getCurrentDate();
+
 	complaint.complaintID = generateComplaintNum(); // could generate this by reading the complaint file 
 	cout << "\n\n\t\t\tComplaint ID: " << complaint.complaintID;
 	cout << "\n\t\t\tName: " << accDetails[1];
-	cout << "\n\t\t\tDate of order: 10/06/2021";
+	cout << "\n\t\t\tDate of order: " << date;
 	cout << "\n\t\t\tItem Ordered: Chicken Burger";
 
 	cout << "\n\n\t\t\t|------------------------|";
@@ -1190,13 +1209,16 @@ int generateComplaintNum() {
 int writeComplaintToFile(vector<string>accDetails, struct Complaint complaint) {
 	ofstream compFile;
 	int fileStatus;
+
+	string date = getCurrentDate();
+
 	compFile.open("Complaint_file.csv", ios::app);
 
 	if (compFile.is_open() == true) {
 		// accDetails[1] = Person Name
 		// accDetails[4] = Contact Number
 		// accDetails[5] = Email
-		compFile << complaint.complaintID << "," << accDetails[1] << "," << "date of order" << "," << "item ordered" << ","
+		compFile << complaint.complaintID << "," << accDetails[1] << "," << date << "," << "item ordered" << ","
 			<< complaint.complaintDescription << "," << accDetails[4] << "," << accDetails[5] << "," << complaint.actionStatus << endl;
 		return 1;
 	}
@@ -1205,4 +1227,35 @@ int writeComplaintToFile(vector<string>accDetails, struct Complaint complaint) {
 	}
 
 	compFile.close();
+}
+
+void chooseBulkOrder(int flag) {
+
+	int choice;
+
+	cout << "\nBULK BOOKING DISCOUNTS\n"
+		<< "**********************\n"
+		<< "1. GOLD FOOD PASS \t\t 2. SILVER FOOD PASS \t\t 3. COPPER FOOD PASS\n"
+		<< "   ----------------- \t\t    ---------------- \t\t    ----------------\n"
+		<< "   Pay for 30 days and \t\t    Pay for 15 days and \t    Pay for 7 days and \n"
+		<< "   receive a 15% discount. \t    receive a 10% discount. \t    receive a 5% discount.\n\n"
+		<< "   Without food pass: $150 \t    Without food pass: $75 \t    Without food pass: $35 \n"
+		<< "   With food pass: $127.5 \t    With food pass: $67.50 \t    With food pass: $33.25 \n"
+		<< "   Save $22.50 \t\t\t    Save $7.50 \t\t\t    Save $1.75\n\n";
+
+	cout << "Enter choice or enter b to go back: ";
+	system("pause");
+}
+
+string getCurrentDate() {
+	tm newtime;
+	time_t now = time(0);
+	localtime_s(&newtime, &now);
+	int day = newtime.tm_mday;
+	int month = newtime.tm_mon + 1;
+	int year = newtime.tm_year + 1900;
+
+	string date = to_string(day) + "/" + to_string(month) + "/" + to_string(year);
+
+	return date;
 }
