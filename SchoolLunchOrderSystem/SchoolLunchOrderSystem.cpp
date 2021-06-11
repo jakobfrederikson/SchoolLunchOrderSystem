@@ -174,7 +174,6 @@ struct FoodMenuList {
 	}
 };
 
-
 //code written by Jay
 int printMenuList();
 void printBulkDiscounts();
@@ -619,10 +618,18 @@ void registerParent() {
 				break;
 		} while (true);
 
-		cout << "\t\t\t|Enter Contact Number" << setw(11) << "|: ";
-		cin >> parentRegister.countNum;
-		cin.ignore();
-
+		do {
+			cout << "\t\t\t|Enter Contact Number" << setw(11) << "|: ";
+			cin >> parentRegister.countNum;
+			cin.ignore();
+			if (parentRegister.countNum != 0) {
+				if (to_string(parentRegister.countNum).length() == 10)
+					break;
+			}
+			else
+				cout << "Invalid input, Please Enter your contact number.";
+		} while (true);
+		
 		do {
 			cout << "\t\t\t|Enter Email Address" << setw(12) << "|: ";
 			getline(cin, parentRegister.email);
@@ -1290,7 +1297,7 @@ void createFoodMenuList() {
 void updateMenuList() {
 	int choice = 0, id = 0, foodNum, col = 0, nxt = 0;
 	float foodPrice;
-	string isVegan, isGlutten, foodName, foodDescription, foodDietary;
+	string isVegan, isGlutten, foodName, foodDescription, foodDietary;	
 	FoodMenuList fml[6];
 	string foodDetails[10][3];
 	string(*ptrFD)[10][3] = &foodDetails;
