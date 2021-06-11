@@ -162,6 +162,19 @@ struct Payment {
 	}
 };
 
+struct FoodMenuList {
+	int foodNum;
+	string foodName;
+	string foodDescription;
+	string foodDietary;
+	float foodPrice;
+
+	FoodMenuList(string def = "default", float defNum = 0) {
+		foodNum = defNum, foodPrice = defNum, foodName = def, foodDescription = def, foodDietary = def;
+	}
+};
+
+
 //code written by Jay
 int printMenuList();
 void printBulkDiscounts();
@@ -187,11 +200,15 @@ int generateComplaintNum();
 int writeComplaintToFile(vector<string>, struct Complaint);
 void chooseBulkOrder(int);
 string getCurrentDate();
+void createFoodMenuList();
+void updateMenuList();
+void getFoodMenuList(string(*)[10][3]);
 
 int main()
 {
 	// Code written by Jay
 	//createFiles();
+	createFoodMenuList();
 	return printMenuList();
 }
 
@@ -1258,4 +1275,296 @@ string getCurrentDate() {
 	string date = to_string(day) + "/" + to_string(month) + "/" + to_string(year);
 
 	return date;
+}
+
+void createFoodMenuList() {
+	string foodDetails[][3] = { {"1.","2.","3."},
+								{"Beef Noodles", "Chicken Burger", "Fruit Salad"},
+								{"Noodles cooked with beautiful sexy beef.", "Grilled chicken with lettuce and ketchup that will make the ladies want you.","Fruit Salad with Orange Pineapple Kiwi Melon and apple pen"},
+								{"Vegan:No Gluten:No","Vegan:No Gluten:Yes","Vegan:Yes Gluten:Yes"},
+								{"$5.00","$5.00","$5.00"},
+								{"4.","5.","6."},
+								{"Eggs Benedict", "Egg Fried Rice", "French Toast Wee Wee"},
+								{"Pouched egg with bacon muffin and hollandaise sauce with a springkle of love", "Rice Egg and MSG just how Uncle Roger likes","Just toast and diabetes Wee Wee"},
+								{"Vegan: No Gluten:Yes","Vegan:No Gluten:No","Vegan:YES Gluten:Yes"},
+								{"$5.00","$5.00","$5.00"} };
+
+	//creating food menu file
+	ofstream createFoodMenu("FoodMenu_File.csv", ios::out);
+	for (int j = 0; j < 3; j++) {
+		for (int x = 0; x < 5; x++) {
+			createFoodMenu << foodDetails[x][j] << ",";
+		}
+		createFoodMenu << endl;
+	}
+	for (int i = 0; i < 3; i++) {
+		for (int h = 5; h < 10; h++)
+		{
+			createFoodMenu << foodDetails[h][i] << ",";
+		}
+		createFoodMenu << endl;
+	}
+	createFoodMenu.close();
+}
+
+void updateMenuList() {
+	int choice = 0, id = 0, foodNum, col = 0, nxt = 0;
+	float foodPrice;
+	string isVegan, isGlutten, foodName, foodDescription, foodDietary;
+	FoodMenuList fml[6];
+	string foodDetails[10][3];
+	string(*ptrFD)[10][3] = &foodDetails;
+
+	getFoodMenuList(ptrFD);
+
+	for (int i = 0; i < 6; i++) {
+		fml[i].foodNum = stoi(foodDetails[0 + nxt][col]);
+		fml[i].foodName = foodDetails[1 + nxt][col];
+		fml[i].foodDescription = foodDetails[2 + nxt][col];
+		fml[i].foodDietary = foodDetails[3 + nxt][col];
+		fml[i].foodPrice = stof(foodDetails[4 + nxt][col].substr(1, foodDetails[4 + nxt][col].length()));
+		col++;
+		if (col == 3) {
+			col = 0;
+			nxt = 5;
+		}
+	}
+
+	cout << "\n\t\t\tPress 1 to change Menu 1"
+		<< "\n\t\t\tPress 2 to change Menu 2"
+		<< "\n\t\t\tPress 3 to change Menu 3"
+		<< "\n\t\t\tPress 4 to change Menu 4"
+		<< "\n\t\t\tPress 5 to change Menu 5"
+		<< "\n\t\t\tPress 6 to change Menu 6"
+		<< "\n\t\t\tChoose which menu you want to change: ";
+	cin >> id;
+	cin.ignore();
+
+	cout << "\n\t\t\tPress 1 to change food name"
+		<< "\n\t\t\tPress 2 to change food description"
+		<< "\n\t\t\tPress 3 to change food dietary option"
+		<< "\n\t\t\tPress 4 to change food price"
+		<< "\n\t\t\tPress 5 to exit."
+		<< "\n\t\t\tChoose which food detail to change: ";
+	cin >> choice;
+	cin.ignore();
+
+	id -= 1;
+	switch (choice) {
+	case 1:
+		do {
+			do {
+				cout << "\n\t\t\tEnter food name: ";
+				getline(cin, foodName);
+				if (foodName != " ")
+					break;
+				else
+					cout << "\n\t\t\tInvalid input, Please enter food name..";
+			} while (true);
+			fml[id].foodName = foodName;
+			break;
+		} while (true);
+		break;
+	case 2:
+		do {
+			do {
+				cout << "\n\t\t\tEnter food Description: ";
+				getline(cin, foodName);
+				if (foodName != " ")
+					break;
+				else
+					cout << "\n\t\t\tInvalid input, Please enter food description..";
+			} while (true);
+			fml[id].foodDescription = foodDescription;
+			break;
+		} while (true);
+		break;
+
+	case 3:
+		do {
+			do {
+				cout << "\n\t\t\tPress Y if food is vegan: "
+					<< "\n\t\t\tPress N if food is not vegan: "
+					<< "\n\t\t\tPlease enter your option: ";
+				getline(cin, isVegan);
+				if (isVegan != " " || isVegan.length() == 1)
+					break;
+				else
+					cout << "\n\t\t\tInvalid input, Please enter food dietary..";
+			} while (true);
+			do {
+				cout << "\n\t\t\tPress Y if food is Glutten free: "
+					<< "\n\t\t\tPress N if food is not Glutten free: "
+					<< "\n\t\t\tPlease enter your option: ";
+				getline(cin, isGlutten);
+				if (isGlutten != " " || isGlutten.length() == 1)
+					break;
+				else
+					cout << "\n\t\t\tInvalid input, Please enter food dietary..";
+			} while (true);
+			if (tolower(isVegan[0]) == 'y')
+				isVegan = "Yes";
+			else
+				isVegan = "No";
+			if (tolower(isGlutten[0]) == 'y')
+				isGlutten = "Yes";
+			else
+				isGlutten = "No";
+			fml[id].foodDietary = "Vegan: " + isVegan + " Gluten: " + isGlutten;
+			break;
+		} while (true);
+		break;
+	case 4:
+		do {
+			do {
+				cout << "\n\t\t\tEnter food Price: ";
+				cin >> foodPrice;
+				cin.ignore();
+				if (foodPrice != 0)
+					break;
+				else
+					cout << "\n\t\t\tInvalid input, Please enter food price..";
+			} while (true);
+			fml[id].foodPrice = foodPrice;
+			break;
+		} while (true);
+		break;
+	case 5:
+		cout << "\n\t\t\tUser has not been updated...";
+		system("pause");
+		break;
+	default:
+		cout << "\n\t\t\tInvalid Input.. Please try again...";
+		break;
+	}
+	ofstream updateFoodMenu("FoodMenu_File.csv", ios::out);
+	for (int i = 0; i < 6; i++) {
+		updateFoodMenu << fml[i].foodNum << "," << fml[i].foodName << ","
+			<< fml[i].foodDescription << "," << fml[i].foodDietary << ","
+			<< "$" + to_string(fml[i].foodPrice) << endl;
+	}
+	updateFoodMenu.close();
+
+	cout << "\n\t\t\t*****Food Menu has been updated*****\n";
+	system("pause");
+}
+
+void getFoodMenuList(string(*ptrFD)[10][3]) {
+	string line, tempStr;
+	ifstream myfile;
+
+	myfile.open("FoodMenu_File.csv", ios::in);
+
+	int j = 0, i = 0;
+	while (getline(myfile, line)) {
+		stringstream ss(line);
+		if (j <= 2) {
+			for (int x = 0; x < 5; x++) {
+				while (!ss.eof()) {
+					getline(ss, tempStr, ',');
+					(*ptrFD)[x][j] = tempStr;
+					if (x != 9)
+						x++;
+				}
+			}
+		}
+		j++;
+		if (j >= 3) {
+			while (getline(myfile, line)) {
+				stringstream ss(line);
+				for (int x = 5; x < 10; x++) {
+					while (!ss.eof()) {
+						getline(ss, tempStr, ',');
+						if (tempStr != "")
+							(*ptrFD)[x][i] = tempStr;
+						if (x != 9)
+							x++;
+					}
+				}
+				i++;
+			}
+		}
+	}
+	myfile.close();
+}
+
+void printWeeklyMenu() {
+	string foodDetails[10][3];
+	string(*ptrFD)[10][3] = &foodDetails;
+
+	getFoodMenuList(ptrFD);
+
+	int lastPos[3] = { 0,0,0 };
+	int count = 0;
+	int wordSpace = 0;
+	bool rowIsDone[3] = { 0,0,0 };
+
+	for (int row = 0; row < 10; row++) {
+
+		if (row == 1 || row == 4 || row == 6 || row == 8) {
+			for (int print = 0; print < 3; print++) {
+				cout << "----------------------" << "\t\t\t";
+				if (print == 2)
+					cout << endl;
+			}
+		}
+		for (int reset = 0; reset < 3; reset++) {
+			rowIsDone[reset] = 0;
+			lastPos[reset] = 0;
+		}
+
+		for (int col = 0; col < 3; col++) {
+			while (!rowIsDone[0] || !rowIsDone[1] || !rowIsDone[2])
+			{
+				int column = 0;
+				while (column < 3) {
+					if (rowIsDone[column]) {
+						for (int i = 0; i < 21; i++)
+							cout << " ";
+					}
+					for (int letter = lastPos[column]; letter < (*ptrFD)[row][column].length(); letter++) {
+						if (count < 21) {
+							if ((*ptrFD)[row][column][letter] == ' ') { //if next char is space 
+
+								int p = letter + 1;
+								while ((*ptrFD)[row][column][p] != ' ' && p < (*ptrFD)[row][column].length()) { //loop while next index is space
+									wordSpace++;
+									p++;
+								}
+							}
+
+							cout << (*ptrFD)[row][column][letter]; //print next char
+
+							int space = 21 - count; //check how many space left in the row if there is no more space for the word goto next line
+							if (wordSpace > space) {
+								for (int i = 0; i < space; i++)
+									cout << " ";
+								count = 21;
+							}
+							else
+								wordSpace = 0;
+
+							if (letter == (*ptrFD)[row][column].length() - 1) {
+								rowIsDone[column] = true;
+								for (int i = 0; i < space; i++)
+									cout << " ";
+							}
+							count++;
+							lastPos[column] = letter + 1;
+						}
+					}
+					cout << "\t\t\t";
+					count = 0;
+					if ((*ptrFD)[row][column][lastPos[column]] == ' ')
+						lastPos[column]++;
+					column++;
+				}
+				cout << endl;
+			}
+		}
+		cout << endl;
+		if (row == 4)
+			cout << "\n\n";
+	}
+	system("pause");
 }
