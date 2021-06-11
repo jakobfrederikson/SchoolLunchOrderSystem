@@ -10,6 +10,14 @@
 using namespace std;
 
 // Structures written by Jakob, originally by Jay in an excel sheet
+struct BulkPayment {
+	int bulkID;
+
+	BulkPayment(int defBulkID = 0) {
+		bulkID = defBulkID;
+	}
+};
+
 struct Login {
 	string loginID;
 	string userForeignID;
@@ -52,7 +60,7 @@ struct Parent {
 	struct Order;
 	struct Login login;
 	struct Complaint;
-	struct BulkPayment;
+	struct BulkPayment bulk;
 	struct Payment;
 
 	Parent(int defID = 0, bool defAccountStatus = false, string defFullName = "Default Parent", string defGender = "Default Gender",
@@ -86,7 +94,7 @@ struct Staff {
 	struct Order;
 	struct Login login;
 	struct Complaint;
-	struct BulkPayment;
+	struct BulkPayment bulk;
 	struct Payment;
 
 	Staff(int defID = 0, bool defAccountStatus = false, string defFullName = "Default Staff", string defGender = "Default Gender",
@@ -183,9 +191,14 @@ bool doesFileExist(const char*);
 void loginScreen();
 string checkLoginInput(string);
 string checkAdminInput(string);
-string checkAccount(string);
+vector<string> checkAccount(string);
 void printMainMenu(vector<string>);
 vector<string> getAccountDetails(string);
+void makeComplaint(vector<string>);
+int generateComplaintNum();
+int writeComplaintToFile(vector<string>, struct Complaint);
+void chooseBulkOrder(int);
+string getCurrentDate();
 void createFoodMenuList();
 void updateMenuList();
 void getFoodMenuList(string(*)[10][3]);
@@ -232,6 +245,7 @@ int printMenuList() {
 			return 0; //written by Jay
 		case 1234:
 			adminLogin(); // Written by Jakob
+			break;
 		}
 	} while (true);
 }
@@ -239,13 +253,13 @@ int printMenuList() {
 void printBulkDiscounts() { // Jay's code
 	cout << "\nBULK BOOKING DISCOUNTS\n"
 		<< "**********************\n"
-		<< "1. MONTHLY FOOD PASS \t\t 2. HALF MONTHLY FOOD PASS \t\t 3. WEEKLY FOOD PASS\n"
-		<< "   ----------------- \t\t    ---------------------- \t\t    -----------------\n"
-		<< "Pay for 30 days and \t\t Pay for 15 days and \t\t\t Pay for 7 days and \n"
-		<< "receive a 15% discount. \t receive a 10% discount. \t\t receive a 5% discount.\n\n"
-		<< "Without food pass: $150 \t Without food pass: $75 \t\t Without food pass: $35 \n"
-		<< "with food pass: $127.5 \t\t with food pass: $67.50 \t\t with food pass: $33.25 \n"
-		<< "Save $22.50 \t\t\t Save $7.50 \t\t\t\t Save $1.75\n";
+		<< "1. GOLD FOOD PASS \t\t 2. SILVER FOOD PASS \t\t 3. COPPER FOOD PASS\n"
+		<< "   ----------------- \t\t    ---------------- \t\t    ----------------\n"
+		<< "   Pay for 30 days and \t\t    Pay for 15 days and \t    Pay for 7 days and \n"
+		<< "   receive a 15% discount. \t    receive a 10% discount. \t    receive a 5% discount.\n\n"
+		<< "   Without food pass: $150 \t    Without food pass: $75 \t    Without food pass: $35 \n"
+		<< "   With food pass: $127.5 \t    With food pass: $67.50 \t    With food pass: $33.25 \n"
+		<< "   Save $22.50 \t\t\t    Save $7.50 \t\t\t    Save $1.75\n\n";
 	system("pause");
 }
 
@@ -332,7 +346,8 @@ void registerStaff() {
 		} while (true);
 
 		do {
-			cout << "\t\t\t|Enter Date of birth" << setw(12) << "|: ";
+			cout << "\t\t\t|Enter Date of birth         |"
+			   << "\n\t\t\t|DD/MM/YYYY                  |: " << setw(12);
 			getline(cin, staffRegister.dob);
 			if (staffRegister.dob == "")
 				cout << "\n\t\t\tInvalid input, please Enter your date of birth.\n";
@@ -372,7 +387,8 @@ void registerStaff() {
 		} while (true);
 
 		do {
-			cout << "\t\t\t|Enter Visa Card Expiry Date |: ";
+			cout << "\t\t\t|Enter Visa Card Expiry Date |"
+			   << "\n\t\t\t|DD/MM/YYYY                  |: ";
 			getline(cin, staffRegister.visaCardExpiry);
 			if (staffRegister.visaCardExpiry == "")
 				cout << "\n\t\t\tInvalid input, please Enter your visa card expiry date.\n";
@@ -529,6 +545,7 @@ void loginScreen() {
 		loginFile.close();
 	} while (notExist);
 
+	string getch;
 	do {
 		cout << "\n\t\t\t|Password" << setw(8) << "|: ";
 		getline(cin, pass);
@@ -552,8 +569,7 @@ void loginScreen() {
 			}
 		}		
 		else {
-			userID = checkAccount(username); // Find staff or parent account
-			accDetails = getAccountDetails(userID);
+			accDetails = checkAccount(username); // Find staff or parent account
 			printMainMenu(accDetails);
 			break;
 		}
@@ -1026,9 +1042,10 @@ bool doesFileExist(const char* fileptr) {
 
 // Code by Jakob
 // This function is used after a successful user login attempt. It will check whether the account is a staff or parent account and then return their ID.
-string checkAccount(string username) {
+vector<string> checkAccount(string username) {
 	ifstream loginFile;
 	string line, tempStr;
+	vector<string> accDetails;
 
 	loginFile.open("Login_file.csv", ios::in);
 	while (getline(loginFile, line)) {
@@ -1041,12 +1058,14 @@ string checkAccount(string username) {
 				while (getline(ss, tempStr, ',')) {
 					if (tempStr.substr(0, 3) == "270") { // Parent account
 						cout << "\n\t\t\tPARENT ACCOUNT\n";
-						return tempStr;
+						accDetails = getAccountDetails(tempStr); // get users details from their respective file
+						return accDetails;
 						break;
 					}
 					else if (tempStr.substr(0, 3) == "280") { // Staff account
 						cout << "\n\t\t\tSTAFF ACCOUNT\n";
-						return tempStr;
+						accDetails = getAccountDetails(tempStr); // get users details from their respective file
+						return accDetails;
 						break;
 					}
 				}
@@ -1093,30 +1112,156 @@ vector<string> getAccountDetails(string userID) {
 // Code by Jakob
 // This function displays the main menu for users that have logged in.
 void printMainMenu(vector<string> accDetails) {
-	system("cls");
+	struct Complaint complaint;
+	int flag;
 	string userAccount, userAccount2;
-	int i;
+	int i, choice;
 
-	if (accDetails[0].substr(0, 3) == "270") {
+	if (accDetails[0].substr(0, 3) == "270") { // parent
+		flag = 1;
 		userAccount = "parent";
 		userAccount2 = "Parent";
 	}
-	else {
+	else { // staff
+		flag = 2;
 		userAccount = "staff";
 		userAccount2 = "Staff";
 	}
 
-	cout << "\n\t\t\t========================================";
-	cout << "\n\t\t\t" << accDetails[1];
-	cout << "\n\t\t\tYou are logged in with a " << userAccount << " account.";
-	cout << "\n\t\t\t" << userAccount2 << " ID: " << accDetails[0];
-	cout << "\n\t\t\t========================================";
+	do {
+		system("cls");
+		cout << "\n\t\t\t========================================";
+		cout << "\n\t\t\t" << accDetails[1];
+		cout << "\n\t\t\tYou are logged in with a " << userAccount << " account.";
+		cout << "\n\t\t\t" << userAccount2 << " ID: " << accDetails[0];
+		cout << "\n\t\t\t========================================";
 
-	cout << "\n\n\t\t\t1. Order food/View Menu";
-	cout << "\n\t\t\t2. Make Complaint";
-	cout << "\n\t\t\t3. Bulk Payment";
-	cout << "\n\t\t\t4. Update Details";
-	cout << "\n\t\t\t5. Logout";
+		cout << "\n\n\t\t\t1. Order food/View Menu";
+		cout << "\n\t\t\t2. Make Complaint";
+		cout << "\n\t\t\t3. Bulk Payment";
+		cout << "\n\t\t\t4. Update Details";
+		cout << "\n\t\t\t5. Logout";
+
+		cout << "\n\n\t\t\tEnter choice: ";
+		cin >> choice;
+
+		switch (choice) {
+		case 1:
+			// order food
+			break;
+		case 2: // Code by Jakob
+			makeComplaint(accDetails);
+			break;
+		case 3:
+			// bulk payment
+			chooseBulkOrder(flag);
+			break;
+		case 4:
+			// update details
+			break;
+		case 5:
+			printMenuList();
+			break;
+		default:
+			cout << "\n\t\t\tPlease enter a number relevant to the menu.";
+			break;
+		}
+	} while (true);
+}
+
+// code by jakob
+// Function allows user to write a complaint about an order.
+void makeComplaint(vector<string> accDetails) {
+	system("cls");
+	int writeFile;
+	struct Complaint complaint;
+	string date = getCurrentDate();
+
+	complaint.complaintID = generateComplaintNum(); // could generate this by reading the complaint file 
+	cout << "\n\n\t\t\tComplaint ID: " << complaint.complaintID;
+	cout << "\n\t\t\tName: " << accDetails[1];
+	cout << "\n\t\t\tDate of order: " << date;
+	cout << "\n\t\t\tItem Ordered: Chicken Burger";
+
+	cout << "\n\n\t\t\t|------------------------|";
+	cout << "\n\t\t\t| Complaint Description: |";
+	cout << "\n\t\t\t|------------------------|";
+	cout << "\n\n\t\t\t";
+	cin.ignore();
+	getline(cin, complaint.complaintDescription);
+
+	writeFile = writeComplaintToFile(accDetails, complaint);
+	if (writeFile == 0) {
+		cout << "\n\t\t\tError: Could not open Complaint_file.csv";
+	}
+	cout << "\n\t\t\t";
+	system("pause");
+}
+
+// Code by Jakob
+// Generates random number between 1-1000 for a complaint id.
+// Testing purposes only at the moment. Will potentially generate an id based on the complaint file later on.
+int generateComplaintNum() {
+	int randNum;
+	srand(time(0));
+	randNum = rand() % 999 + 1;
+	return randNum;
+}
+
+// Code by Jakob
+// Writes complaint details to the Complaint_file.csv
+int writeComplaintToFile(vector<string>accDetails, struct Complaint complaint) {
+	ofstream compFile;
+	int fileStatus;
+
+	string date = getCurrentDate();
+
+	compFile.open("Complaint_file.csv", ios::app);
+
+	if (compFile.is_open() == true) {
+		// accDetails[1] = Person Name
+		// accDetails[4] = Contact Number
+		// accDetails[5] = Email
+		compFile << complaint.complaintID << "," << accDetails[1] << "," << date << "," << "item ordered" << ","
+			<< complaint.complaintDescription << "," << accDetails[4] << "," << accDetails[5] << "," << complaint.actionStatus << endl;
+		return 1;
+	}
+	else {
+		return 0;
+	}
+
+	compFile.close();
+}
+
+void chooseBulkOrder(int flag) {
+
+	int choice;
+
+	cout << "\nBULK BOOKING DISCOUNTS\n"
+		<< "**********************\n"
+		<< "1. GOLD FOOD PASS \t\t 2. SILVER FOOD PASS \t\t 3. COPPER FOOD PASS\n"
+		<< "   ----------------- \t\t    ---------------- \t\t    ----------------\n"
+		<< "   Pay for 30 days and \t\t    Pay for 15 days and \t    Pay for 7 days and \n"
+		<< "   receive a 15% discount. \t    receive a 10% discount. \t    receive a 5% discount.\n\n"
+		<< "   Without food pass: $150 \t    Without food pass: $75 \t    Without food pass: $35 \n"
+		<< "   With food pass: $127.5 \t    With food pass: $67.50 \t    With food pass: $33.25 \n"
+		<< "   Save $22.50 \t\t\t    Save $7.50 \t\t\t    Save $1.75\n\n";
+
+	cout << "Enter choice or enter b to go back: ";
+	system("pause");
+}
+
+string getCurrentDate() {
+	tm newtime;
+	time_t now = time(0);
+	localtime_s(&newtime, &now);
+	int day = newtime.tm_mday;
+	int month = newtime.tm_mon + 1;
+	int year = newtime.tm_year + 1900;
+
+	string date = to_string(day) + "/" + to_string(month) + "/" + to_string(year);
+
+	return date;
 }
 
 void createFoodMenuList() {
@@ -1157,7 +1302,7 @@ void updateMenuList() {
 	string foodDetails[10][3];
 	string(*ptrFD)[10][3] = &foodDetails;
 
-    getFoodMenuList(ptrFD);
+	getFoodMenuList(ptrFD);
 
 	for (int i = 0; i < 6; i++) {
 		fml[i].foodNum = stoi(foodDetails[0 + nxt][col]);
@@ -1345,7 +1490,7 @@ void printWeeklyMenu() {
 
 		if (row == 1 || row == 4 || row == 6 || row == 8) {
 			for (int print = 0; print < 3; print++) {
-				cout <<"----------------------" << "\t\t\t";
+				cout << "----------------------" << "\t\t\t";
 				if (print == 2)
 					cout << endl;
 			}
@@ -1365,7 +1510,7 @@ void printWeeklyMenu() {
 							cout << " ";
 					}
 					for (int letter = lastPos[column]; letter < (*ptrFD)[row][column].length(); letter++) {
-						if (count < 21) {								
+						if (count < 21) {
 							if ((*ptrFD)[row][column][letter] == ' ') { //if next char is space 
 
 								int p = letter + 1;
