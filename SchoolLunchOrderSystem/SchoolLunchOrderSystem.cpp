@@ -276,30 +276,6 @@ void printContactLocationDetails() { // Jay's code
 	system("pause");
 }
 
-void printWeeklyMenu() { // Code written by Jakob
-	cout << "\nWEEKLY MENU\n";
-	cout << "***********\n";
-
-	cout << "1.\t\t\t\t2.\t\t\t\t3.\n";
-	cout << "BEEF NOODLES\t\t\tCHICKEN BURGER\t\t\tCHICKEN BURGER\n";
-	cout << "---------------------\t\t---------------------\t\t---------------------\n";
-	cout << "Noodles cooked with\t\tGrilled chicken with\t\tGrilled chicken with\n";
-	cout << "beautiful beef.\t\t\tlettuce and ketchup.\t\tlettuce and ketchup.\n";
-	cout << "VEGAN: No  GLUTEN: No\t\tVEGAN: No  GLUTEN: No\t\tVEGAN: No  GLUTEN: No\n";
-	cout << "---------------------\t\t---------------------\t\t---------------------\n";
-	cout << "$5.00\t\t\t\t$5.00\t\t\t\t$5.00\n\n";
-
-	cout << "4.\t\t\t\t5.\t\t\t\t6.\n";
-	cout << "FRUIT SALAD\t\t\tCRAZY FOOD\t\t\tCHICKEN BURGER\n";
-	cout << "---------------------\t\t---------------------\t\t---------------------\n";
-	cout << "Mixed fruit with some\t\tGrilled chicken with\t\tGrilled chicken with\n";
-	cout << "leaf and stick.\t\t\tlettuce and ketchup.\t\tlettuce and ketchup.\n";
-	cout << "VEGAN: Yes  GLUTEN: Yes\t\tVEGAN: No  GLUTEN: No\t\tVEGAN: No  GLUTEN: No\n";
-	cout << "---------------------\t\t---------------------\t\t---------------------\n";
-	cout << "$5.00\t\t\t\t$5.00\t\t\t\t$5.00\n\n";
-	system("pause");
-}
-
 void loginRegistrationScreen() { // Code written by Jakob
 	int choice, registerChoice;
 
@@ -1165,19 +1141,23 @@ void printMainMenu(vector<string> accDetails) {
 		switch (choice) {
 		case 1:
 			// order food
-			
+			break;
 		case 2: // Code by Jakob
 			makeComplaint(accDetails);
 			break;
 		case 3:
 			// bulk payment
 			chooseBulkOrder(flag);
+			break;
 		case 4:
 			// update details
+			break;
 		case 5:
 			printMenuList();
+			break;
 		default:
 			cout << "\n\t\t\tPlease enter a number relevant to the menu.";
+			break;
 		}
 	} while (true);
 }
