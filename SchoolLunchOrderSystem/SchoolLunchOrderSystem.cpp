@@ -1171,6 +1171,7 @@ void printMainMenu(vector<string> accDetails) {
 
 // code by jakob
 // Function allows user to write a complaint about an order.
+// It will also generate a complaint ID based on the previous complaint ID in the Complaint_file.csv
 void makeComplaint(vector<string> accDetails) {
 
 	system("cls");
@@ -1203,8 +1204,8 @@ void makeComplaint(vector<string> accDetails) {
 					stringstream ss(line);
 
 					try {
-						complaint.complaintID = stoi(ss.str());  // convert stringstream to string and then to int
-						complaint.complaintID = complaint.complaintID + 1;
+						complaint.complaintID = stoi(ss.str()) + 1;  // convert stringstream to string and then to int
+						//complaint.complaintID = complaint.complaintID + 1;
 					}
 					catch (...) {
 						complaint.complaintID = 1;
@@ -1232,12 +1233,12 @@ void makeComplaint(vector<string> accDetails) {
 	cin.ignore();
 	getline(cin, complaint.complaintDescription);
 
-	cout << "\n\t\t\tConfirm and place complaint? y/n: ";
+	cout << "\n\t\t\t|Confirm and place complaint? Y/N|: ";
 	cin >> choice;
 
 	do {
-		compFile.open("Complaint_file.csv", ios::app);
 		if (tolower(choice) == 'y') {
+			compFile.open("Complaint_file.csv", ios::app);
 			if (compFile.is_open() == true) {
 				// accDetails[1] = Person Name
 				// accDetails[4] = Contact Number
