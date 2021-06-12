@@ -12,9 +12,11 @@ using namespace std;
 // Structures written by Jakob, originally by Jay in an excel sheet
 struct BulkPayment {
 	int bulkID;
+	int orderCount;
 
-	BulkPayment(int defBulkID = 0) {
+	BulkPayment(int defBulkID = 0, int defOrderCount = 0) {
 		bulkID = defBulkID;
+		orderCount = defOrderCount;
 	}
 };
 
@@ -195,18 +197,17 @@ vector<string> checkAccount(string);
 void printMainMenu(vector<string>);
 vector<string> getAccountDetails(string);
 void makeComplaint(vector<string>);
-int generateComplaintNum();
-int writeComplaintToFile(vector<string>, struct Complaint);
 void chooseBulkOrder(int);
 string getCurrentDate();
 void createFoodMenuList();
 void updateMenuList();
 void getFoodMenuList(string(*)[10][3]);
+void createFiles();
 
 int main()
 {
 	// Code written by Jay
-	//createFiles();
+	createFiles();
 	createFoodMenuList();
 	return printMenuList();
 }
@@ -290,8 +291,8 @@ void loginRegistrationScreen() { // Code written by Jakob
 	else if (choice == 2) {
 		system("cls");
 		cout << "\n\t\t\t|----------------------------|"
-			 << "\n\t\t\t|      REGISTER ACCOUNT      |"
-			 << "\n\t\t\t|----------------------------|";
+			<< "\n\t\t\t|      REGISTER ACCOUNT      |"
+			<< "\n\t\t\t|----------------------------|";
 		cout << "\n\t\t\t|1. Staff account            |";
 		cout << "\n\t\t\t|2. Parent account           |";
 		cout << "\n\t\t\t|                            |";
@@ -320,7 +321,7 @@ void registerStaff() {
 	char choice = ' ', choice2 = ' ';
 	string password, verifyPass, uniqueID;
 
-	
+
 	do { // Taking input for staff details
 		cin.ignore();
 		system("cls");
@@ -347,7 +348,7 @@ void registerStaff() {
 
 		do {
 			cout << "\t\t\t|Enter Date of birth         |"
-			   << "\n\t\t\t|DD/MM/YYYY                  |: " << setw(12);
+				<< "\n\t\t\t|DD/MM/YYYY                  |: " << setw(12);
 			getline(cin, staffRegister.dob);
 			if (staffRegister.dob == "")
 				cout << "\n\t\t\tInvalid input, please Enter your date of birth.\n";
@@ -366,7 +367,7 @@ void registerStaff() {
 				break;
 			}
 		} while (true);
-		
+
 
 		do {
 			cout << "\t\t\t|Enter Email Address" << setw(12) << "|: ";
@@ -388,7 +389,7 @@ void registerStaff() {
 
 		do {
 			cout << "\t\t\t|Enter Visa Card Expiry Date |"
-			   << "\n\t\t\t|DD/MM/YYYY                  |: ";
+				<< "\n\t\t\t|DD/MM/YYYY                  |: ";
 			getline(cin, staffRegister.visaCardExpiry);
 			if (staffRegister.visaCardExpiry == "")
 				cout << "\n\t\t\tInvalid input, please Enter your visa card expiry date.\n";
@@ -545,7 +546,6 @@ void loginScreen() {
 		loginFile.close();
 	} while (notExist);
 
-	string getch;
 	do {
 		cout << "\n\t\t\t|Password" << setw(8) << "|: ";
 		getline(cin, pass);
@@ -567,7 +567,7 @@ void loginScreen() {
 			else {
 				cout << "\n\t\t\tLogin attempts will be blocked for two seconds. Please try again later!\n";
 			}
-		}		
+		}
 		else {
 			accDetails = checkAccount(username); // Find staff or parent account
 			printMainMenu(accDetails);
@@ -629,7 +629,7 @@ void registerParent() {
 			else
 				cout << "Invalid input, Please Enter your contact number.";
 		} while (true);
-		
+
 		do {
 			cout << "\t\t\t|Enter Email Address" << setw(12) << "|: ";
 			getline(cin, parentRegister.email);
@@ -949,23 +949,23 @@ void adminLogin() {
 	int maxLoginAttempt = 3;
 
 	// Check if admin file exists.
-	bool file_check = doesFileExist(adminptr);
-	if (file_check == 0) {
-		system("cls");
-		cout << "\n\t\t\tADMIN FILE DOESN'T EXIST . . .";
-		ofstream adminFile;
-		adminFile.open("Admin_file.csv", ios::out);
-		adminFile << "admin" << "," << "cs103" << endl; // ADMIN USERNAME AND PASSWORD HERE
-		adminFile.close();
-		cout << "\n\t\t\t";
-		system("pause");
-	}
+	//bool file_check = doesFileExist(adminptr);
+	//if (file_check == 0) {
+	//	system("cls");
+	//	cout << "\n\t\t\tADMIN FILE DOESN'T EXIST . . .";
+	//	ofstream adminFile;
+	//	adminFile.open("Admin_file.csv", ios::out);
+	//	adminFile << "admin" << "," << "cs103" << endl; // ADMIN USERNAME AND PASSWORD HERE
+	//	adminFile.close();
+	//	cout << "\n\t\t\t";
+	//	system("pause");
+	//}
 
 	system("cls");
 	ifstream adminFile;
 	cout << "\n\t\t\t|----------------------------|"
-		 << "\n\t\t\t|        ADMIN LOGIN         |"
-		 << "\n\t\t\t|----------------------------|";
+		<< "\n\t\t\t|        ADMIN LOGIN         |"
+		<< "\n\t\t\t|----------------------------|";
 
 	do {
 		adminFile.open("Admin_file.csv", ios::in);
@@ -981,7 +981,7 @@ void adminLogin() {
 			break;
 		}
 	} while (true);
-	
+
 	do {
 		cout << "\n\t\t\t|Enter admin password" << setw(8) << "        |: ";
 		cin >> pass;
@@ -997,7 +997,7 @@ void adminLogin() {
 				maxLoginAttempt = maxLoginAttempt + 3;
 				system("pause");
 			}
-			
+
 		}
 		else {
 			cout << "\n\t\t\tYou have logged in with an admin account.\n\n\t\t\t";
@@ -1095,7 +1095,7 @@ vector<string> getAccountDetails(string userID) {
 		stringstream ss(line);
 		while (!ss.eof()) {
 			getline(ss, tempStr, ',');
-			if (tempStr == userID) { // Once 
+			if (tempStr == userID) {
 				stringstream ss(line);
 				while (getline(ss, tempStr, ',')) {
 					fileData.push_back(tempStr);
@@ -1116,6 +1116,7 @@ void printMainMenu(vector<string> accDetails) {
 	int flag;
 	string userAccount, userAccount2;
 	int i, choice;
+	bool runMenu = true;
 
 	if (accDetails[0].substr(0, 3) == "270") { // parent
 		flag = 1;
@@ -1160,24 +1161,67 @@ void printMainMenu(vector<string> accDetails) {
 			// update details
 			break;
 		case 5:
-			printMenuList();
+			runMenu = false;
 			break;
 		default:
 			cout << "\n\t\t\tPlease enter a number relevant to the menu.";
 			break;
 		}
-	} while (true);
+	} while (runMenu);
 }
 
 // code by jakob
 // Function allows user to write a complaint about an order.
 void makeComplaint(vector<string> accDetails) {
+
 	system("cls");
-	int writeFile;
+
+	ifstream readFile;
+	ofstream compFile;
+	string line;
+	int complaintID, lineNumber = 0, lastLine = 0;
+	bool isTrue = true;
+
+	char choice, tryAgain;
 	struct Complaint complaint;
+
 	string date = getCurrentDate();
 
-	complaint.complaintID = generateComplaintNum(); // could generate this by reading the complaint file 
+	// find how many lines there are in the file
+	readFile.open("Complaint_file.csv");
+	while (getline(readFile, line)) {
+		lineNumber++;
+	}
+	readFile.close();
+
+	// go to the last line and get the id
+	readFile.open("Complaint_file.csv");
+	do {
+		while (getline(readFile, line)) {
+			lastLine++;
+			if (lastLine == lineNumber) {
+				cout << "we are reading line " << lastLine << "\n";
+				while (!readFile.eof()) {
+					stringstream ss(line);
+
+					try {
+						complaint.complaintID = stoi(ss.str());  // convert stringstream to string and then to int
+						complaint.complaintID = complaint.complaintID + 1;
+					}
+					catch (...) {
+						complaint.complaintID = 1;
+						isTrue = false;
+						break;
+					}
+
+					isTrue = false;
+					break;
+				}
+			}
+		}
+	} while (isTrue);
+	readFile.close();
+
 	cout << "\n\n\t\t\tComplaint ID: " << complaint.complaintID;
 	cout << "\n\t\t\tName: " << accDetails[1];
 	cout << "\n\t\t\tDate of order: " << date;
@@ -1190,47 +1234,42 @@ void makeComplaint(vector<string> accDetails) {
 	cin.ignore();
 	getline(cin, complaint.complaintDescription);
 
-	writeFile = writeComplaintToFile(accDetails, complaint);
-	if (writeFile == 0) {
-		cout << "\n\t\t\tError: Could not open Complaint_file.csv";
-	}
-	cout << "\n\t\t\t";
-	system("pause");
-}
+	cout << "\n\t\t\tConfirm and place complaint? y/n: ";
+	cin >> choice;
 
-// Code by Jakob
-// Generates random number between 1-1000 for a complaint id.
-// Testing purposes only at the moment. Will potentially generate an id based on the complaint file later on.
-int generateComplaintNum() {
-	int randNum;
-	srand(time(0));
-	randNum = rand() % 999 + 1;
-	return randNum;
-}
-
-// Code by Jakob
-// Writes complaint details to the Complaint_file.csv
-int writeComplaintToFile(vector<string>accDetails, struct Complaint complaint) {
-	ofstream compFile;
-	int fileStatus;
-
-	string date = getCurrentDate();
-
-	compFile.open("Complaint_file.csv", ios::app);
-
-	if (compFile.is_open() == true) {
-		// accDetails[1] = Person Name
-		// accDetails[4] = Contact Number
-		// accDetails[5] = Email
-		compFile << complaint.complaintID << "," << accDetails[1] << "," << date << "," << "item ordered" << ","
-			<< complaint.complaintDescription << "," << accDetails[4] << "," << accDetails[5] << "," << complaint.actionStatus << endl;
-		return 1;
-	}
-	else {
-		return 0;
-	}
+	do {
+		compFile.open("Complaint_file.csv", ios::app);
+		if (tolower(choice) == 'y') {
+			if (compFile.is_open() == true) {
+				// accDetails[1] = Person Name
+				// accDetails[4] = Contact Number
+				// accDetails[5] = Email
+				compFile << complaint.complaintID << "," << accDetails[1] << "," << date << "," << "item ordered" << ","
+					<< complaint.complaintDescription << "," << accDetails[4] << "," << accDetails[5] << "," << complaint.actionStatus << endl;
+				break;
+			}
+			else {
+				cout << "\n\n\t\t\tError: Could not open complaint file. Please check if the complaint file is currently open.";
+				cout << "\n\t\t\tTry again? y/n: ";
+				cin >> tryAgain;
+				if (tolower(tryAgain) == 'y') {
+					continue;
+				}
+				else {
+					compFile.close();
+					break;
+				}
+			}
+		}
+		else {
+			cout << "\n\t\t\tYou have canceled your complaint.";
+			break;
+		}
+	} while (true);
 
 	compFile.close();
+	cout << "\n\t\t\t";
+	system("pause");
 }
 
 void chooseBulkOrder(int flag) {
@@ -1239,7 +1278,7 @@ void chooseBulkOrder(int flag) {
 
 	cout << "\nBULK BOOKING DISCOUNTS\n"
 		<< "**********************\n"
-		<< "1. GOLD FOOD PASS \t\t 2. SILVER FOOD PASS \t\t 3. COPPER FOOD PASS\n"
+		<< "1. GREEN FOOD PASS \t\t 2. BLUE FOOD PASS \t\t 3. RED FOOD PASS\n"
 		<< "   ----------------- \t\t    ---------------- \t\t    ----------------\n"
 		<< "   Pay for 30 days and \t\t    Pay for 15 days and \t    Pay for 7 days and \n"
 		<< "   receive a 15% discount. \t    receive a 10% discount. \t    receive a 5% discount.\n\n"
@@ -1297,7 +1336,7 @@ void createFoodMenuList() {
 void updateMenuList() {
 	int choice = 0, id = 0, foodNum, col = 0, nxt = 0;
 	float foodPrice;
-	string isVegan, isGlutten, foodName, foodDescription, foodDietary;	
+	string isVegan, isGlutten, foodName, foodDescription, foodDietary;
 	FoodMenuList fml[6];
 	string foodDetails[10][3];
 	string(*ptrFD)[10][3] = &foodDetails;
@@ -1554,4 +1593,65 @@ void printWeeklyMenu() {
 			cout << "\n\n";
 	}
 	system("pause");
+}
+
+void createFiles() {
+	ifstream adminFile("Admin_file.csv");
+	ifstream loginFile("Login_file.csv");
+	ifstream parentFile("Parent_file.csv");
+	ifstream staffFile("Staff_file.csv");
+	ifstream compFile("Complaint_file.csv");
+	ifstream orderFile("Order_file.csv");
+	ifstream FoodMenu_file("FoodMenu_file.csv");
+
+
+	if (!adminFile.good()) {
+		ofstream adminFile;
+		adminFile.open("Admin_file.csv", ios::out);
+		adminFile << "USERNAME" << "," << "PASSWORD" << endl;
+		adminFile << "admin" << "," << "cs103" << endl; // ADMIN USERNAME AND PASSWORD HERE
+		adminFile.close();
+	}
+
+	if (!loginFile.good()) {
+		ofstream loginFile;
+		loginFile.open("Login_file.csv", ios::out);
+		loginFile << "PRIMARY KEY" << "," << "FOREIGN KEY" << "," << "USERNAME" << "," << "PASSWORD" << endl;
+		loginFile.close();
+	}
+
+	if (!parentFile.good()) {
+		ofstream parentFile;
+		parentFile.open("Parent_file.csv", ios::out);
+		parentFile << "LOGIN ID" << "," << "NAME" << "," << "GENDER" << "," << "D.O.B" << "," << "CONTACT NUM" << "," << "EMAIL"
+			<< "," << "CHILD NAME" << "," << "ROOM NUM" << "," << "VISA NUM" << "," << "VISA EXPIRY" << endl;
+		parentFile.close();
+	}
+
+	if (!staffFile.good()) {
+		ofstream staffFile;
+		staffFile.open("Staff_file.csv", ios::out);
+		staffFile << "LOGIN ID" << "," << "NAME" << "," << "GENDER" << "," << "D.O.B" << "," << "CONTACT NUM" << "," << "EMAIL"
+			<< "," << "VISA NUM" << "," << "VISA EXPIRY" << endl;
+		staffFile.close();
+	}
+
+	if (!compFile.good()) {
+		ofstream compFile;
+		compFile.open("Complaint_file.csv", ios::out);
+		compFile << "COMP_ID" << "," << "NAME" << "," << "DATE" << "," << "ITEM ORDERED" << "," << "DESC." << "," << "CONTACT NUM"
+			<< "," << "EMAIL" << "," << "ACTION STATUS" << endl;
+	}
+
+	// order file, dont add child name or classroom number
+	if (!orderFile.good()) {
+		ofstream orderFile;
+		orderFile.open("Order_file.csv", ios::out);
+		orderFile << "ORDER NUM" << "," << "ORDER DATE" << "," << "MEAL NAME" << "," << "QUANTITY" << "," << "PRICE"
+			<< "," << "PAYMENT STATUS" << "," << "DIETARY PREF" << endl;
+	}
+
+	if (!FoodMenu_file.good()) {
+		createFoodMenuList();
+	}
 }
