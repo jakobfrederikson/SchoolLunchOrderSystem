@@ -6,3 +6,4 @@ C:\Users\Jay\Desktop\CS103 Group Project\SchoolLunchOrderSystem\SchoolLunchOrder
 C:\Users\test\Desktop\CS103\SchoolLunchOrderSystem\SchoolLunchOrderSystem\Debug\SchoolLunchOrderSystem.exe
 C:\Users\270029667\OneDrive - UP Education\Desktop\CS103\SchoolLunchOrderSystem\SchoolLunchOrderSystem\Debug\SchoolLunchOrderSystem.exe
 C:\Users\270029667\OneDrive - UP Education\Desktop\CS103\SchoolLunchOrderSystem\SchoolLunchOrderSystem\Debug\SchoolLunchOrderSystem.pdb
+C:\Users\test\Desktop\CS103\SchoolLunchOrderSystem\SchoolLunchOrderSystem\SchoolLunchOrderSystem\Debug\SchoolLunchOrderSystem.exe

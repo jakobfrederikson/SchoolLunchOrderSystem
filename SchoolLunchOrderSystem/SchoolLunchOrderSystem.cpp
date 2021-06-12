@@ -1112,7 +1112,6 @@ vector<string> getAccountDetails(string userID) {
 // Code by Jakob
 // This function displays the main menu for users that have logged in.
 void printMainMenu(vector<string> accDetails) {
-	struct Complaint complaint;
 	int flag;
 	string userAccount, userAccount2;
 	int i, choice;
@@ -1200,7 +1199,6 @@ void makeComplaint(vector<string> accDetails) {
 		while (getline(readFile, line)) {
 			lastLine++;
 			if (lastLine == lineNumber) {
-				cout << "we are reading line " << lastLine << "\n";
 				while (!readFile.eof()) {
 					stringstream ss(line);
 
