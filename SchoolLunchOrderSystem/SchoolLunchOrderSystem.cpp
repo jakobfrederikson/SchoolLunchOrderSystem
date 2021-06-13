@@ -203,7 +203,6 @@ void createFoodMenuList();
 void updateMenuList();
 void getFoodMenuList(string(*)[10][3]);
 void createFiles();
-void addBulkCode(int, vector<string>);
 
 int main()
 {
@@ -1303,28 +1302,97 @@ void makeComplaint(vector<string> accDetails) {
 // Code by Jakob
 void chooseBulkOrder(vector<string> accDetails) {
 
-	int choice;
+	int choice, flag;
+	int orderCount = 0, i = 0;
+	ofstream bulkOrderFile;
+	ifstream infile;
+	char errorChoice;
+	bool isTrue = true;
 
-	system("cls");
-	cout << "\n\t\t\tBULK BOOKING DISCOUNTS"
-		<< "\n\t\t\t**********************\n"
-		<< "\n\t\t\t1. GREEN FOOD PASS \t\t 2. BLUE FOOD PASS \t\t 3. RED FOOD PASS"
-		<< "\n\t\t\t   ----------------- \t\t    ---------------- \t\t    ----------------"
-		<< "\n\t\t\t   Pay for 30 days and \t\t    Pay for 15 days and \t    Pay for 7 days and"
-		<< "\n\t\t\t   receive a 15% discount. \t    receive a 10% discount. \t    receive a 5% discount.\n"
-		<< "\n\t\t\t   Without food pass: $150 \t    Without food pass: $75 \t    Without food pass: $35"
-		<< "\n\t\t\t   With food pass: $127.5 \t    With food pass: $67.50 \t    With food pass: $33.25"
-		<< "\n\t\t\t   Save $22.50 \t\t\t    Save $7.50 \t\t\t    Save $1.75\n\n";
+	do {
+		system("cls");
+		cout << "\n\t\t\tBULK BOOKING DISCOUNTS"
+			<< "\n\t\t\t**********************\n"
+			<< "\n\t\t\t1. GREEN FOOD PASS \t\t 2. BLUE FOOD PASS \t\t 3. RED FOOD PASS"
+			<< "\n\t\t\t   ----------------- \t\t    ---------------- \t\t    ----------------"
+			<< "\n\t\t\t   Pay for 30 days and \t\t    Pay for 15 days and \t    Pay for 7 days and"
+			<< "\n\t\t\t   receive a 15% discount. \t    receive a 10% discount. \t    receive a 5% discount.\n"
+			<< "\n\t\t\t   Without food pass: $150 \t    Without food pass: $75 \t    Without food pass: $35"
+			<< "\n\t\t\t   With food pass: $127.5 \t    With food pass: $67.50 \t    With food pass: $33.25"
+			<< "\n\t\t\t   Save $22.50 \t\t\t    Save $7.50 \t\t\t    Save $1.75\n\n";
 
-	cout << "\n\t\t\tEnter choice 1/2/3 for bulk order or 4 to go back: ";
-	cin >> choice;
+		cout << "\n\t\t\tEnter 1/2/3 for bulk order or 4 to go back: ";
+		cin >> choice;
 
-	if (choice == 4) {
-		cout << "test";
+		switch (choice) {
+		case 1:
+			orderCount = 30;
+			isTrue = false;
+			break;
+		case 2:
+			orderCount = 15;
+			isTrue = false;
+			break;
+		case 3:
+			orderCount = 7;
+			isTrue = false;
+			break;
+		case 4:
+			isTrue = false;
+			break;
+		default:
+			cout << "\n\t\t\tPlease enter a number relevant to the menu...";
+		}
+	} while (isTrue);
+	
+	//// check whether the user already has a bulk order and if they do then add to that current order count
+	//string line, tempStr;
+	//vector<string> addOrderCount;
+
+	//infile.open("BulkOrder_file.csv", ios::in);
+	//while (getline(infile, line)) {
+	//	stringstream ss(line);
+	//	while (!ss.eof()) {
+	//		getline(ss, tempStr, ',');
+	//		if (tempStr == accDetails[0]) {
+	//			stringstream ss;
+	//			while (getline(ss, tempStr, ',')) {
+	//				addOrderCount.push_back(tempStr);
+	//			}
+	//			//addOrderCount[2] = stoi(addOrderCount[2]) + orderCount;
+	//			//cout << "\n\n\t\t\t\t" << addOrderCount[2];
+	//		}
+	//	}
+	//}
+
+	if (orderCount > 0) {
+		do {
+			bulkOrderFile.open("BulkOrder_file.csv", ios::app);
+			if (bulkOrderFile.good()) {
+				bulkOrderFile << accDetails[0] << "," << choice << "," << orderCount << endl;
+				cout << "\n\t\t\tYour purchase of option " << choice << " was successful! You now have " << orderCount << " days of free meals.";
+				cout << "\n\t\t\t";
+				system("pause");
+				break;
+			}
+			else { // error message
+				cout << "\n\t\t\tError: Could not open bulk order file. Please check if the bulk order file is currently open.";
+				cout << "\n\t\t\tTry again? Y/N: ";
+				cin >> errorChoice;
+				if (tolower(errorChoice) == 'y') {
+					continue;
+				}
+				else {
+					cout << "\n\t\t\tYou canceled your bulk order.";
+					cout << "\n\t\t\t";
+					system("pause");
+					break;
+				}
+			}
+		} while (true);
 	}
-	else {
-		addBulkCode(choice, accDetails);
-	}
+
+	bulkOrderFile.close();
 }
 
 // Code by Jakob
@@ -1702,26 +1770,3 @@ void createFiles() {
 		bulkOrderFile << "USER_ID" << "," << "BULK_ID" << "," << "ORDER_COUNT" << "," << endl;
 	}
 }
-
-// Code by Jakob
-// This functions adds the chosen bulk ID and respective order amounts to BulkOrder_file.csv
-void addBulkCode(int choice, vector<string> accDetails) {
-	ofstream bulkOrderFile;
-	int orderCount;
-
-	bulkOrderFile.open("BulkOrder_file.csv", ios::app);
-
-	if (choice == 1) {
-		orderCount = 30;
-	}
-	else if (choice == 2) {
-		orderCount = 15;
-	}
-	else {
-		orderCount = 7;
-	}
-
-	bulkOrderFile << accDetails[0] << "," << choice << "," << orderCount << endl;
-	bulkOrderFile.close();
-}
-
