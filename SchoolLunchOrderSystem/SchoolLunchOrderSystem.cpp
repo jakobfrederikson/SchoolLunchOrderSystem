@@ -197,12 +197,13 @@ vector<string> checkAccount(string);
 void printMainMenu(vector<string>);
 vector<string> getAccountDetails(string);
 void makeComplaint(vector<string>);
-void chooseBulkOrder(int);
+void chooseBulkOrder(vector<string>);
 string getCurrentDate();
 void createFoodMenuList();
 void updateMenuList();
 void getFoodMenuList(string(*)[10][3]);
 void createFiles();
+void addBulkCode(int, vector<string>);
 
 int main()
 {
@@ -280,9 +281,14 @@ void loginRegistrationScreen() { // Code written by Jakob
 	int choice, registerChoice;
 
 	system("cls");
-	cout << "1. Login\n";
-	cout << "2. Register\n\n";
-	cout << "Enter choice: ";
+	cout << "\n\t\t\t|----------------------------|"
+		<< "\n\t\t\t|     LOG IN / REGISTER      |"
+		<< "\n\t\t\t|----------------------------|";
+	cout << "\n\t\t\t|1. Login                    |";
+	cout << "\n\t\t\t|2. Register                 |";
+	cout << "\n\t\t\t|3. Back                     |";
+	cout << "\n\t\t\t|                            |";
+	cout << "\n\t\t\t|Enter choice                |: ";
 	cin >> choice;
 
 	if (choice == 1) {
@@ -295,6 +301,7 @@ void loginRegistrationScreen() { // Code written by Jakob
 			<< "\n\t\t\t|----------------------------|";
 		cout << "\n\t\t\t|1. Staff account            |";
 		cout << "\n\t\t\t|2. Parent account           |";
+		cout << "\n\t\t\t|3. Back                     |";
 		cout << "\n\t\t\t|                            |";
 		cout << "\n\t\t\t|Enter choice                |: ";
 		cin >> registerChoice;
@@ -305,12 +312,18 @@ void loginRegistrationScreen() { // Code written by Jakob
 		else if (registerChoice == 2) {
 			registerParent(); //code by jay
 		}
+		else if (registerChoice == 3) {
+			loginRegistrationScreen();
+		}
 		else {
-			cout << "\nPlease enter a number relevant to the given menu.\n";
+			cout << "\n\t\t\tPlease enter a number relevant to the given menu.\n";
 		}
 	}
+	else if (choice == 3) {
+		printMenuList();
+	}
 	else {
-		cout << "\nPlease enter a number relevant to the given menu.\n";
+		cout << "\n\t\t\tPlease enter a number relevant to the given menu.\n";
 	}
 }
 
@@ -410,6 +423,9 @@ void registerStaff() {
 					break;
 				else
 					cout << "\n\t\t\tSorry Username is already taken, Please try again..\n";
+			}
+			else if (staffRegister.login.username == "back" || staffRegister.login.username == "BACK") {
+				cout << "\n\t\t\tSorry, this is a keyword used in the program. Please try again. . . \n";
 			}
 			else
 				cout << "\n\t\t\tInvalid Username, Please Try Again...\n";
@@ -529,12 +545,22 @@ void loginScreen() {
 	system("cls");
 	cout << "\n\t\t\t|----------------------------|"
 		<< "\n\t\t\t|        LOGIN SCREEN        |"
+		<< "\n\t\t\t|   Type 'back' to go back   |"
 		<< "\n\t\t\t|----------------------------|";
 
 	do {
 		loginFile.open("Login_file.csv", ios::in);
 		cout << "\n\t\t\t|Username" << setw(8) << "|: ";
 		getline(cin, username);
+
+		// giving user option to leave login screen
+		if (username == "back") {
+			cout << "\n\t\t\tYou have canceled your login.";
+			cout << "\n\t\t\t";
+			system("pause");
+			loginRegistrationScreen();
+			break;
+		}
 
 		accPass = checkLoginInput(username);
 		if (accPass == " ")
@@ -627,7 +653,7 @@ void registerParent() {
 					break;
 			}
 			else
-				cout << "Invalid input, Please Enter your contact number.";
+				cout << "\n\t\t\tInvalid input, Please Enter your contact number.\n";
 		} while (true);
 
 		do {
@@ -687,6 +713,9 @@ void registerParent() {
 					break;
 				else
 					cout << "\n\t\t\tSorry Username is already taken, Please try again..\n";
+			}
+			else if (parentRegister.login.username == "back" || parentRegister.login.username == "BACK") {
+				cout << "\n\t\t\tSorry, this is a keyword used in the program. Please try again. . . \n";
 			}
 			else
 				cout << "\n\t\t\tInvalid Username, Please Try Again...\n";
@@ -1154,7 +1183,7 @@ void printMainMenu(vector<string> accDetails) {
 			break;
 		case 3:
 			// bulk payment
-			chooseBulkOrder(flag);
+			chooseBulkOrder(accDetails);
 			break;
 		case 4:
 			// update details
@@ -1271,24 +1300,34 @@ void makeComplaint(vector<string> accDetails) {
 	system("pause");
 }
 
-void chooseBulkOrder(int flag) {
+// Code by Jakob
+void chooseBulkOrder(vector<string> accDetails) {
 
 	int choice;
 
-	cout << "\nBULK BOOKING DISCOUNTS\n"
-		<< "**********************\n"
-		<< "1. GREEN FOOD PASS \t\t 2. BLUE FOOD PASS \t\t 3. RED FOOD PASS\n"
-		<< "   ----------------- \t\t    ---------------- \t\t    ----------------\n"
-		<< "   Pay for 30 days and \t\t    Pay for 15 days and \t    Pay for 7 days and \n"
-		<< "   receive a 15% discount. \t    receive a 10% discount. \t    receive a 5% discount.\n\n"
-		<< "   Without food pass: $150 \t    Without food pass: $75 \t    Without food pass: $35 \n"
-		<< "   With food pass: $127.5 \t    With food pass: $67.50 \t    With food pass: $33.25 \n"
-		<< "   Save $22.50 \t\t\t    Save $7.50 \t\t\t    Save $1.75\n\n";
+	system("cls");
+	cout << "\n\t\t\tBULK BOOKING DISCOUNTS"
+		<< "\n\t\t\t**********************\n"
+		<< "\n\t\t\t1. GREEN FOOD PASS \t\t 2. BLUE FOOD PASS \t\t 3. RED FOOD PASS"
+		<< "\n\t\t\t   ----------------- \t\t    ---------------- \t\t    ----------------"
+		<< "\n\t\t\t   Pay for 30 days and \t\t    Pay for 15 days and \t    Pay for 7 days and"
+		<< "\n\t\t\t   receive a 15% discount. \t    receive a 10% discount. \t    receive a 5% discount.\n"
+		<< "\n\t\t\t   Without food pass: $150 \t    Without food pass: $75 \t    Without food pass: $35"
+		<< "\n\t\t\t   With food pass: $127.5 \t    With food pass: $67.50 \t    With food pass: $33.25"
+		<< "\n\t\t\t   Save $22.50 \t\t\t    Save $7.50 \t\t\t    Save $1.75\n\n";
 
-	cout << "Enter choice or enter b to go back: ";
-	system("pause");
+	cout << "\n\t\t\tEnter choice 1/2/3 for bulk order or 4 to go back: ";
+	cin >> choice;
+
+	if (choice == 4) {
+		cout << "test";
+	}
+	else {
+		addBulkCode(choice, accDetails);
+	}
 }
 
+// Code by Jakob
 string getCurrentDate() {
 	tm newtime;
 	time_t now = time(0);
@@ -1302,6 +1341,7 @@ string getCurrentDate() {
 	return date;
 }
 
+// Code by Jay
 void createFoodMenuList() {
 	string foodDetails[][3] = { {"1.","2.","3."},
 								{"Beef Noodles", "Chicken Burger", "Fruit Salad"},
@@ -1332,6 +1372,7 @@ void createFoodMenuList() {
 	createFoodMenu.close();
 }
 
+// Code by Jay
 void updateMenuList() {
 	int choice = 0, id = 0, foodNum, col = 0, nxt = 0;
 	float foodPrice;
@@ -1602,6 +1643,7 @@ void createFiles() {
 	ifstream compFile("Complaint_file.csv");
 	ifstream orderFile("Order_file.csv");
 	ifstream FoodMenu_file("FoodMenu_file.csv");
+	ifstream bulkOrderFile("BulkOrder_file.csv");
 
 
 	if (!adminFile.good()) {
@@ -1615,30 +1657,30 @@ void createFiles() {
 	if (!loginFile.good()) {
 		ofstream loginFile;
 		loginFile.open("Login_file.csv", ios::out);
-		loginFile << "PRIMARY KEY" << "," << "FOREIGN KEY" << "," << "USERNAME" << "," << "PASSWORD" << endl;
+		loginFile << "PRIMARY_KEY" << "," << "FOREIGN_KEY" << "," << "USERNAME" << "," << "PASSWORD" << endl;
 		loginFile.close();
 	}
 
 	if (!parentFile.good()) {
 		ofstream parentFile;
 		parentFile.open("Parent_file.csv", ios::out);
-		parentFile << "LOGIN ID" << "," << "NAME" << "," << "GENDER" << "," << "D.O.B" << "," << "CONTACT NUM" << "," << "EMAIL"
-			<< "," << "CHILD NAME" << "," << "ROOM NUM" << "," << "VISA NUM" << "," << "VISA EXPIRY" << endl;
+		parentFile << "LOGIN_ID" << "," << "NAME" << "," << "GENDER" << "," << "D.O.B" << "," << "CONTACT_NUM" << "," << "EMAIL"
+			<< "," << "CHILD_NAME" << "," << "ROOM_NUM" << "," << "VISA_NUM" << "," << "VISA_EXPIRY" << endl;
 		parentFile.close();
 	}
 
 	if (!staffFile.good()) {
 		ofstream staffFile;
 		staffFile.open("Staff_file.csv", ios::out);
-		staffFile << "LOGIN ID" << "," << "NAME" << "," << "GENDER" << "," << "D.O.B" << "," << "CONTACT NUM" << "," << "EMAIL"
-			<< "," << "VISA NUM" << "," << "VISA EXPIRY" << endl;
+		staffFile << "LOGIN_ID" << "," << "NAME" << "," << "GENDER" << "," << "D.O.B" << "," << "CONTACT_NUM" << "," << "EMAIL"
+			<< "," << "VISA_NUM" << "," << "VISA_EXPIRY" << endl;
 		staffFile.close();
 	}
 
 	if (!compFile.good()) {
 		ofstream compFile;
 		compFile.open("Complaint_file.csv", ios::out);
-		compFile << "COMP_ID" << "," << "NAME" << "," << "DATE" << "," << "ITEM ORDERED" << "," << "DESC." << "," << "CONTACT NUM"
+		compFile << "COMP_ID" << "," << "NAME" << "," << "DATE" << "," << "ITEM_ORDERED" << "," << "DESC." << "," << "CONTACT NUM"
 			<< "," << "EMAIL" << "," << "ACTION STATUS" << endl;
 	}
 
@@ -1646,11 +1688,40 @@ void createFiles() {
 	if (!orderFile.good()) {
 		ofstream orderFile;
 		orderFile.open("Order_file.csv", ios::out);
-		orderFile << "ORDER NUM" << "," << "ORDER DATE" << "," << "MEAL NAME" << "," << "QUANTITY" << "," << "PRICE"
-			<< "," << "PAYMENT STATUS" << "," << "DIETARY PREF" << endl;
+		orderFile << "ORDER_NUM" << "," << "ORDER_DATE" << "," << "MEAL_NAME" << "," << "QUANTITY" << "," << "PRICE"
+			<< "," << "PAYMENT_STATUS" << "," << "DIETARY_PREF" << endl;
 	}
 
 	if (!FoodMenu_file.good()) {
 		createFoodMenuList();
 	}
+
+	if (!bulkOrderFile.good()) {
+		ofstream bulkOrderFile;
+		bulkOrderFile.open("BulkOrder_file.csv");
+		bulkOrderFile << "USER_ID" << "," << "BULK_ID" << "," << "ORDER_COUNT" << "," << endl;
+	}
 }
+
+// Code by Jakob
+// This functions adds the chosen bulk ID and respective order amounts to BulkOrder_file.csv
+void addBulkCode(int choice, vector<string> accDetails) {
+	ofstream bulkOrderFile;
+	int orderCount;
+
+	bulkOrderFile.open("BulkOrder_file.csv", ios::app);
+
+	if (choice == 1) {
+		orderCount = 30;
+	}
+	else if (choice == 2) {
+		orderCount = 15;
+	}
+	else {
+		orderCount = 7;
+	}
+
+	bulkOrderFile << accDetails[0] << "," << choice << "," << orderCount << endl;
+	bulkOrderFile.close();
+}
+
