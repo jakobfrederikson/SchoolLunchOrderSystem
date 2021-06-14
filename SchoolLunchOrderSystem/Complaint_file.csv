@@ -1,6 +1,1 @@
-COMP_ID,NAME,DATE,ITEM ORDERED,DESC.,CONTACT NUM,EMAIL,ACTION STATUS
-1,Jakob Staff,13/6/2021,item ordered,asdf,12356,jakob@gmail.com,0
-2,Jakob Staff,13/6/2021,item ordered,test,12356,jakob@gmail.com,0
-3,Jakob Staff,13/6/2021,item ordered,hello,12356,jakob@gmail.com,0
-4,Jakob Staff,13/6/2021,item ordered,testing,12356,jakob@gmail.com,0
-5,Jakob Staff,13/6/2021,item ordered,test,12356,jakob@gmail.com,0
+COMP_ID,NAME,DATE,ITEM_ORDERED,DESC.,CONTACT NUM,EMAIL,ACTION STATUS
