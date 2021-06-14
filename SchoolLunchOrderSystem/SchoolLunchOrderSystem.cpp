@@ -48,8 +48,8 @@ struct Admin {
 };
 
 struct Order {
-	int orderNum; 
-	string orderID, foreignKey; 
+	int orderNum;
+	string orderID, foreignKey;
 	string orderDate;
 	string itemName;
 	int quantity;
@@ -63,7 +63,7 @@ struct Order {
 		itemName = defItemName;
 		quantity = defQuantity;
 		price = defPrice;
-		orderID = defItemName; 
+		orderID = defItemName;
 		foreignKey = defItemName;
 		paymentStatus = defPaymentStatus;
 	}
@@ -87,8 +87,8 @@ struct Complaint {
 
 struct Payment {
 	float totalPrice;
-	string paymentID, GSTNumber, foreignKey; 
-	float GST, GSTAmount; 
+	string paymentID, GSTNumber, foreignKey;
+	float GST, GSTAmount;
 	string typeOfPayment;
 	string date;
 
@@ -110,7 +110,7 @@ struct Parent {
 	string visaCardNo;
 	string visaCardExpiry;
 	string email;
-	vector<Order> order; 
+	vector<Order> order;
 	struct Login login;
 	struct Complaint;
 	struct BulkPayment bulk;
@@ -205,12 +205,11 @@ void createFoodMenuList();
 void updateMenuList();
 void getFoodMenuList(string(*)[10][3]);
 void createFiles();
-void addBulkCode(int, vector<string>);
 
 void orderFood(vector<string>);
-vector<Order>getFoodOrderDetails(vector<Order>, int); 
-vector<Order> removeOrder(vector<Order>); 
-void printAllOrders(vector<Order> order); 
+vector<Order>getFoodOrderDetails(vector<Order>, int);
+vector<Order> removeOrder(vector<Order>);
+void printAllOrders(vector<Order> order);
 void checkoutOrder(vector<Order> order, vector<string>);
 void printWeeklyOrderReport();
 vector<Parent> getAllParentDetails();
@@ -249,21 +248,21 @@ int printMenuList() {
 		cin >> choice;
 
 		switch (choice) {
-		case 1: 
+		case 1:
 			printWeeklyMenu();
 			system("pause");
 			break;
 		case 2:
-			printBulkDiscounts(); 
+			printBulkDiscounts();
 			break;
 		case 3:
-			printContactLocationDetails(); 
+			printContactLocationDetails();
 			break;
 		case 4: // Written by Jakob
 			loginRegistrationScreen();
 			break;
 		case 5:
-			return 0; 
+			return 0;
 		case 1234:
 			adminLogin(); // Written by Jakob
 			break;
@@ -303,51 +302,56 @@ void printContactLocationDetails() { // Jay's code
 void loginRegistrationScreen() { // Code written by Jakob
 	int choice, registerChoice;
 
-	system("cls");
-	cout << "\n\t\t\t|----------------------------|"
-		<< "\n\t\t\t|     LOG IN / REGISTER      |"
-		<< "\n\t\t\t|----------------------------|";
-	cout << "\n\t\t\t|1. Login                    |";
-	cout << "\n\t\t\t|2. Register                 |";
-	cout << "\n\t\t\t|3. Back                     |";
-	cout << "\n\t\t\t|                            |";
-	cout << "\n\t\t\t|Enter choice                |: ";
-	cin >> choice;
-
-	if (choice == 1) {
-		loginScreen();
-	}
-	else if (choice == 2) {
+	do {
 		system("cls");
 		cout << "\n\t\t\t|----------------------------|"
-			<< "\n\t\t\t|      REGISTER ACCOUNT      |"
+			<< "\n\t\t\t|     LOG IN / REGISTER      |"
 			<< "\n\t\t\t|----------------------------|";
-		cout << "\n\t\t\t|1. Staff account            |";
-		cout << "\n\t\t\t|2. Parent account           |";
+		cout << "\n\t\t\t|1. Login                    |";
+		cout << "\n\t\t\t|2. Register                 |";
 		cout << "\n\t\t\t|3. Back                     |";
 		cout << "\n\t\t\t|                            |";
 		cout << "\n\t\t\t|Enter choice                |: ";
-		cin >> registerChoice;
+		cin >> choice;
 
-		if (registerChoice == 1) {
-			registerStaff();
+		if (choice == 1) {
+			loginScreen();
+			break;
 		}
-		else if (registerChoice == 2) {
-			registerParent(); //code by jay
+		else if (choice == 2) {
+			system("cls");
+			cout << "\n\t\t\t|----------------------------|"
+				<< "\n\t\t\t|      REGISTER ACCOUNT      |"
+				<< "\n\t\t\t|----------------------------|";
+			cout << "\n\t\t\t|1. Staff account            |";
+			cout << "\n\t\t\t|2. Parent account           |";
+			cout << "\n\t\t\t|3. Back                     |";
+			cout << "\n\t\t\t|                            |";
+			cout << "\n\t\t\t|Enter choice                |: ";
+			cin >> registerChoice;
+
+			if (registerChoice == 1) {
+				registerStaff();
+				break;
+			}
+			else if (registerChoice == 2) {
+				registerParent(); //code by jay
+				break;
+			}
+			else if (registerChoice == 3) {
+				continue;
+			}
+			else {
+				cout << "\n\t\t\tPlease enter a number relevant to the given menu.\n";
+			}
 		}
-		else if (registerChoice == 3) {
-			loginRegistrationScreen();
+		else if (choice == 3) {
+			break;
 		}
 		else {
 			cout << "\n\t\t\tPlease enter a number relevant to the given menu.\n";
 		}
-	}
-	else if (choice == 3) {
-		printMenuList();
-	}
-	else {
-		cout << "\n\t\t\tPlease enter a number relevant to the given menu.\n";
-	}
+	} while (true);
 }
 
 // Code written by Jakob
@@ -670,16 +674,16 @@ void registerParent() {
 
 		do {
 			cout << "\t\t\t|Enter Contact Number" << setw(11) << "|: ";
-			cin >> parentRegister.countNum;			
-			
-			if (to_string(parentRegister.countNum).length() < 9 || to_string(parentRegister.countNum).length() > 10){
-				cout << "\n\t\t\tInvalid input, Please Enter your contact number.\n";			
-			}			
+			cin >> parentRegister.countNum;
+
+			if (to_string(parentRegister.countNum).length() < 9 || to_string(parentRegister.countNum).length() > 10) {
+				cout << "\n\t\t\tInvalid input, Please Enter your contact number.\n";
+			}
 			else {
 				cin.ignore();
 				break;
 			}
-				
+
 			break;
 		} while (true);
 
@@ -1367,28 +1371,76 @@ void makeComplaint(vector<string> accDetails) {
 // Code by Jakob
 void chooseBulkOrder(vector<string> accDetails) {
 
-	int choice;
+	int choice, flag;
+	int orderCount = 0, i = 0;
+	ofstream bulkOrderFile;
+	ifstream infile;
+	char errorChoice;
+	bool isTrue = true;
 
-	system("cls");
-	cout << "\n\t\t\tBULK BOOKING DISCOUNTS"
-		<< "\n\t\t\t**********************\n"
-		<< "\n\t\t\t1. GREEN FOOD PASS \t\t 2. BLUE FOOD PASS \t\t 3. RED FOOD PASS"
-		<< "\n\t\t\t   ----------------- \t\t    ---------------- \t\t    ----------------"
-		<< "\n\t\t\t   Pay for 30 days and \t\t    Pay for 15 days and \t    Pay for 7 days and"
-		<< "\n\t\t\t   receive a 15% discount. \t    receive a 10% discount. \t    receive a 5% discount.\n"
-		<< "\n\t\t\t   Without food pass: $150 \t    Without food pass: $75 \t    Without food pass: $35"
-		<< "\n\t\t\t   With food pass: $127.5 \t    With food pass: $67.50 \t    With food pass: $33.25"
-		<< "\n\t\t\t   Save $22.50 \t\t\t    Save $7.50 \t\t\t    Save $1.75\n\n";
+	do {
+		system("cls");
+		cout << "\n\t\t\tBULK BOOKING DISCOUNTS"
+			<< "\n\t\t\t**********************\n"
+			<< "\n\t\t\t1. GREEN FOOD PASS \t\t 2. BLUE FOOD PASS \t\t 3. RED FOOD PASS"
+			<< "\n\t\t\t   ----------------- \t\t    ---------------- \t\t    ----------------"
+			<< "\n\t\t\t   Pay for 30 days and \t\t    Pay for 15 days and \t    Pay for 7 days and"
+			<< "\n\t\t\t   receive a 15% discount. \t    receive a 10% discount. \t    receive a 5% discount.\n"
+			<< "\n\t\t\t   Without food pass: $150 \t    Without food pass: $75 \t    Without food pass: $35"
+			<< "\n\t\t\t   With food pass: $127.5 \t    With food pass: $67.50 \t    With food pass: $33.25"
+			<< "\n\t\t\t   Save $22.50 \t\t\t    Save $7.50 \t\t\t    Save $1.75\n\n";
 
-	cout << "\n\t\t\tEnter choice 1/2/3 for bulk order or 4 to go back: ";
-	cin >> choice;
+		cout << "\n\t\t\tEnter 1/2/3 for bulk order or 4 to go back: ";
+		cin >> choice;
 
-	if (choice == 4) {
-		cout << "test";
+		switch (choice) {
+		case 1:
+			orderCount = 30;
+			isTrue = false;
+			break;
+		case 2:
+			orderCount = 15;
+			isTrue = false;
+			break;
+		case 3:
+			orderCount = 7;
+			isTrue = false;
+			break;
+		case 4:
+			isTrue = false;
+			break;
+		default:
+			cout << "\n\t\t\tPlease enter a number relevant to the menu...";
+		}
+	} while (isTrue);
+
+	if (orderCount > 0) {
+		do {
+			bulkOrderFile.open("BulkOrder_file.csv", ios::app);
+			if (bulkOrderFile.good()) {
+				bulkOrderFile << accDetails[0] << "," << choice << "," << orderCount << endl;
+				cout << "\n\t\t\tYour purchase of option " << choice << " was successful! You now have " << orderCount << " days of free meals.";
+				cout << "\n\t\t\t";
+				system("pause");
+				break;
+			}
+			else { // error message
+				cout << "\n\t\t\tError: Could not open bulk order file. Please check if the bulk order file is currently open.";
+				cout << "\n\t\t\tTry again? Y/N: ";
+				cin >> errorChoice;
+				if (tolower(errorChoice) == 'y') {
+					continue;
+				}
+				else {
+					cout << "\n\t\t\tYou canceled your bulk order.";
+					cout << "\n\t\t\t";
+					system("pause");
+					break;
+				}
+			}
+		} while (true);
 	}
-	else {
-		addBulkCode(choice, accDetails);
-	}
+	bulkOrderFile.close();
 }
 
 // Code by Jakob
@@ -1767,30 +1819,8 @@ void createFiles() {
 	if (!bulkOrderFile.good()) {
 		ofstream bulkOrderFile;
 		bulkOrderFile.open("BulkOrder_file.csv");
-		bulkOrderFile << "USER_ID" << "," << "BULK_ID" << "," << "ORDER_COUNT" << "," << endl;
+		bulkOrderFile << "USER_ID" << "," << "BULK_ID" << "," << "ORDER_COUNT" << endl;
 	}
-}
-
-// Code by Jakob
-// This functions adds the chosen bulk ID and respective order amounts to BulkOrder_file.csv
-void addBulkCode(int choice, vector<string> accDetails) {
-	ofstream bulkOrderFile;
-	int orderCount;
-
-	bulkOrderFile.open("BulkOrder_file.csv", ios::app);
-
-	if (choice == 1) {
-		orderCount = 30;
-	}
-	else if (choice == 2) {
-		orderCount = 15;
-	}
-	else {
-		orderCount = 7;
-	}
-
-	bulkOrderFile << accDetails[0] << "," << choice << "," << orderCount << endl;
-	bulkOrderFile.close();
 }
 
 //Code by Jay
