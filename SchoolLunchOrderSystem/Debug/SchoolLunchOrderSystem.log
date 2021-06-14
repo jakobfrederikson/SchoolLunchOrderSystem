@@ -1,5 +1,4 @@
 ﻿  SchoolLunchOrderSystem.cpp
-<<<<<<< HEAD
 C:\Users\270029667\OneDrive - UP Education\Desktop\CS103\SchoolLunchOrderSystem\SchoolLunchOrderSystem\SchoolLunchOrderSystem.cpp(177,13): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
 C:\Users\270029667\OneDrive - UP Education\Desktop\CS103\SchoolLunchOrderSystem\SchoolLunchOrderSystem\SchoolLunchOrderSystem.cpp(856,12): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
 C:\Users\270029667\OneDrive - UP Education\Desktop\CS103\SchoolLunchOrderSystem\SchoolLunchOrderSystem\SchoolLunchOrderSystem.cpp(991,20): warning C4018: '<': signed/unsigned mismatch
@@ -45,52 +44,5 @@ C:\Users\270029667\OneDrive - UP Education\Desktop\CS103\SchoolLunchOrderSystem\
 C:\Users\270029667\OneDrive - UP Education\Desktop\CS103\SchoolLunchOrderSystem\SchoolLunchOrderSystem\SchoolLunchOrderSystem.cpp(3537,28): warning C4018: '<': signed/unsigned mismatch
 C:\Users\270029667\OneDrive - UP Education\Desktop\CS103\SchoolLunchOrderSystem\SchoolLunchOrderSystem\SchoolLunchOrderSystem.cpp(3147,24): warning C4101: 'isTrue3': unreferenced local variable
 C:\Users\270029667\OneDrive - UP Education\Desktop\CS103\SchoolLunchOrderSystem\SchoolLunchOrderSystem\SchoolLunchOrderSystem.cpp(1170): warning C4715: 'checkAccount': not all control paths return a value
+  LINK : C:\Users\270029667\OneDrive - UP Education\Desktop\CS103\SchoolLunchOrderSystem\SchoolLunchOrderSystem\Debug\SchoolLunchOrderSystem.exe not found or not built by the last incremental link; performing full link
   SchoolLunchOrderSystem.vcxproj -> C:\Users\270029667\OneDrive - UP Education\Desktop\CS103\SchoolLunchOrderSystem\SchoolLunchOrderSystem\Debug\SchoolLunchOrderSystem.exe
-=======
-C:\Users\test\Desktop\CS103\SchoolLunchOrderSystem\SchoolLunchOrderSystem\SchoolLunchOrderSystem\SchoolLunchOrderSystem.cpp(177,13): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
-C:\Users\test\Desktop\CS103\SchoolLunchOrderSystem\SchoolLunchOrderSystem\SchoolLunchOrderSystem\SchoolLunchOrderSystem.cpp(851,12): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
-C:\Users\test\Desktop\CS103\SchoolLunchOrderSystem\SchoolLunchOrderSystem\SchoolLunchOrderSystem\SchoolLunchOrderSystem.cpp(986,20): warning C4018: '<': signed/unsigned mismatch
-C:\Users\test\Desktop\CS103\SchoolLunchOrderSystem\SchoolLunchOrderSystem\SchoolLunchOrderSystem\SchoolLunchOrderSystem.cpp(1206,6): warning C4101: 'i': unreferenced local variable
-C:\Users\test\Desktop\CS103\SchoolLunchOrderSystem\SchoolLunchOrderSystem\SchoolLunchOrderSystem\SchoolLunchOrderSystem.cpp(1274,6): warning C4101: 'complaintID': unreferenced local variable
-C:\Users\test\Desktop\CS103\SchoolLunchOrderSystem\SchoolLunchOrderSystem\SchoolLunchOrderSystem\SchoolLunchOrderSystem.cpp(1369,14): warning C4101: 'flag': unreferenced local variable
-C:\Users\test\Desktop\CS103\SchoolLunchOrderSystem\SchoolLunchOrderSystem\SchoolLunchOrderSystem\SchoolLunchOrderSystem.cpp(1490,26): warning C4101: 'foodNum': unreferenced local variable
-C:\Users\test\Desktop\CS103\SchoolLunchOrderSystem\SchoolLunchOrderSystem\SchoolLunchOrderSystem\SchoolLunchOrderSystem.cpp(1708,48): warning C4018: '<': signed/unsigned mismatch
-C:\Users\test\Desktop\CS103\SchoolLunchOrderSystem\SchoolLunchOrderSystem\SchoolLunchOrderSystem\SchoolLunchOrderSystem.cpp(1713,53): warning C4018: '<': signed/unsigned mismatch
-C:\Users\test\Desktop\CS103\SchoolLunchOrderSystem\SchoolLunchOrderSystem\SchoolLunchOrderSystem\SchoolLunchOrderSystem.cpp(1923,20): warning C4018: '<': signed/unsigned mismatch
-C:\Users\test\Desktop\CS103\SchoolLunchOrderSystem\SchoolLunchOrderSystem\SchoolLunchOrderSystem\SchoolLunchOrderSystem.cpp(1960,25): warning C4018: '<': signed/unsigned mismatch
-C:\Users\test\Desktop\CS103\SchoolLunchOrderSystem\SchoolLunchOrderSystem\SchoolLunchOrderSystem\SchoolLunchOrderSystem.cpp(2060,20): warning C4018: '<': signed/unsigned mismatch
-C:\Users\test\Desktop\CS103\SchoolLunchOrderSystem\SchoolLunchOrderSystem\SchoolLunchOrderSystem\SchoolLunchOrderSystem.cpp(2108,21): warning C4018: '<': signed/unsigned mismatch
-C:\Users\test\Desktop\CS103\SchoolLunchOrderSystem\SchoolLunchOrderSystem\SchoolLunchOrderSystem\SchoolLunchOrderSystem.cpp(2194,25): warning C4018: '<': signed/unsigned mismatch
-C:\Users\test\Desktop\CS103\SchoolLunchOrderSystem\SchoolLunchOrderSystem\SchoolLunchOrderSystem\SchoolLunchOrderSystem.cpp(2234,25): warning C4018: '<': signed/unsigned mismatch
-C:\Users\test\Desktop\CS103\SchoolLunchOrderSystem\SchoolLunchOrderSystem\SchoolLunchOrderSystem\SchoolLunchOrderSystem.cpp(2295,20): warning C4018: '<': signed/unsigned mismatch
-C:\Users\test\Desktop\CS103\SchoolLunchOrderSystem\SchoolLunchOrderSystem\SchoolLunchOrderSystem\SchoolLunchOrderSystem.cpp(2296,21): warning C4018: '<': signed/unsigned mismatch
-C:\Users\test\Desktop\CS103\SchoolLunchOrderSystem\SchoolLunchOrderSystem\SchoolLunchOrderSystem\SchoolLunchOrderSystem.cpp(2309,20): warning C4018: '<': signed/unsigned mismatch
-C:\Users\test\Desktop\CS103\SchoolLunchOrderSystem\SchoolLunchOrderSystem\SchoolLunchOrderSystem\SchoolLunchOrderSystem.cpp(2310,21): warning C4018: '<': signed/unsigned mismatch
-C:\Users\test\Desktop\CS103\SchoolLunchOrderSystem\SchoolLunchOrderSystem\SchoolLunchOrderSystem\SchoolLunchOrderSystem.cpp(2333,20): warning C4018: '<': signed/unsigned mismatch
-C:\Users\test\Desktop\CS103\SchoolLunchOrderSystem\SchoolLunchOrderSystem\SchoolLunchOrderSystem\SchoolLunchOrderSystem.cpp(2359,20): warning C4018: '<': signed/unsigned mismatch
-C:\Users\test\Desktop\CS103\SchoolLunchOrderSystem\SchoolLunchOrderSystem\SchoolLunchOrderSystem\SchoolLunchOrderSystem.cpp(2416,20): warning C4018: '<': signed/unsigned mismatch
-C:\Users\test\Desktop\CS103\SchoolLunchOrderSystem\SchoolLunchOrderSystem\SchoolLunchOrderSystem\SchoolLunchOrderSystem.cpp(2417,21): warning C4018: '<': signed/unsigned mismatch
-C:\Users\test\Desktop\CS103\SchoolLunchOrderSystem\SchoolLunchOrderSystem\SchoolLunchOrderSystem\SchoolLunchOrderSystem.cpp(2425,20): warning C4018: '<': signed/unsigned mismatch
-C:\Users\test\Desktop\CS103\SchoolLunchOrderSystem\SchoolLunchOrderSystem\SchoolLunchOrderSystem\SchoolLunchOrderSystem.cpp(2426,21): warning C4018: '<': signed/unsigned mismatch
-C:\Users\test\Desktop\CS103\SchoolLunchOrderSystem\SchoolLunchOrderSystem\SchoolLunchOrderSystem\SchoolLunchOrderSystem.cpp(2434,20): warning C4018: '<': signed/unsigned mismatch
-C:\Users\test\Desktop\CS103\SchoolLunchOrderSystem\SchoolLunchOrderSystem\SchoolLunchOrderSystem\SchoolLunchOrderSystem.cpp(2435,21): warning C4018: '<': signed/unsigned mismatch
-C:\Users\test\Desktop\CS103\SchoolLunchOrderSystem\SchoolLunchOrderSystem\SchoolLunchOrderSystem\SchoolLunchOrderSystem.cpp(2384,7): warning C4101: 'storeChar': unreferenced local variable
-C:\Users\test\Desktop\CS103\SchoolLunchOrderSystem\SchoolLunchOrderSystem\SchoolLunchOrderSystem\SchoolLunchOrderSystem.cpp(2490,20): warning C4018: '<': signed/unsigned mismatch
-C:\Users\test\Desktop\CS103\SchoolLunchOrderSystem\SchoolLunchOrderSystem\SchoolLunchOrderSystem\SchoolLunchOrderSystem.cpp(2491,21): warning C4018: '<': signed/unsigned mismatch
-C:\Users\test\Desktop\CS103\SchoolLunchOrderSystem\SchoolLunchOrderSystem\SchoolLunchOrderSystem\SchoolLunchOrderSystem.cpp(2499,20): warning C4018: '<': signed/unsigned mismatch
-C:\Users\test\Desktop\CS103\SchoolLunchOrderSystem\SchoolLunchOrderSystem\SchoolLunchOrderSystem\SchoolLunchOrderSystem.cpp(2500,21): warning C4018: '<': signed/unsigned mismatch
-C:\Users\test\Desktop\CS103\SchoolLunchOrderSystem\SchoolLunchOrderSystem\SchoolLunchOrderSystem\SchoolLunchOrderSystem.cpp(2508,20): warning C4018: '<': signed/unsigned mismatch
-C:\Users\test\Desktop\CS103\SchoolLunchOrderSystem\SchoolLunchOrderSystem\SchoolLunchOrderSystem\SchoolLunchOrderSystem.cpp(2509,21): warning C4018: '<': signed/unsigned mismatch
-C:\Users\test\Desktop\CS103\SchoolLunchOrderSystem\SchoolLunchOrderSystem\SchoolLunchOrderSystem\SchoolLunchOrderSystem.cpp(2639,20): warning C4018: '<': signed/unsigned mismatch
-C:\Users\test\Desktop\CS103\SchoolLunchOrderSystem\SchoolLunchOrderSystem\SchoolLunchOrderSystem\SchoolLunchOrderSystem.cpp(3020,24): warning C4018: '<': signed/unsigned mismatch
-C:\Users\test\Desktop\CS103\SchoolLunchOrderSystem\SchoolLunchOrderSystem\SchoolLunchOrderSystem\SchoolLunchOrderSystem.cpp(3090,28): warning C4018: '<': signed/unsigned mismatch
-C:\Users\test\Desktop\CS103\SchoolLunchOrderSystem\SchoolLunchOrderSystem\SchoolLunchOrderSystem\SchoolLunchOrderSystem.cpp(3096,28): warning C4018: '<': signed/unsigned mismatch
-C:\Users\test\Desktop\CS103\SchoolLunchOrderSystem\SchoolLunchOrderSystem\SchoolLunchOrderSystem\SchoolLunchOrderSystem.cpp(2633,24): warning C4101: 'isTrue3': unreferenced local variable
-C:\Users\test\Desktop\CS103\SchoolLunchOrderSystem\SchoolLunchOrderSystem\SchoolLunchOrderSystem\SchoolLunchOrderSystem.cpp(3149,20): warning C4018: '<': signed/unsigned mismatch
-C:\Users\test\Desktop\CS103\SchoolLunchOrderSystem\SchoolLunchOrderSystem\SchoolLunchOrderSystem\SchoolLunchOrderSystem.cpp(3456,24): warning C4018: '<': signed/unsigned mismatch
-C:\Users\test\Desktop\CS103\SchoolLunchOrderSystem\SchoolLunchOrderSystem\SchoolLunchOrderSystem\SchoolLunchOrderSystem.cpp(3526,28): warning C4018: '<': signed/unsigned mismatch
-C:\Users\test\Desktop\CS103\SchoolLunchOrderSystem\SchoolLunchOrderSystem\SchoolLunchOrderSystem\SchoolLunchOrderSystem.cpp(3532,28): warning C4018: '<': signed/unsigned mismatch
-C:\Users\test\Desktop\CS103\SchoolLunchOrderSystem\SchoolLunchOrderSystem\SchoolLunchOrderSystem\SchoolLunchOrderSystem.cpp(3142,24): warning C4101: 'isTrue3': unreferenced local variable
-C:\Users\test\Desktop\CS103\SchoolLunchOrderSystem\SchoolLunchOrderSystem\SchoolLunchOrderSystem\SchoolLunchOrderSystem.cpp(1165): warning C4715: 'checkAccount': not all control paths return a value
-  SchoolLunchOrderSystem.vcxproj -> C:\Users\test\Desktop\CS103\SchoolLunchOrderSystem\SchoolLunchOrderSystem\SchoolLunchOrderSystem\Debug\SchoolLunchOrderSystem.exe
->>>>>>> 7f68afc5815e6f719bd13415c406f4bf39fbcc3f
