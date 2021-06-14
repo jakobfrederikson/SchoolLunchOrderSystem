@@ -302,51 +302,56 @@ void printContactLocationDetails() { // Jay's code
 void loginRegistrationScreen() { // Code written by Jakob
 	int choice, registerChoice;
 
-	system("cls");
-	cout << "\n\t\t\t|----------------------------|"
-		<< "\n\t\t\t|     LOG IN / REGISTER      |"
-		<< "\n\t\t\t|----------------------------|";
-	cout << "\n\t\t\t|1. Login                    |";
-	cout << "\n\t\t\t|2. Register                 |";
-	cout << "\n\t\t\t|3. Back                     |";
-	cout << "\n\t\t\t|                            |";
-	cout << "\n\t\t\t|Enter choice                |: ";
-	cin >> choice;
-
-	if (choice == 1) {
-		loginScreen();
-	}
-	else if (choice == 2) {
+	do {
 		system("cls");
 		cout << "\n\t\t\t|----------------------------|"
-			<< "\n\t\t\t|      REGISTER ACCOUNT      |"
+			<< "\n\t\t\t|     LOG IN / REGISTER      |"
 			<< "\n\t\t\t|----------------------------|";
-		cout << "\n\t\t\t|1. Staff account            |";
-		cout << "\n\t\t\t|2. Parent account           |";
+		cout << "\n\t\t\t|1. Login                    |";
+		cout << "\n\t\t\t|2. Register                 |";
 		cout << "\n\t\t\t|3. Back                     |";
 		cout << "\n\t\t\t|                            |";
 		cout << "\n\t\t\t|Enter choice                |: ";
-		cin >> registerChoice;
+		cin >> choice;
 
-		if (registerChoice == 1) {
-			registerStaff();
+		if (choice == 1) {
+			loginScreen();
+			break;
 		}
-		else if (registerChoice == 2) {
-			registerParent(); //code by jay
+		else if (choice == 2) {
+			system("cls");
+			cout << "\n\t\t\t|----------------------------|"
+				<< "\n\t\t\t|      REGISTER ACCOUNT      |"
+				<< "\n\t\t\t|----------------------------|";
+			cout << "\n\t\t\t|1. Staff account            |";
+			cout << "\n\t\t\t|2. Parent account           |";
+			cout << "\n\t\t\t|3. Back                     |";
+			cout << "\n\t\t\t|                            |";
+			cout << "\n\t\t\t|Enter choice                |: ";
+			cin >> registerChoice;
+
+			if (registerChoice == 1) {
+				registerStaff();
+				break;
+			}
+			else if (registerChoice == 2) {
+				registerParent(); //code by jay
+				break;
+			}
+			else if (registerChoice == 3) {
+				continue;
+			}
+			else {
+				cout << "\n\t\t\tPlease enter a number relevant to the given menu.\n";
+			}
 		}
-		else if (registerChoice == 3) {
-			loginRegistrationScreen();
+		else if (choice == 3) {
+			break;
 		}
 		else {
 			cout << "\n\t\t\tPlease enter a number relevant to the given menu.\n";
 		}
-	}
-	else if (choice == 3) {
-		printMenuList();
-	}
-	else {
-		cout << "\n\t\t\tPlease enter a number relevant to the given menu.\n";
-	}
+	} while (true);
 }
 
 // Code written by Jakob
