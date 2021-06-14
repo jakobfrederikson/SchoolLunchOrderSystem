@@ -226,8 +226,6 @@ vector<BulkPayment> getAllBulkDetails();
 
 int main()
 {
-	//gohere3
-	// Code written by Jay
 	createFiles();
 	return printMenuList();
 }
