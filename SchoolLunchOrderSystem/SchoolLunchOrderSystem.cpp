@@ -205,6 +205,7 @@ void createFoodMenuList();
 void updateMenuList();
 void getFoodMenuList(string(*)[10][3]);
 void createFiles();
+void adminScreen();
 
 void orderFood(vector<string>);
 vector<Order>getFoodOrderDetails(vector<Order>, int);
@@ -822,7 +823,8 @@ void registerParent() {
 				loginFile << parentRegister.login.loginID << "," << parentRegister.login.userForeignID << "," << parentRegister.login.username << "," << parentRegister.login.password << endl;
 				loginFile.close();
 
-				cout << "\n\t\t\tAccount has been successfully created\n";
+				cout << "\n\t\t\tAccount has been successfully created";
+				cout << "\n\t\t\t";
 				system("pause");
 				break;
 			}
@@ -1042,19 +1044,6 @@ void adminLogin() {
 	int loginAttempt = 0;
 	int maxLoginAttempt = 3;
 
-	// Check if admin file exists.
-	//bool file_check = doesFileExist(adminptr);
-	//if (file_check == 0) {
-	//	system("cls");
-	//	cout << "\n\t\t\tADMIN FILE DOESN'T EXIST . . .";
-	//	ofstream adminFile;
-	//	adminFile.open("Admin_file.csv", ios::out);
-	//	adminFile << "admin" << "," << "cs103" << endl; // ADMIN USERNAME AND PASSWORD HERE
-	//	adminFile.close();
-	//	cout << "\n\t\t\t";
-	//	system("pause");
-	//}
-
 	system("cls");
 	ifstream adminFile;
 	cout << "\n\t\t\t|----------------------------|"
@@ -1094,8 +1083,7 @@ void adminLogin() {
 
 		}
 		else {
-			cout << "\n\t\t\tYou have logged in with an admin account.\n\n\t\t\t";
-			system("pause");
+			adminScreen();
 			break;
 		}
 	} while (true);
@@ -1778,6 +1766,8 @@ void createFiles() {
 		ofstream loginFile;
 		loginFile.open("Login_file.csv", ios::out);
 		loginFile << "PRIMARY_KEY" << "," << "FOREIGN_KEY" << "," << "USERNAME" << "," << "PASSWORD" << endl;
+		loginFile << "210157JS" << "," << "280157JS" << "," << "jakobUser" << "," << "jak0bPass" << endl; //       DEFAULT LOGIN, DELETE IN FINAL BUILD
+		loginFile << "210159KX" << "," << "270159KX" << "," << "testaccount" << "," << "Testaccount12" << endl; // DEFAULT LOGIN, DELETE IN FINAL BUILD
 		loginFile.close();
 	}
 
@@ -1786,6 +1776,8 @@ void createFiles() {
 		parentFile.open("Parent_file.csv", ios::out);
 		parentFile << "LOGIN_ID" << "," << "NAME" << "," << "GENDER" << "," << "D.O.B" << "," << "CONTACT_NUM" << "," << "EMAIL"
 			<< "," << "CHILD_NAME" << "," << "ROOM_NUM" << "," << "VISA_NUM" << "," << "VISA_EXPIRY" << endl;
+		parentFile << "270159KX" << "," << "Jay Parent" << ", " << "Female" << "," << "5/06/1986" << "," << "123456789" << "," << "jay@gmail.com" // DEFAULT LOGIN, DELETE IN FINAL BUILD
+			<< "," << "Jay's Child" << "," << "69" << "," << "69696969" << "," << "5/4/2024" << endl; //                                             DEFAULT LOGIN, DELETE IN FINAL BUILD
 		parentFile.close();
 	}
 
@@ -1794,6 +1786,8 @@ void createFiles() {
 		staffFile.open("Staff_file.csv", ios::out);
 		staffFile << "LOGIN_ID" << "," << "NAME" << "," << "GENDER" << "," << "D.O.B" << "," << "CONTACT_NUM" << "," << "EMAIL"
 			<< "," << "VISA_NUM" << "," << "VISA_EXPIRY" << endl;
+		staffFile << "280157JS" << "," << "Jakob Staff" << "," << "Male" << "," << "12/03/1976" << "," << "1223466742" << "," << "jakob@gmail.com" // DEFAULT LOGIN, DELETE IN FINAL BUILD
+			<< "," << "12356778" << "," << "3/5/2024" << endl; //                                                                                     DEFAULT LOGIN, DELETE IN FINAL BUILD
 		staffFile.close();
 	}
 
@@ -3572,4 +3566,59 @@ void updateStaffDetails(string userID) {
 			<< "\n\t\t\t|--------------------------------------------|\n\t\t\t";
 		system("pause");
 	}
+}
+
+// Code by Jakob
+// this function shows the different options for the admin once they've logged in.
+void adminScreen() {
+	system("cls");
+	int choice;
+	bool isTrue = true;
+
+	do {
+		system("cls");
+		cout << "\n\t\t\t|---------------------------|";
+		cout << "\n\t\t\t|        ADMIN SCREEN       |";
+		cout << "\n\t\t\t|---------------------------|";
+		cout << "\n\t\t\t|1. Menu Update             |";
+		cout << "\n\t\t\t|2. Daily Order Report      |";
+		cout << "\n\t\t\t|3. Weekly Sales Report     |";
+		cout << "\n\t\t\t|4. Pending Payment Report  |";
+		cout << "\n\t\t\t|5. Weekly Complaint        |";
+		cout << "\n\t\t\t|6. Exit                    |";
+		cout << "\n\t\t\t|---------------------------|";
+		cout << "\n\t\t\t Enter option: ";
+		cin >> choice;
+
+		switch (choice) {
+		case 1:
+			cout << "\n\t\t\tMenu update";
+			cout << "\n\t\t\t";
+			system("pause");
+			break;
+		case 2:
+			cout << "\n\t\t\tDaily Order Report";
+			cout << "\n\t\t\t";
+			system("pause");
+			break;
+		case 3:
+			cout << "\n\t\t\tWeekly sales report";
+			cout << "\n\t\t\t";
+			system("pause");
+			break;
+		case 4: // Written by Jakob
+			cout << "\n\t\t\tPending payment report";
+			cout << "\n\t\t\t";
+			system("pause");
+			break;
+		case 5:
+			cout << "\n\t\t\tWeekly Complaint";
+			cout << "\n\t\t\t";
+			system("pause");
+			break;
+		case 6:
+			isTrue = false;
+			break;
+		}
+	} while (isTrue);
 }
