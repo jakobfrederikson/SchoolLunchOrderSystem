@@ -1,47 +1,49 @@
 ﻿  SchoolLunchOrderSystem.cpp
 C:\Users\270029667\OneDrive - UP Education\Desktop\CS103\SchoolLunchOrderSystem\SchoolLunchOrderSystem\SchoolLunchOrderSystem.cpp(177,13): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
-C:\Users\270029667\OneDrive - UP Education\Desktop\CS103\SchoolLunchOrderSystem\SchoolLunchOrderSystem\SchoolLunchOrderSystem.cpp(858,12): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
-C:\Users\270029667\OneDrive - UP Education\Desktop\CS103\SchoolLunchOrderSystem\SchoolLunchOrderSystem\SchoolLunchOrderSystem.cpp(993,20): warning C4018: '<': signed/unsigned mismatch
+C:\Users\270029667\OneDrive - UP Education\Desktop\CS103\SchoolLunchOrderSystem\SchoolLunchOrderSystem\SchoolLunchOrderSystem.cpp(860,12): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
+C:\Users\270029667\OneDrive - UP Education\Desktop\CS103\SchoolLunchOrderSystem\SchoolLunchOrderSystem\SchoolLunchOrderSystem.cpp(995,20): warning C4018: '<': signed/unsigned mismatch
 C:\Users\270029667\OneDrive - UP Education\Desktop\CS103\SchoolLunchOrderSystem\SchoolLunchOrderSystem\SchoolLunchOrderSystem.cpp(1199,6): warning C4101: 'i': unreferenced local variable
 C:\Users\270029667\OneDrive - UP Education\Desktop\CS103\SchoolLunchOrderSystem\SchoolLunchOrderSystem\SchoolLunchOrderSystem.cpp(1267,6): warning C4101: 'complaintID': unreferenced local variable
 C:\Users\270029667\OneDrive - UP Education\Desktop\CS103\SchoolLunchOrderSystem\SchoolLunchOrderSystem\SchoolLunchOrderSystem.cpp(1362,14): warning C4101: 'flag': unreferenced local variable
-C:\Users\270029667\OneDrive - UP Education\Desktop\CS103\SchoolLunchOrderSystem\SchoolLunchOrderSystem\SchoolLunchOrderSystem.cpp(1483,26): warning C4101: 'foodNum': unreferenced local variable
-C:\Users\270029667\OneDrive - UP Education\Desktop\CS103\SchoolLunchOrderSystem\SchoolLunchOrderSystem\SchoolLunchOrderSystem.cpp(1701,48): warning C4018: '<': signed/unsigned mismatch
-C:\Users\270029667\OneDrive - UP Education\Desktop\CS103\SchoolLunchOrderSystem\SchoolLunchOrderSystem\SchoolLunchOrderSystem.cpp(1706,53): warning C4018: '<': signed/unsigned mismatch
-C:\Users\270029667\OneDrive - UP Education\Desktop\CS103\SchoolLunchOrderSystem\SchoolLunchOrderSystem\SchoolLunchOrderSystem.cpp(1922,20): warning C4018: '<': signed/unsigned mismatch
-C:\Users\270029667\OneDrive - UP Education\Desktop\CS103\SchoolLunchOrderSystem\SchoolLunchOrderSystem\SchoolLunchOrderSystem.cpp(1959,25): warning C4018: '<': signed/unsigned mismatch
-C:\Users\270029667\OneDrive - UP Education\Desktop\CS103\SchoolLunchOrderSystem\SchoolLunchOrderSystem\SchoolLunchOrderSystem.cpp(2059,20): warning C4018: '<': signed/unsigned mismatch
-C:\Users\270029667\OneDrive - UP Education\Desktop\CS103\SchoolLunchOrderSystem\SchoolLunchOrderSystem\SchoolLunchOrderSystem.cpp(2107,21): warning C4018: '<': signed/unsigned mismatch
-C:\Users\270029667\OneDrive - UP Education\Desktop\CS103\SchoolLunchOrderSystem\SchoolLunchOrderSystem\SchoolLunchOrderSystem.cpp(2193,25): warning C4018: '<': signed/unsigned mismatch
-C:\Users\270029667\OneDrive - UP Education\Desktop\CS103\SchoolLunchOrderSystem\SchoolLunchOrderSystem\SchoolLunchOrderSystem.cpp(2233,25): warning C4018: '<': signed/unsigned mismatch
-C:\Users\270029667\OneDrive - UP Education\Desktop\CS103\SchoolLunchOrderSystem\SchoolLunchOrderSystem\SchoolLunchOrderSystem.cpp(2294,20): warning C4018: '<': signed/unsigned mismatch
-C:\Users\270029667\OneDrive - UP Education\Desktop\CS103\SchoolLunchOrderSystem\SchoolLunchOrderSystem\SchoolLunchOrderSystem.cpp(2295,21): warning C4018: '<': signed/unsigned mismatch
-C:\Users\270029667\OneDrive - UP Education\Desktop\CS103\SchoolLunchOrderSystem\SchoolLunchOrderSystem\SchoolLunchOrderSystem.cpp(2308,20): warning C4018: '<': signed/unsigned mismatch
-C:\Users\270029667\OneDrive - UP Education\Desktop\CS103\SchoolLunchOrderSystem\SchoolLunchOrderSystem\SchoolLunchOrderSystem.cpp(2309,21): warning C4018: '<': signed/unsigned mismatch
-C:\Users\270029667\OneDrive - UP Education\Desktop\CS103\SchoolLunchOrderSystem\SchoolLunchOrderSystem\SchoolLunchOrderSystem.cpp(2332,20): warning C4018: '<': signed/unsigned mismatch
-C:\Users\270029667\OneDrive - UP Education\Desktop\CS103\SchoolLunchOrderSystem\SchoolLunchOrderSystem\SchoolLunchOrderSystem.cpp(2358,20): warning C4018: '<': signed/unsigned mismatch
-C:\Users\270029667\OneDrive - UP Education\Desktop\CS103\SchoolLunchOrderSystem\SchoolLunchOrderSystem\SchoolLunchOrderSystem.cpp(2415,20): warning C4018: '<': signed/unsigned mismatch
-C:\Users\270029667\OneDrive - UP Education\Desktop\CS103\SchoolLunchOrderSystem\SchoolLunchOrderSystem\SchoolLunchOrderSystem.cpp(2416,21): warning C4018: '<': signed/unsigned mismatch
-C:\Users\270029667\OneDrive - UP Education\Desktop\CS103\SchoolLunchOrderSystem\SchoolLunchOrderSystem\SchoolLunchOrderSystem.cpp(2424,20): warning C4018: '<': signed/unsigned mismatch
-C:\Users\270029667\OneDrive - UP Education\Desktop\CS103\SchoolLunchOrderSystem\SchoolLunchOrderSystem\SchoolLunchOrderSystem.cpp(2425,21): warning C4018: '<': signed/unsigned mismatch
-C:\Users\270029667\OneDrive - UP Education\Desktop\CS103\SchoolLunchOrderSystem\SchoolLunchOrderSystem\SchoolLunchOrderSystem.cpp(2433,20): warning C4018: '<': signed/unsigned mismatch
-C:\Users\270029667\OneDrive - UP Education\Desktop\CS103\SchoolLunchOrderSystem\SchoolLunchOrderSystem\SchoolLunchOrderSystem.cpp(2434,21): warning C4018: '<': signed/unsigned mismatch
-C:\Users\270029667\OneDrive - UP Education\Desktop\CS103\SchoolLunchOrderSystem\SchoolLunchOrderSystem\SchoolLunchOrderSystem.cpp(2383,7): warning C4101: 'storeChar': unreferenced local variable
-C:\Users\270029667\OneDrive - UP Education\Desktop\CS103\SchoolLunchOrderSystem\SchoolLunchOrderSystem\SchoolLunchOrderSystem.cpp(2489,20): warning C4018: '<': signed/unsigned mismatch
-C:\Users\270029667\OneDrive - UP Education\Desktop\CS103\SchoolLunchOrderSystem\SchoolLunchOrderSystem\SchoolLunchOrderSystem.cpp(2490,21): warning C4018: '<': signed/unsigned mismatch
-C:\Users\270029667\OneDrive - UP Education\Desktop\CS103\SchoolLunchOrderSystem\SchoolLunchOrderSystem\SchoolLunchOrderSystem.cpp(2498,20): warning C4018: '<': signed/unsigned mismatch
-C:\Users\270029667\OneDrive - UP Education\Desktop\CS103\SchoolLunchOrderSystem\SchoolLunchOrderSystem\SchoolLunchOrderSystem.cpp(2499,21): warning C4018: '<': signed/unsigned mismatch
-C:\Users\270029667\OneDrive - UP Education\Desktop\CS103\SchoolLunchOrderSystem\SchoolLunchOrderSystem\SchoolLunchOrderSystem.cpp(2507,20): warning C4018: '<': signed/unsigned mismatch
-C:\Users\270029667\OneDrive - UP Education\Desktop\CS103\SchoolLunchOrderSystem\SchoolLunchOrderSystem\SchoolLunchOrderSystem.cpp(2508,21): warning C4018: '<': signed/unsigned mismatch
-C:\Users\270029667\OneDrive - UP Education\Desktop\CS103\SchoolLunchOrderSystem\SchoolLunchOrderSystem\SchoolLunchOrderSystem.cpp(2638,20): warning C4018: '<': signed/unsigned mismatch
-C:\Users\270029667\OneDrive - UP Education\Desktop\CS103\SchoolLunchOrderSystem\SchoolLunchOrderSystem\SchoolLunchOrderSystem.cpp(3019,24): warning C4018: '<': signed/unsigned mismatch
-C:\Users\270029667\OneDrive - UP Education\Desktop\CS103\SchoolLunchOrderSystem\SchoolLunchOrderSystem\SchoolLunchOrderSystem.cpp(3089,28): warning C4018: '<': signed/unsigned mismatch
-C:\Users\270029667\OneDrive - UP Education\Desktop\CS103\SchoolLunchOrderSystem\SchoolLunchOrderSystem\SchoolLunchOrderSystem.cpp(3095,28): warning C4018: '<': signed/unsigned mismatch
-C:\Users\270029667\OneDrive - UP Education\Desktop\CS103\SchoolLunchOrderSystem\SchoolLunchOrderSystem\SchoolLunchOrderSystem.cpp(2632,24): warning C4101: 'isTrue3': unreferenced local variable
-C:\Users\270029667\OneDrive - UP Education\Desktop\CS103\SchoolLunchOrderSystem\SchoolLunchOrderSystem\SchoolLunchOrderSystem.cpp(3148,20): warning C4018: '<': signed/unsigned mismatch
-C:\Users\270029667\OneDrive - UP Education\Desktop\CS103\SchoolLunchOrderSystem\SchoolLunchOrderSystem\SchoolLunchOrderSystem.cpp(3455,24): warning C4018: '<': signed/unsigned mismatch
-C:\Users\270029667\OneDrive - UP Education\Desktop\CS103\SchoolLunchOrderSystem\SchoolLunchOrderSystem\SchoolLunchOrderSystem.cpp(3525,28): warning C4018: '<': signed/unsigned mismatch
-C:\Users\270029667\OneDrive - UP Education\Desktop\CS103\SchoolLunchOrderSystem\SchoolLunchOrderSystem\SchoolLunchOrderSystem.cpp(3531,28): warning C4018: '<': signed/unsigned mismatch
-C:\Users\270029667\OneDrive - UP Education\Desktop\CS103\SchoolLunchOrderSystem\SchoolLunchOrderSystem\SchoolLunchOrderSystem.cpp(3141,24): warning C4101: 'isTrue3': unreferenced local variable
-C:\Users\270029667\OneDrive - UP Education\Desktop\CS103\SchoolLunchOrderSystem\SchoolLunchOrderSystem\SchoolLunchOrderSystem.cpp(1158): warning C4715: 'checkAccount': not all control paths return a value
+C:\Users\270029667\OneDrive - UP Education\Desktop\CS103\SchoolLunchOrderSystem\SchoolLunchOrderSystem\SchoolLunchOrderSystem.cpp(1493,20): warning C4018: '<': signed/unsigned mismatch
+C:\Users\270029667\OneDrive - UP Education\Desktop\CS103\SchoolLunchOrderSystem\SchoolLunchOrderSystem\SchoolLunchOrderSystem.cpp(1504,20): warning C4018: '<': signed/unsigned mismatch
+C:\Users\270029667\OneDrive - UP Education\Desktop\CS103\SchoolLunchOrderSystem\SchoolLunchOrderSystem\SchoolLunchOrderSystem.cpp(1562,26): warning C4101: 'foodNum': unreferenced local variable
+C:\Users\270029667\OneDrive - UP Education\Desktop\CS103\SchoolLunchOrderSystem\SchoolLunchOrderSystem\SchoolLunchOrderSystem.cpp(1780,48): warning C4018: '<': signed/unsigned mismatch
+C:\Users\270029667\OneDrive - UP Education\Desktop\CS103\SchoolLunchOrderSystem\SchoolLunchOrderSystem\SchoolLunchOrderSystem.cpp(1785,53): warning C4018: '<': signed/unsigned mismatch
+C:\Users\270029667\OneDrive - UP Education\Desktop\CS103\SchoolLunchOrderSystem\SchoolLunchOrderSystem\SchoolLunchOrderSystem.cpp(2001,20): warning C4018: '<': signed/unsigned mismatch
+C:\Users\270029667\OneDrive - UP Education\Desktop\CS103\SchoolLunchOrderSystem\SchoolLunchOrderSystem\SchoolLunchOrderSystem.cpp(2038,25): warning C4018: '<': signed/unsigned mismatch
+C:\Users\270029667\OneDrive - UP Education\Desktop\CS103\SchoolLunchOrderSystem\SchoolLunchOrderSystem\SchoolLunchOrderSystem.cpp(2138,20): warning C4018: '<': signed/unsigned mismatch
+C:\Users\270029667\OneDrive - UP Education\Desktop\CS103\SchoolLunchOrderSystem\SchoolLunchOrderSystem\SchoolLunchOrderSystem.cpp(2186,21): warning C4018: '<': signed/unsigned mismatch
+C:\Users\270029667\OneDrive - UP Education\Desktop\CS103\SchoolLunchOrderSystem\SchoolLunchOrderSystem\SchoolLunchOrderSystem.cpp(2272,25): warning C4018: '<': signed/unsigned mismatch
+C:\Users\270029667\OneDrive - UP Education\Desktop\CS103\SchoolLunchOrderSystem\SchoolLunchOrderSystem\SchoolLunchOrderSystem.cpp(2312,25): warning C4018: '<': signed/unsigned mismatch
+C:\Users\270029667\OneDrive - UP Education\Desktop\CS103\SchoolLunchOrderSystem\SchoolLunchOrderSystem\SchoolLunchOrderSystem.cpp(2373,20): warning C4018: '<': signed/unsigned mismatch
+C:\Users\270029667\OneDrive - UP Education\Desktop\CS103\SchoolLunchOrderSystem\SchoolLunchOrderSystem\SchoolLunchOrderSystem.cpp(2374,21): warning C4018: '<': signed/unsigned mismatch
+C:\Users\270029667\OneDrive - UP Education\Desktop\CS103\SchoolLunchOrderSystem\SchoolLunchOrderSystem\SchoolLunchOrderSystem.cpp(2387,20): warning C4018: '<': signed/unsigned mismatch
+C:\Users\270029667\OneDrive - UP Education\Desktop\CS103\SchoolLunchOrderSystem\SchoolLunchOrderSystem\SchoolLunchOrderSystem.cpp(2388,21): warning C4018: '<': signed/unsigned mismatch
+C:\Users\270029667\OneDrive - UP Education\Desktop\CS103\SchoolLunchOrderSystem\SchoolLunchOrderSystem\SchoolLunchOrderSystem.cpp(2411,20): warning C4018: '<': signed/unsigned mismatch
+C:\Users\270029667\OneDrive - UP Education\Desktop\CS103\SchoolLunchOrderSystem\SchoolLunchOrderSystem\SchoolLunchOrderSystem.cpp(2437,20): warning C4018: '<': signed/unsigned mismatch
+C:\Users\270029667\OneDrive - UP Education\Desktop\CS103\SchoolLunchOrderSystem\SchoolLunchOrderSystem\SchoolLunchOrderSystem.cpp(2494,20): warning C4018: '<': signed/unsigned mismatch
+C:\Users\270029667\OneDrive - UP Education\Desktop\CS103\SchoolLunchOrderSystem\SchoolLunchOrderSystem\SchoolLunchOrderSystem.cpp(2495,21): warning C4018: '<': signed/unsigned mismatch
+C:\Users\270029667\OneDrive - UP Education\Desktop\CS103\SchoolLunchOrderSystem\SchoolLunchOrderSystem\SchoolLunchOrderSystem.cpp(2503,20): warning C4018: '<': signed/unsigned mismatch
+C:\Users\270029667\OneDrive - UP Education\Desktop\CS103\SchoolLunchOrderSystem\SchoolLunchOrderSystem\SchoolLunchOrderSystem.cpp(2504,21): warning C4018: '<': signed/unsigned mismatch
+C:\Users\270029667\OneDrive - UP Education\Desktop\CS103\SchoolLunchOrderSystem\SchoolLunchOrderSystem\SchoolLunchOrderSystem.cpp(2512,20): warning C4018: '<': signed/unsigned mismatch
+C:\Users\270029667\OneDrive - UP Education\Desktop\CS103\SchoolLunchOrderSystem\SchoolLunchOrderSystem\SchoolLunchOrderSystem.cpp(2513,21): warning C4018: '<': signed/unsigned mismatch
+C:\Users\270029667\OneDrive - UP Education\Desktop\CS103\SchoolLunchOrderSystem\SchoolLunchOrderSystem\SchoolLunchOrderSystem.cpp(2462,7): warning C4101: 'storeChar': unreferenced local variable
+C:\Users\270029667\OneDrive - UP Education\Desktop\CS103\SchoolLunchOrderSystem\SchoolLunchOrderSystem\SchoolLunchOrderSystem.cpp(2568,20): warning C4018: '<': signed/unsigned mismatch
+C:\Users\270029667\OneDrive - UP Education\Desktop\CS103\SchoolLunchOrderSystem\SchoolLunchOrderSystem\SchoolLunchOrderSystem.cpp(2569,21): warning C4018: '<': signed/unsigned mismatch
+C:\Users\270029667\OneDrive - UP Education\Desktop\CS103\SchoolLunchOrderSystem\SchoolLunchOrderSystem\SchoolLunchOrderSystem.cpp(2577,20): warning C4018: '<': signed/unsigned mismatch
+C:\Users\270029667\OneDrive - UP Education\Desktop\CS103\SchoolLunchOrderSystem\SchoolLunchOrderSystem\SchoolLunchOrderSystem.cpp(2578,21): warning C4018: '<': signed/unsigned mismatch
+C:\Users\270029667\OneDrive - UP Education\Desktop\CS103\SchoolLunchOrderSystem\SchoolLunchOrderSystem\SchoolLunchOrderSystem.cpp(2586,20): warning C4018: '<': signed/unsigned mismatch
+C:\Users\270029667\OneDrive - UP Education\Desktop\CS103\SchoolLunchOrderSystem\SchoolLunchOrderSystem\SchoolLunchOrderSystem.cpp(2587,21): warning C4018: '<': signed/unsigned mismatch
+C:\Users\270029667\OneDrive - UP Education\Desktop\CS103\SchoolLunchOrderSystem\SchoolLunchOrderSystem\SchoolLunchOrderSystem.cpp(2717,20): warning C4018: '<': signed/unsigned mismatch
+C:\Users\270029667\OneDrive - UP Education\Desktop\CS103\SchoolLunchOrderSystem\SchoolLunchOrderSystem\SchoolLunchOrderSystem.cpp(3098,24): warning C4018: '<': signed/unsigned mismatch
+C:\Users\270029667\OneDrive - UP Education\Desktop\CS103\SchoolLunchOrderSystem\SchoolLunchOrderSystem\SchoolLunchOrderSystem.cpp(3168,28): warning C4018: '<': signed/unsigned mismatch
+C:\Users\270029667\OneDrive - UP Education\Desktop\CS103\SchoolLunchOrderSystem\SchoolLunchOrderSystem\SchoolLunchOrderSystem.cpp(3174,28): warning C4018: '<': signed/unsigned mismatch
+C:\Users\270029667\OneDrive - UP Education\Desktop\CS103\SchoolLunchOrderSystem\SchoolLunchOrderSystem\SchoolLunchOrderSystem.cpp(2711,24): warning C4101: 'isTrue3': unreferenced local variable
+C:\Users\270029667\OneDrive - UP Education\Desktop\CS103\SchoolLunchOrderSystem\SchoolLunchOrderSystem\SchoolLunchOrderSystem.cpp(3227,20): warning C4018: '<': signed/unsigned mismatch
+C:\Users\270029667\OneDrive - UP Education\Desktop\CS103\SchoolLunchOrderSystem\SchoolLunchOrderSystem\SchoolLunchOrderSystem.cpp(3534,24): warning C4018: '<': signed/unsigned mismatch
+C:\Users\270029667\OneDrive - UP Education\Desktop\CS103\SchoolLunchOrderSystem\SchoolLunchOrderSystem\SchoolLunchOrderSystem.cpp(3604,28): warning C4018: '<': signed/unsigned mismatch
+C:\Users\270029667\OneDrive - UP Education\Desktop\CS103\SchoolLunchOrderSystem\SchoolLunchOrderSystem\SchoolLunchOrderSystem.cpp(3610,28): warning C4018: '<': signed/unsigned mismatch
+C:\Users\270029667\OneDrive - UP Education\Desktop\CS103\SchoolLunchOrderSystem\SchoolLunchOrderSystem\SchoolLunchOrderSystem.cpp(3220,24): warning C4101: 'isTrue3': unreferenced local variable
+C:\Users\270029667\OneDrive - UP Education\Desktop\CS103\SchoolLunchOrderSystem\SchoolLunchOrderSystem\SchoolLunchOrderSystem.cpp(1160): warning C4715: 'checkAccount': not all control paths return a value
   SchoolLunchOrderSystem.vcxproj -> C:\Users\270029667\OneDrive - UP Education\Desktop\CS103\SchoolLunchOrderSystem\SchoolLunchOrderSystem\Debug\SchoolLunchOrderSystem.exe

@@ -206,6 +206,8 @@ void updateMenuList();
 void getFoodMenuList(string(*)[10][3]);
 void createFiles();
 void adminScreen();
+bool checkBulkFile(vector<string>);
+int updateBulkOrderCount(vector<string>, int);
 
 void orderFood(vector<string>);
 vector<Order>getFoodOrderDetails(vector<Order>, int);
@@ -1185,9 +1187,7 @@ vector<string> getAccountDetails(string userID) {
 			}
 		}
 	}
-
 	readFile.close();
-
 	return fileData;
 }
 
@@ -1361,10 +1361,12 @@ void chooseBulkOrder(vector<string> accDetails) {
 
 	int choice, flag;
 	int orderCount = 0, i = 0;
+	int totalBulkOrderCount;
 	ofstream bulkOrderFile;
 	ifstream infile;
 	char errorChoice;
 	bool isTrue = true;
+	bool accountExists = false;
 
 	do {
 		system("cls");
@@ -1404,34 +1406,111 @@ void chooseBulkOrder(vector<string> accDetails) {
 
 	if (orderCount > 0) {
 		do {
-			bulkOrderFile.open("BulkOrder_file.csv", ios::app);
-			if (bulkOrderFile.good()) {
-				bulkOrderFile << accDetails[0] << "," << choice << "," << orderCount << endl;
-				cout << "\n\t\t\tYour purchase of option " << choice << " was successful! You now have " << orderCount << " days of free meals.";
-				cout << "\n\t\t\t";
-				system("pause");
-				break;
-			}
-			else { // error message
-				cout << "\n\t\t\tError: Could not open bulk order file. Please check if the bulk order file is currently open.";
-				cout << "\n\t\t\tTry again? Y/N: ";
-				cin >> errorChoice;
-				if (tolower(errorChoice) == 'y') {
-					continue;
-				}
-				else {
-					cout << "\n\t\t\tYou canceled your bulk order.";
+			accountExists = checkBulkFile(accDetails);
+
+			if (accountExists == false) { // if account doesnt exist in file yet
+				bulkOrderFile.open("BulkOrder_file.csv", ios::app);
+				if (bulkOrderFile.good()) {
+					bulkOrderFile << accDetails[0] << "," << orderCount << endl;
+					cout << "\n\t\t\tYour purchase of option " << choice << " was successful! You now have " << orderCount << " days of free meals.";
 					cout << "\n\t\t\t";
 					system("pause");
 					break;
 				}
+				else { // error message
+					cout << "\n\t\t\tError: Could not open bulk order file. Please check if the bulk order file is currently open.";
+					cout << "\n\t\t\tTry again? Y/N: ";
+					cin >> errorChoice;
+					if (tolower(errorChoice) == 'y') {
+						continue;
+					}
+					else {
+						cout << "\n\t\t\tYou canceled your bulk order.";
+						cout << "\n\t\t\t";
+						system("pause");
+						break;
+					}
+				}
 			}
+			else { // if user already has
+				totalBulkOrderCount = updateBulkOrderCount(accDetails, orderCount);
+				cout << "\n\t\t\tPurchase successful! Your total bulk order count is: " << totalBulkOrderCount;
+				cout << "\n\n\t\t\t";
+				system("pause");
+				break;
+			}
+			
 		} while (true);
 	}
 	bulkOrderFile.close();
 }
 
 // Code by Jakob
+// This function checks the order file to see if the user has already ordered a bulk order before.
+bool checkBulkFile(vector<string> accDetails) {
+	ifstream bulkOrderFile;
+	string line, tempStr;
+	bulkOrderFile.open("BulkOrder_file.csv", ios::in);
+
+	while (getline(bulkOrderFile, line)) {
+		stringstream ss(line);
+		while (!ss.eof()) {
+			getline(ss, tempStr, ',');
+			if (tempStr == accDetails[0]) {
+				bulkOrderFile.close();
+				return true;
+			}
+		}
+	}
+	return false;
+	bulkOrderFile.close();
+}
+
+// Code by Jakob
+// This function updates the users bulk order count
+int updateBulkOrderCount(vector<string> accDetails, int orderCount) {
+	ifstream bulkOrderFile;
+	string line, tempStr;
+	vector<string> originalFile;
+	vector<string> updatedFile;
+	int returnValue = 0;
+	bulkOrderFile.open("BulkOrder_file.csv", ios::in);
+
+	// get bulk order file into vector
+	while (getline(bulkOrderFile, line)) {
+		stringstream ss(line);
+		while (!ss.eof()) {
+			getline(ss, tempStr, ',');
+			originalFile.push_back(tempStr);
+		}
+	}
+
+	updatedFile = originalFile;
+	originalFile.clear(); // clear this vector in case a user logs out and another person logs in to add to their bulk order :D
+	bulkOrderFile.close();
+
+	// update users order count in the vector
+	for (int i = 0; i < updatedFile.size(); i++) {
+		if (updatedFile[i] == accDetails[0]) {
+			returnValue = stoi(updatedFile[i + 1]) + orderCount;
+			updatedFile[i + 1] = to_string(returnValue);
+			break;
+		}
+	}
+
+	// upate users order count in the file
+	ofstream updateFile;
+	updateFile.open("BulkOrder_file.csv", ios::out);
+	for (int i = 0; i < updatedFile.size();) {
+		updateFile << updatedFile[i] << "," << updatedFile[i + 1] << endl;
+		i = i + 2;
+	}
+	updateFile.close();
+	return returnValue;
+}
+
+// Code by Jakob
+// This function gets the current date and converts it to a string.
 string getCurrentDate() {
 	tm newtime;
 	time_t now = time(0);
@@ -1813,7 +1892,7 @@ void createFiles() {
 	if (!bulkOrderFile.good()) {
 		ofstream bulkOrderFile;
 		bulkOrderFile.open("BulkOrder_file.csv");
-		bulkOrderFile << "USER_ID" << "," << "BULK_ID" << "," << "ORDER_COUNT" << endl;
+		bulkOrderFile << "USER_ID" << "," << "ORDER_COUNT" << endl;
 	}
 }
 
