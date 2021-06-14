@@ -9,9 +9,9 @@
 #include <vector>
 using namespace std;
 
-// Structures written by Jakob, originally by Jay in an excel sheet
+// Structures written by Jakob and Jay
 struct BulkPayment {
-	int bulkID;
+	string bulkID;
 	int orderCount;
 
 	BulkPayment(int defBulkID = 0, int defOrderCount = 0) {
@@ -86,15 +86,14 @@ struct Complaint {
 };
 
 struct Payment {
-	float totalPrice;
+	float totalPrice, GST, GSTAmount;
 	string paymentID, GSTNumber, foreignKey;
-	float GST, GSTAmount;
 	string typeOfPayment;
 	string date;
 
 	Payment(float defNum = 0.00, float defGST = 0.15, string defTxt = "default") {
 		paymentID = defTxt;
-		GST = defGST, totalPrice = defNum;
+		GST = defGST, totalPrice = defNum, GSTAmount = defNum;
 		typeOfPayment = defTxt, date = defTxt, foreignKey = defTxt;
 	}
 };
@@ -178,7 +177,6 @@ struct FoodMenuList {
 	}
 };
 
-//code written by Jay
 int printMenuList();
 void printBulkDiscounts();
 void printContactLocationDetails();
@@ -224,22 +222,23 @@ vector<Payment>getAllPaymentDetails();
 vector<Login> getAllLoginDetails();
 void updateParentDetails(string);
 void updateStaffDetails(string userID);
+vector<BulkPayment> getAllBulkDetails();
 
 int main()
 {
+	//gohere3
 	// Code written by Jay
 	createFiles();
-	createFoodMenuList();
 	return printMenuList();
 }
 
-// Code written by Jay
+// Code written by Jay and Jakob
+// This function prints the main menu to the user
 int printMenuList() {
 	int choice;
 
-	do {//loop written by Jay
+	do {
 		system("cls");
-		// Code written by Jakob
 		cout << "SCHOOL LUNCH ORDER SYSTEM\n";
 		cout << "*************************\n";
 		cout << "1. Weekly Menu\n";
@@ -666,7 +665,7 @@ void registerParent() {
 		} while (true);
 
 		do {
-			cout << "\t\t\t|Enter Date of birth" << setw(12) << "| "
+			cout << "\t\t\t|Enter Date of birth" << setw(11) << "| "
 				<< "\n\t\t\t|DD/MM/YYYY" << setw(21) << "|: ";
 			getline(cin, parentRegister.dob);
 			if (parentRegister.dob == "")
@@ -679,15 +678,14 @@ void registerParent() {
 			cout << "\t\t\t|Enter Contact Number" << setw(11) << "|: ";
 			cin >> parentRegister.countNum;
 
-			if (to_string(parentRegister.countNum).length() < 9 || to_string(parentRegister.countNum).length() > 10) {
+			if (to_string(parentRegister.countNum).length() < 9 && to_string(parentRegister.countNum).length() > 10) {
 				cout << "\n\t\t\tInvalid input, Please Enter your contact number.\n";
 			}
 			else {
 				cin.ignore();
 				break;
 			}
-
-			break;
+			cin.ignore();
 		} while (true);
 
 		do {
@@ -1439,7 +1437,7 @@ void chooseBulkOrder(vector<string> accDetails) {
 				system("pause");
 				break;
 			}
-			
+
 		} while (true);
 	}
 	bulkOrderFile.close();
@@ -1831,7 +1829,7 @@ void createFiles() {
 	ifstream orderFile("Order_file.csv");
 	ifstream FoodMenu_file("FoodMenu_file.csv");
 	ifstream bulkOrderFile("BulkOrder_file.csv");
-
+	ifstream paymentFile("Payment_file.csv");
 
 	if (!adminFile.good()) {
 		ofstream adminFile;
@@ -1845,8 +1843,6 @@ void createFiles() {
 		ofstream loginFile;
 		loginFile.open("Login_file.csv", ios::out);
 		loginFile << "PRIMARY_KEY" << "," << "FOREIGN_KEY" << "," << "USERNAME" << "," << "PASSWORD" << endl;
-		loginFile << "210157JS" << "," << "280157JS" << "," << "jakobUser" << "," << "jak0bPass" << endl; //       DEFAULT LOGIN, DELETE IN FINAL BUILD
-		loginFile << "210159KX" << "," << "270159KX" << "," << "testaccount" << "," << "Testaccount12" << endl; // DEFAULT LOGIN, DELETE IN FINAL BUILD
 		loginFile.close();
 	}
 
@@ -1855,8 +1851,6 @@ void createFiles() {
 		parentFile.open("Parent_file.csv", ios::out);
 		parentFile << "LOGIN_ID" << "," << "NAME" << "," << "GENDER" << "," << "D.O.B" << "," << "CONTACT_NUM" << "," << "EMAIL"
 			<< "," << "CHILD_NAME" << "," << "ROOM_NUM" << "," << "VISA_NUM" << "," << "VISA_EXPIRY" << endl;
-		parentFile << "270159KX" << "," << "Jay Parent" << ", " << "Female" << "," << "5/06/1986" << "," << "123456789" << "," << "jay@gmail.com" // DEFAULT LOGIN, DELETE IN FINAL BUILD
-			<< "," << "Jay's Child" << "," << "69" << "," << "69696969" << "," << "5/4/2024" << endl; //                                             DEFAULT LOGIN, DELETE IN FINAL BUILD
 		parentFile.close();
 	}
 
@@ -1865,8 +1859,6 @@ void createFiles() {
 		staffFile.open("Staff_file.csv", ios::out);
 		staffFile << "LOGIN_ID" << "," << "NAME" << "," << "GENDER" << "," << "D.O.B" << "," << "CONTACT_NUM" << "," << "EMAIL"
 			<< "," << "VISA_NUM" << "," << "VISA_EXPIRY" << endl;
-		staffFile << "280157JS" << "," << "Jakob Staff" << "," << "Male" << "," << "12/03/1976" << "," << "1223466742" << "," << "jakob@gmail.com" // DEFAULT LOGIN, DELETE IN FINAL BUILD
-			<< "," << "12356778" << "," << "3/5/2024" << endl; //                                                                                     DEFAULT LOGIN, DELETE IN FINAL BUILD
 		staffFile.close();
 	}
 
@@ -1881,8 +1873,7 @@ void createFiles() {
 	if (!orderFile.good()) {
 		ofstream orderFile;
 		orderFile.open("Order_file.csv", ios::out);
-		orderFile << "ORDER_NUM" << "," << "ORDER_DATE" << "," << "MEAL_NAME" << "," << "QUANTITY" << "," << "PRICE"
-			<< "," << "PAYMENT_STATUS" << "," << "DIETARY_PREF" << endl;
+		orderFile << "ORDER_NUM" << "," << "FOREIGN_KEY" << "," << "DATE" << "," << "ITEM_NAME" << "," << "QUANTITY" << "," << "PAYMENT_STATUS" << endl;
 	}
 
 	if (!FoodMenu_file.good()) {
@@ -1893,6 +1884,12 @@ void createFiles() {
 		ofstream bulkOrderFile;
 		bulkOrderFile.open("BulkOrder_file.csv");
 		bulkOrderFile << "USER_ID" << "," << "ORDER_COUNT" << endl;
+	}
+
+	if (!paymentFile.good()) {
+		ofstream paymentFile;
+		paymentFile.open("Payment_file.csv");
+		paymentFile << "PAYMENT_ID" << "," << "FOREIGN_KEY" << "," << "GST_NUMBER" << "," << "GST_AMOUNT" << "," << "TYPE_OF_PAYMENT" << "," << "BULK_PAYMENT_DISCOUNT" << "," << "TOTAL_PRICE" << "," << "DATE" << endl;
 	}
 }
 
@@ -2157,12 +2154,16 @@ vector<Order> getFoodOrderDetails(vector<Order> order, int orderNum) {
 //Code by Jay
 //This function lets the user checkout there order
 void checkoutOrder(vector<Order> order, vector<string> user) {
-	float subTotal = 0, gstAmount = 0;
-	int numChoice, foodPass = 2;
-	bool isTrue, isTrue2, usedFoodPass = false;
+	float subTotal = 0, gstAmount = 0, discount = 0.00, foodPass = 5.00;
+	int numChoice, num;
+	bool isTrue, isTrue2, isTrue3, isTrue4, isTrue5, usedFoodPass;
 	string uniqueID = "", gstNumber, gstID;
+	vector<BulkPayment> vectBulk;
 	struct Payment payment;
 	struct Order ord;
+	char choice;
+
+	//vectBulk = getAllBulkDetails();
 
 	system("cls");
 	cout << setprecision(2);
@@ -2170,96 +2171,231 @@ void checkoutOrder(vector<Order> order, vector<string> user) {
 		cout << "\n\t\t\t*****No Data Found*****\n\t\t\t";
 	}
 	else {
-		cout << "\n\t\t\t Date: " << getCurrentDate() << endl
-			<< "\n\t\t\t-----------------------------------"
-			<< "\n\t\t\t|           School Name           |"
-			<< "\n\t\t\t|---------------------------------|"
-			<< "\n\t\t\t|            ORDER FOR            |";
-		if (user[0].substr(0, 3) == "270") {
-			cout << "\n\t\t\t| Student Name: " << user[6]
-				<< "\n\t\t\t| Student Room no.: " << user[7];
-		}
-		else {
-			cout << "\n\t\t\t| Staff Name: " << user[1];
-		}
-		cout << "\n\t\t\t|---------------------------------|";
-		for (int i = 0; i < order.size(); i++) {
-			payment.totalPrice += order[i].price * order[i].quantity;
-			cout << "\n\t\t\tOrder Date: " << order[i].orderDate << endl
-				<< "\n\t\t\tItem Name: " << order[i].itemName << endl
-				<< "\n\t\t\tOrder Quantity: " << order[i].quantity << endl
-				<< "\n\t\t\tPrice: $" << order[i].price << endl
-				<< "\n\t\t\t------------------------------------" << endl;
-		}
-		cout << "\n\t\t\tTOTAL: $" << payment.totalPrice << "\n\t\t\t";
-
 		do {
-			isTrue = true, isTrue2 = true;
-			cout << "\n\t\t\tPress 1 to proceed to checkout"
-				<< "\n\t\t\tPress 2 to exit"
-				<< "\n\t\t\tChoose option: ";
+			system("cls");
+			cout << "\n\t\t\t Date: " << getCurrentDate() << endl
+				<< "\n\t\t\t-----------------------------------"
+				<< "\n\t\t\t|           School Name           |"
+				<< "\n\t\t\t|---------------------------------|"
+				<< "\n\t\t\t|            ORDER FOR            |";
+			if (user[0].substr(0, 3) == "270") {
+				cout << "\n\t\t\t| Student Name: " << user[6]
+					<< "\n\t\t\t| Student Room no.: " << user[7];
+			}
+			else {
+				cout << "\n\t\t\t| Staff Name: " << user[1];
+			}
+			cout << "\n\t\t\t|---------------------------------|";
+			for (int i = 0; i < order.size(); i++) {
+				payment.totalPrice += order[i].price * order[i].quantity;
+				cout << "\n\t\t\tOrder Date: " << order[i].orderDate << endl
+					<< "\n\t\t\tItem Name: " << order[i].itemName << endl
+					<< "\n\t\t\tOrder Quantity: " << order[i].quantity << endl
+					<< "\n\t\t\tPrice: $" << order[i].price << endl
+					<< "\n\t\t\t------------------------------------" << endl;
+			}
+			cout << "\n\t\t\tTOTAL: $" << payment.totalPrice << "\n\t\t\t";
+
+
+			isTrue = true, isTrue2 = true, isTrue3 = true, isTrue4 = true, isTrue5 = true, usedFoodPass = false;
+			cout << "\n\t\t\t|---------------------------------|"
+				<< "\n\t\t\t| Press 1 to proceed to checkout  |"
+				<< "\n\t\t\t| Press 2 to exit                 |"
+				<< "\n\t\t\t|---------------------------------|"
+				<< "\n\t\t\t| Choose option: ";
 			cin >> numChoice;
 
 			switch (numChoice) {
 			case 1:
 				do {
-					cout << "\n\t\t\tChoose type of Payment"
-						<< "\n\t\t\tPress 1 VISA"
-						<< "\n\t\t\tPress 2 American Express"
-						<< "\n\t\t\tPress 3 Mastercard"
-						<< "\n\t\t\tPress 4 to exit"
-						<< "\n\t\t\tChoose option: ";
-					cin >> numChoice;
-
-					switch (numChoice) {
-					case 1:
-						payment.typeOfPayment = "VISA";
-						isTrue2 = false;
-						break;
-					case 2:
-						payment.typeOfPayment = "American Express";
-						isTrue2 = false;
-						break;
-					case 3:
-						payment.typeOfPayment = "Mastercard";
-						isTrue2 = false;
-						break;
-					case 4:
-						isTrue2 = false;
-						break;
-					default:
-						cout << "\n\t\t\tInvalid Input.. Please try again..";
-						system("pause");
-						break;
-					}
-				} while (isTrue2);
-
-				do {
-					cout << "\n\t\t\tPress 1 to pay now"
-						<< "\n\t\t\tPress 2 to exit"
-						<< "\n\t\t\tChoose option: ";
+					cout << "\n\t\t\t|------------------------|"
+						<< "\n\t\t\t| Press 1 to pay now     |"
+						<< "\n\t\t\t| Press 2 to exit        |"
+						<< "\n\t\t\t|------------------------|"
+						<< "\n\t\t\t| Choose option: ";
 					cin >> numChoice;
 
 					if (numChoice == 1) {
 						if (foodPass > 0) {
 							do {
-								cout << "\n\t\t\tYou have " << foodPass << " free food pass in your account"
-									<< "\n\t\t\tPress 1 to use food pass"
-									<< "\n\t\t\tPress 2 to proceed without using food pass"
-									<< "\n\t\t\tChoose option: ";
+								cout << "\n\t\t\t|-------------------------------------------------------------|"
+									<< "\n\t\t\t| You have " << foodPass << " free food pass in your account  |"
+									<< "\n\t\t\t| Press 1 to use food pass                                    |"
+									<< "\n\t\t\t| Press 2 to proceed without using food pass                  |"
+									<< "\n\t\t\t|-------------------------------------------------------------|"
+									<< "\n\t\t\t| Choose option: ";
 								cin >> numChoice;
 								if (numChoice == 1) {
-									payment.totalPrice -= 5;
-									foodPass -= 1;
-									usedFoodPass = true;
-									break;
+									do {
+										cout << "\n\t\t\t|-------------------------------------------------------|"
+											<< "\n\t\t\t| Press Y to pay all using Bulk Payment                 |"
+											<< "\n\t\t\t| Press N to enter amount of food pass you wish to use  |"
+											<< "\n\t\t\t| Press Q to go back                                    |"
+											<< "\n\t\t\t|-------------------------------------------------------|"
+											<< "\n\t\t\t| Choose option: ";
+										cin >> choice;
+
+										if (tolower(choice) == 'y') {//pay in full
+											do {
+												cout << "\n\t\t\t|-------------------------------|"
+													<< "\n\t\t\t| Press Y to confirm Payment    |"
+													<< "\n\t\t\t| Press N to go back            |"
+													<< "\n\t\t\t|-------------------------------|"
+													<< "\n\t\t\t| Choose option: ";
+												cin >> choice;
+												if (tolower(choice) == 'y') {
+													discount = payment.totalPrice;
+													payment.totalPrice -= discount;
+													usedFoodPass = true;
+													payment.typeOfPayment = "BULK PAYMENT";
+													isTrue4 = false;
+													isTrue3 = false;
+													break;
+												}
+												else if (tolower(choice) == 'n') {
+													isTrue4 = false;
+													break;
+												}
+												else
+													cout << "\n\t\t\tInvalid Input.. Please try again..";
+											} while (true);
+										}
+										else if (tolower(choice) == 'n') {
+											do {
+												do {
+													cout << "\n\t\t\t|-------------------------------------------------------------|"
+														<< "\n\t\t\t| Please enter the amount of food pass you wish to use: ";
+													cin >> num;
+
+													if (num > payment.totalPrice / 5) // check if amount entered doesn't exceed the amount needed to pay
+														cout << "Invalid amount! Max amount you can use is: " << payment.totalPrice / 5 << endl;
+													else
+														break;
+												} while (true);
+
+												cout << "\n\t\t\t|-------------------------------|"
+													<< "\n\t\t\t| Press Y to confirm Payment    |"
+													<< "\n\t\t\t| Press N to go back            |"
+													<< "\n\t\t\t|-------------------------------|"
+													<< "\n\t\t\t| Choose option: ";
+												cin >> choice;
+
+												if (tolower(choice) == 'y') {
+													discount = 5.00 * num;
+
+													if (discount == payment.totalPrice) {//if amount of bulk payment used is equal to the amount need to pay
+														do {
+															cout << "\n\t\t\t|-----------------------------------------------|"
+																<< "\n\t\t\t| You opted to pay for all using Bulk Payment   |"
+																<< "\n\t\t\t| Do you wish to proceed with this payment?     |"
+																<< "\n\t\t\t|-------------------------------------------------------------------------------------------|"
+																<< "\n\t\t\t| Press 1 to proceed payment ***WARNING THERE IS NO GOING BACK AT THIS POINT THIS POINT***  |"
+																<< "\n\t\t\t| Press 2 to exit from payment                                                              |"
+																<< "\n\t\t\t|-------------------------------------------------------------------------------------------|"
+																<< "\n\t\t\t| Choose option: ";
+															cin >> numChoice;
+
+															if (numChoice == 1) {
+																usedFoodPass = true;
+																payment.typeOfPayment = "BULK PAYMENT";
+																payment.totalPrice -= discount;
+																isTrue5 = false;
+																isTrue4 = false;
+																isTrue3 = false;
+																break;
+															}
+															else if (numChoice == 2) {
+																isTrue5 = false;
+																break;
+															}
+															else
+																cout << "\n\t\t\tInvalid Input.. Please try again..";
+														} while (true);
+													}
+													else {
+														payment.totalPrice -= discount;
+														usedFoodPass = true;
+														isTrue5 = false;
+														isTrue4 = false;
+														isTrue3 = false;
+													}
+												}
+												else if (tolower(choice) == 'n') {
+													isTrue4 = false;
+													isTrue5 = false;
+												}
+												else
+													cout << "\n\t\t\tInvalid Input.. Please try again..";
+											} while (isTrue5);
+										}
+										else if (tolower(choice) == 'q') {
+											break;
+										}
+										else //if wrong input
+											cout << "\n\t\t\tInvalid Input.. Please try again..";
+									} while (isTrue4);
 								}
-								else if (numChoice == 2)
-									break;
+								else if (numChoice == 2) {
+									usedFoodPass = false;
+									isTrue3 = false;//break main loop
+								}
+								//add exit
 								else
 									cout << "\n\t\t\tInvalid Input.. Please try again..";
-							} while (true);
+
+							} while (isTrue3);//main loop
 						}
+
+						//gohere
+						if (discount <= payment.totalPrice) {//if there is still remaing amount to pay
+							do {
+								payment.totalPrice = payment.totalPrice + (payment.totalPrice * payment.GST); // apply GST
+								payment.GSTAmount = payment.totalPrice * payment.GST;
+								cout << "\n\t\t\t|------------------------------------------|"
+									<< "\n\t\t\t| Amount left to pay: $" << payment.totalPrice
+									<< "\n\t\t\t| Choose type of Payment"
+									<< "\n\t\t\t|------------------------------------------|"
+									<< "\n\t\t\t| Press 1 VISA                             |"
+									<< "\n\t\t\t| Press 2 American Express                 |"
+									<< "\n\t\t\t| Press 3 Mastercard                       |"
+									<< "\n\t\t\t| Press 4 to exit                          |"
+									<< "\n\t\t\t|------------------------------------------|"
+									<< "\n\t\t\t| Choose option: ";
+								cin >> numChoice;
+
+								switch (numChoice) {
+								case 1:
+									if (usedFoodPass)
+										payment.typeOfPayment = "BULK PAYMENT / VISA";
+									else
+										payment.typeOfPayment = "BULK PAYMENT";
+									isTrue2 = false;
+									break;
+								case 2:
+									if (usedFoodPass)
+										payment.typeOfPayment = "BULK PAYMENT / American Express";
+									else
+										payment.typeOfPayment = "American Express";
+									isTrue2 = false;
+									break;
+								case 3:
+									if (usedFoodPass)
+										payment.typeOfPayment = "BULK PAYMENT / Mastercard";
+									else
+										payment.typeOfPayment = "Mastercard";
+									isTrue2 = false;
+									break;
+								case 4:
+									isTrue2 = false;
+									break;
+								default:
+									cout << "\n\t\t\tInvalid Input.. Please try again..";
+									system("pause");
+									break;
+								}
+							} while (isTrue2);
+						}
+
 						payment.date = getCurrentDate();
 						cout << "\n\t\t\t Date: " << payment.date << endl
 							<< "\n\t\t\t-----------------------------------"
@@ -2271,20 +2407,19 @@ void checkoutOrder(vector<Order> order, vector<string> user) {
 
 						for (int i = 0; i < order.size(); i++) {
 							subTotal = order[i].price * order[i].quantity;
-							cout << "\n\t\t\t------------------------------------"
-								<< "\n\t\t\tItem Name: " << order[i].itemName
+							cout << "\n\t\t\t----------------------------------------"
+								<< "\n\t\t\tItem Name:       " << order[i].itemName
 								<< "\n\t\t\tNumber of items: " << order[i].quantity
-								<< "\n\t\t\tOrder ID: " << order[i].orderNum << "\t" << "\n\t\t\tPrice: $" << order[i].price
-								<< "\n\t\t\t------------------------------------"
-								<< "\n\t\t\t|SUBTOTAL: " << subTotal << endl;
+								<< "\n\t\t\tOrder ID:        " << order[i].orderNum << "\t" << "\n\t\t\tPrice: $" << order[i].price
+								<< "\n\t\t\t----------------------------------------"
+								<< "\n\t\t\t|SUBTOTAL:       " << subTotal << endl;
 							subTotal = 0;
 						}
 						if (usedFoodPass) {
-							cout << "\n\t\t\t|---------------------------------|"
-								<< "\n\t\t\t|Food Pass: -$5.00                |";
+							cout << "\n\t\t\t|------------------------------------------|"
+								<< "\n\t\t\t|Food Pass Discount: $" << discount;
 						}
-						payment.totalPrice = payment.totalPrice + (payment.totalPrice * payment.GST); // apply GST
-						payment.GSTAmount = payment.totalPrice * payment.GST;
+
 						do {//generate a unique GST number and check if id is unique
 							gstNumber = generateID(6);
 							if (checkUniqueID(5, gstNumber)) {
@@ -2292,14 +2427,14 @@ void checkoutOrder(vector<Order> order, vector<string> user) {
 								break;
 							}
 						} while (true);
-						cout << "\n\t\t\t|---------------------------------|"
-							<< "\n\t\t\t|TOTAL PRICE: $\t" << payment.totalPrice
-							<< "\n\t\t\t|---------------------------------|"
-							<< "\n\t\t\t|Type of Payment: " << payment.typeOfPayment
-							<< "\n\t\t\t|Change: $ 0.00                   |"
-							<< "\n\t\t\t|GST Included $\t" << payment.GSTAmount
-							<< "\n\t\t\t|GST Number: \t" << payment.GSTNumber
-							<< "\n\t\t\t|---------------------------------|\n\n\t\t\t";
+						cout << "\n\t\t\t|------------------------------------------|"
+							<< "\n\t\t\t|TOTAL PRICE:     $" << payment.totalPrice
+							<< "\n\t\t\t|------------------------------------------|"
+							<< "\n\t\t\t|Type of Payment:  " << payment.typeOfPayment
+							<< "\n\t\t\t|Change:          $ 0.00"
+							<< "\n\t\t\t|GST Included     $" << payment.GSTAmount
+							<< "\n\t\t\t|GST Number:       " << payment.GSTNumber
+							<< "\n\t\t\t|------------------------------------------|\n\n\t\t\t";
 
 						//save order to csv
 						ofstream saveOrder("Order_file.csv", ios::app);
@@ -2323,7 +2458,7 @@ void checkoutOrder(vector<Order> order, vector<string> user) {
 								break;
 							}
 						} while (true);
-						savePayment << payment.paymentID << ", " << user[0] << "," << payment.GSTNumber << "," << payment.GSTAmount << "," << payment.typeOfPayment << "," << payment.totalPrice << "," << payment.date << endl;
+						savePayment << payment.paymentID << ", " << user[0] << "," << payment.GSTNumber << "," << payment.GSTAmount << "," << payment.typeOfPayment << "," << discount << "," << payment.totalPrice << "," << payment.date << endl;
 						savePayment.close();
 
 						cout << "\n\t\t\t|---------------------------------|"
@@ -2470,22 +2605,24 @@ vector<Parent> getAllParentDetails() {
 			getline(ss, tempStr, ',');
 			parentData.push_back(tempStr);
 		}
-		parent.parentID = parentData[0];
-		parent.fullName = parentData[1];
-		parent.gender = parentData[2];
-		parent.dob = parentData[3];
-		parent.countNum = stoi(parentData[4]);
-		parent.email = parentData[5];
-		parent.childFullName = parentData[6];
-		parent.childRoomNum = parentData[7];
-		parent.visaCardNo = parentData[8];
-		parent.visaCardExpiry = parentData[9];
+		if (parentData[0] != "LOGIN_ID") {
+			parent.parentID = parentData[0];
+			parent.fullName = parentData[1];
+			parent.gender = parentData[2];
+			parent.dob = parentData[3];
+			parent.countNum = stoi(parentData[4]);
+			parent.email = parentData[5];
+			parent.childFullName = parentData[6];
+			parent.childRoomNum = parentData[7];
+			parent.visaCardNo = parentData[8];
+			parent.visaCardExpiry = parentData[9];
+		}
+
 
 		vectParent.push_back(parent);
 		parentData.clear();
 	}
 	myfile.close();
-
 	vectOrder = getAllOrderDetails();
 	vectPayment = getAllPaymentDetails();
 	vectLogin = getAllLoginDetails();
@@ -2546,15 +2683,16 @@ vector<Staff> getAllStaffDetails() {
 			getline(ss, tempStr, ',');
 			staffData.push_back(tempStr);
 		}
-		staff.staffID = staffData[0];
-		staff.fullName = staffData[1];
-		staff.gender = staffData[2];
-		staff.dob = staffData[3];
-		staff.countNum = stoi(staffData[4]);
-		staff.email = staffData[5];
-		staff.visaCardNo = staffData[6];
-		staff.visaCardExpiry = staffData[7];
-
+		if (staffData[0] != "LOGIN_ID") {
+			staff.staffID = staffData[0];
+			staff.fullName = staffData[1];
+			staff.gender = staffData[2];
+			staff.dob = staffData[3];
+			staff.countNum = stoi(staffData[4]);
+			staff.email = staffData[5];
+			staff.visaCardNo = staffData[6];
+			staff.visaCardExpiry = staffData[7];
+		}
 		vectStaff.push_back(staff);
 		staffData.clear();
 	}
@@ -2618,12 +2756,14 @@ vector<Order> getAllOrderDetails() {
 			getline(ss, tempStr, ',');
 			orderData.push_back(tempStr);
 		}
-		order.orderID = orderData[0];
-		order.foreignKey = orderData[1];
-		order.orderDate = orderData[2];
-		order.itemName = orderData[3];
-		order.quantity = stoi(orderData[4]);
-		order.price = stof(orderData[5]);
+		if (orderData[0] != "ORDER_NUM") {
+			order.orderID = orderData[0];
+			order.foreignKey = orderData[1];
+			order.orderDate = orderData[2];
+			order.itemName = orderData[3];
+			order.quantity = stoi(orderData[4]);
+			order.price = stof(orderData[5]);
+		}
 
 		vectOrder.push_back(order);
 		orderData.clear();
@@ -2653,13 +2793,15 @@ vector<Payment> getAllPaymentDetails() {
 			getline(ss, tempStr, ',');
 			paymentData.push_back(tempStr);
 		}
-		payment.paymentID = paymentData[0];
-		payment.foreignKey = paymentData[1];
-		payment.GSTNumber = paymentData[2];
-		payment.GSTAmount = stof(paymentData[3]);
-		payment.typeOfPayment = paymentData[4];
-		payment.totalPrice = stof(paymentData[5]);
-		payment.date = paymentData[6];
+		if (paymentData[0] != "PAYMENT_ID") {
+			payment.paymentID = paymentData[0];
+			payment.foreignKey = paymentData[1];
+			payment.GSTNumber = paymentData[2];
+			payment.GSTAmount = stof(paymentData[3]);
+			payment.typeOfPayment = paymentData[4];
+			payment.totalPrice = stof(paymentData[5]);
+			payment.date = paymentData[6];
+		}
 
 		vectPayment.push_back(payment);
 		paymentData.clear();
@@ -2689,17 +2831,54 @@ vector<Login> getAllLoginDetails() {
 			getline(ss, tempStr, ',');
 			loginData.push_back(tempStr);
 		}
-		login.loginID = loginData[0];
-		login.userForeignID = loginData[1];
-		login.username = loginData[2];
-		login.password = loginData[3];
+		if (loginData.size() != 0) {
+			if (loginData[0] != "PRIMARY_KEY") {
+				login.loginID = loginData[0];
+				login.userForeignID = loginData[1];
+				login.username = loginData[2];
+				login.password = loginData[3];
+				vectLogin.push_back(login);
+			}
+		}
 
-		vectLogin.push_back(login);
 		loginData.clear();
 	}
 	myfile.close();
 
 	return vectLogin;
+}
+
+vector<BulkPayment> getAllBulkDetails() {
+
+	vector<string> bulkData;//gohere2
+	vector<BulkPayment> vectBulk;
+	BulkPayment bulk;
+	string tempStr, line;
+
+	ifstream myfile;
+	myfile.open("BulkOrder_file.csv", ios::in);
+
+	cout << setprecision(2);
+	while (getline(myfile, line)) {
+		stringstream ss(line);
+
+		while (!ss.eof()) {
+			getline(ss, tempStr, ',');
+			bulkData.push_back(tempStr);
+		}
+		if (bulkData.size() != 0) {
+			if (bulkData[0] != "USER_ID") {
+				bulk.bulkID = bulkData[0];
+				bulk.orderCount = stoi(bulkData[1]);
+				vectBulk.push_back(bulk);
+			}
+		}
+		bulkData.clear();
+	}
+	myfile.close();
+
+	system("pause");
+	return vectBulk;
 }
 
 //Code by Jay
@@ -3095,6 +3274,9 @@ void updateParentDetails(string userID) {
 						break;
 					}
 					ofstream parentFile("Parent_file.csv", ios::out);
+					//ADD HEADERS TO CSV
+					parentFile << "LOGIN_ID" << "," << "NAME" << "," << "GENDER" << "," << "D.O.B" << "," << "CONTACT_NUM" << "," << "EMAIL"
+						<< "," << "CHILD_NAME" << "," << "ROOM_NUM" << "," << "VISA_NUM" << "," << "VISA_EXPIRY" << endl;
 					for (int i = 0; i < parent.size(); i++) {
 						parentFile << parent[i].parentID << "," << parent[i].fullName << "," << parent[i].gender << "," << parent[i].dob << "," << parent[i].countNum << ","
 							<< parent[i].email << "," << parent[i].childFullName << "," << parent[i].childRoomNum << "," << parent[i].visaCardNo << ","
@@ -3171,6 +3353,8 @@ void updateParentDetails(string userID) {
 										}
 									}
 									ofstream loginFile("Login_file.csv", ios::out);
+									//ADD HEADERS TO CSV
+									loginFile << "PRIMARY_KEY" << "," << "FOREIGN_KEY" << "," << "USERNAME" << "," << "PASSWORD" << endl;
 									for (int i = 0; i < login.size(); i++) {
 										loginFile << login[i].loginID << "," << login[i].userForeignID << "," << login[i].username << "," << login[i].password << endl;
 									}
@@ -3531,6 +3715,9 @@ void updateStaffDetails(string userID) {
 						break;
 					}
 					ofstream staffFile("Staff_file.csv", ios::out);
+					//ADD HEADERS TO CSV
+					staffFile << "LOGIN_ID" << "," << "NAME" << "," << "GENDER" << "," << "D.O.B" << "," << "CONTACT_NUM" << "," << "EMAIL"
+						<< "," << "VISA_NUM" << "," << "VISA_EXPIRY" << endl;
 					for (int i = 0; i < staff.size(); i++) {
 						staffFile << staff[i].staffID << "," << staff[i].fullName << "," << staff[i].gender << "," << staff[i].dob << "," << staff[i].countNum << ","
 							<< staff[i].email << "," << staff[i].visaCardNo << "," << staff[i].visaCardExpiry << endl;
@@ -3607,6 +3794,8 @@ void updateStaffDetails(string userID) {
 										}
 									}
 									ofstream loginFile("Login_file.csv", ios::out);
+									//ADD HEADERS TO CSV
+									loginFile << "PRIMARY_KEY" << "," << "FOREIGN_KEY" << "," << "USERNAME" << "," << "PASSWORD" << endl;
 									for (int i = 0; i < login.size(); i++) {
 										loginFile << login[i].loginID << "," << login[i].userForeignID << "," << login[i].username << "," << login[i].password << endl;
 									}
