@@ -211,7 +211,7 @@ void orderFood(vector<string>);
 vector<Order>getFoodOrderDetails(vector<Order>, int);
 vector<Order> removeOrder(vector<Order>);
 void printAllOrders(vector<Order> order);
-void checkoutOrder(vector<Order> order, vector<string>);
+vector<Order> checkoutOrder(vector<Order> order, vector<string>);
 void printWeeklyOrderReport();
 vector<Parent> getAllParentDetails();
 vector<Staff> getAllStaffDetails();
@@ -219,7 +219,7 @@ void printAllParentDetails();
 void printAllStaffDetails();
 vector<Order>getAllOrderDetails();
 vector<Payment>getAllPaymentDetails();
-vector<Login> getAllLoginDetails();
+vector<Login>& getAllLoginDetails(vector<Login>*);
 void updateParentDetails(string);
 void updateStaffDetails(string userID);
 vector<BulkPayment> getAllBulkDetails();
@@ -237,25 +237,30 @@ int printMenuList() {
 
 	do {
 		system("cls");
-		cout << "SCHOOL LUNCH ORDER SYSTEM\n";
-		cout << "*************************\n";
-		cout << "1. Weekly Menu\n";
-		cout << "2. Bulk Booking Discounts\n";
-		cout << "3. Contact Details and Office Locations\n";
-		cout << "4. Login or Register\n";
-		cout << "5. Exit Program\n";
-		cout << "\nEnter option: ";
+		cout << "\n" << string(7, '\t') << "|-----------------------------------------|"
+			<< "\n" << string(7, '\t') << "|         SCHOOL LUNCH ORDER SYSTEM       |"
+			<< "\n" << string(7, '\t') << "|-----------------------------------------|"
+			<< "\n" << string(7, '\t') << "| 1. Weekly Menu                          |"
+			<< "\n" << string(7, '\t') << "| 2. Bulk Booking Discounts               | "
+			<< "\n" << string(7, '\t') << "| 3. Contact Details and Office Locations |"
+			<< "\n" << string(7, '\t') << "| 4. Login or Register                    |"
+			<< "\n" << string(7, '\t') << "| 5. Exit Program                         |"
+			<< "\n" << string(7, '\t') << "|-----------------------------------------|"
+			<< "\n" << string(7, '\t') << "| Enter option: ";
 		cin >> choice;
 
 		switch (choice) {
 		case 1:
+			system("cls");
 			printWeeklyMenu();
 			system("pause");
 			break;
 		case 2:
+			system("cls");
 			printBulkDiscounts();
 			break;
 		case 3:
+			system("cls");
 			printContactLocationDetails();
 			break;
 		case 4: // Written by Jakob
@@ -272,46 +277,50 @@ int printMenuList() {
 
 //Written by Jay
 //This function prints out the details of bulk discounts
-void printBulkDiscounts() { // Jay's code
-	cout << "\nBULK BOOKING DISCOUNTS\n"
-		<< "**********************\n"
-		<< "1. GOLD FOOD PASS \t\t 2. SILVER FOOD PASS \t\t 3. COPPER FOOD PASS\n"
-		<< "   ----------------- \t\t    ---------------- \t\t    ----------------\n"
-		<< "   Pay for 30 days and \t\t    Pay for 15 days and \t    Pay for 7 days and \n"
-		<< "   receive a 15% discount. \t    receive a 10% discount. \t    receive a 5% discount.\n\n"
-		<< "   Without food pass: $150 \t    Without food pass: $75 \t    Without food pass: $35 \n"
-		<< "   With food pass: $127.5 \t    With food pass: $67.50 \t    With food pass: $33.25 \n"
-		<< "   Save $22.50 \t\t\t    Save $7.50 \t\t\t    Save $1.75\n\n";
+void printBulkDiscounts() {  //plus ultra
+	cout << "\n" << string(6, '\t') << "|----------------------------------------------------------------------------------------------|"
+		<< "\n" << string(6, '\t') << "|                                   BULK BOOKING DISCOUNTS                                     |"
+		<< "\n" << string(6, '\t') << "|----------------------------------------------------------------------------------------------|"
+		<< "\n" << string(6, '\t') << "|    1. GOLD FOOD PASS         |     2. SILVER FOOD PASS      |      3. COPPER FOOD PASS       |"
+		<< "\n" << string(6, '\t') << "|------------------------------|------------------------------|--------------------------------|"
+		<< "\n" << string(6, '\t') << "|    Pay for 30 days and       |     Pay for 15 days and      |      Pay for 7 days and        |"
+		<< "\n" << string(6, '\t') << "|    receive a 15% discount.   |     receive a 10% discount.  |      receive a 5% discount.    |"
+		<< "\n" << string(6, '\t') << "|    Without food pass: $150   |     Without food pass: $75   |      Without food pass: $35    |"
+		<< "\n" << string(6, '\t') << "|    With food pass: $127.5    |     With food pass: $67.50   |      With food pass: $33.25    |"
+		<< "\n" << string(6, '\t') << "|    Save $22.50               |     Save $7.50               |      Save $1.75                |"
+		<< "\n" << string(6, '\t') << "|----------------------------------------------------------------------------------------------|" << "\n\n" << string(7, '\t');
 	system("pause");
 }
 
 //Written by Jay
-//This function prints out the details of the school
-void printContactLocationDetails() { // Jay's code
-	cout << "\nCONTACT DETAILS \t\t\t OFFICE LOCATION\n"
-		<< "*************** \t\t\t ***************\n"
-		<< "Email: admin@schoolname.co.nz \t\t Main office: \n"
-		<< "Phone: 0800 83 83 83 \t\t\t A Block, School Name\n"
-		<< "\t\t\t\t\t Suburb\n"
-		<< "\t\t\t\t\t City\n"
-		<< "\t\t\t\t\t Region\n"
-		<< "\t\t\t\t\t Country\n\n";
+//This function prints out the details of the school //plus ultra
+void printContactLocationDetails() {  //plus ultra
+	cout << "\n" << string(7, '\t') << "|------------------------------------------------------------|"
+		<< "\n" << string(7, '\t') << "| CONTACT DETAILS                |      OFFICE LOCATION      |"
+		<< "\n" << string(7, '\t') << "|--------------------------------|---------------------------|"
+		<< "\n" << string(7, '\t') << "| Email: admin@schoolname.co.nz  |      Main office:         |"
+		<< "\n" << string(7, '\t') << "| Phone: 0800 83 83 83           |      A Block, School Name |"
+		<< "\n" << string(7, '\t') << "|                                |      Suburb               |"
+		<< "\n" << string(7, '\t') << "|                                |      City                 |"
+		<< "\n" << string(7, '\t') << "|                                |      Region               |"
+		<< "\n" << string(7, '\t') << "|                                |      Country              |"
+		<< "\n" << string(7, '\t') << "|------------------------------------------------------------|" << "\n\n" << string(7, '\t');
 	system("pause");
 }
 
 void loginRegistrationScreen() { // Code written by Jakob
-	int choice, registerChoice;
+	int choice, registerChoice; //plus ultra
 
 	do {
 		system("cls");
-		cout << "\n\t\t\t|----------------------------|"
-			<< "\n\t\t\t|     LOG IN / REGISTER      |"
-			<< "\n\t\t\t|----------------------------|";
-		cout << "\n\t\t\t|1. Login                    |";
-		cout << "\n\t\t\t|2. Register                 |";
-		cout << "\n\t\t\t|3. Back                     |";
-		cout << "\n\t\t\t|                            |";
-		cout << "\n\t\t\t|Enter choice                |: ";
+		cout << "\n" << string(7, '\t') << "|----------------------------|"
+			<< "\n" << string(7, '\t') << "|     LOG IN / REGISTER      |"
+			<< "\n" << string(7, '\t') << "|----------------------------|"
+			<< "\n" << string(7, '\t') << "|1. Login                    |"
+			<< "\n" << string(7, '\t') << "|2. Register                 |"
+			<< "\n" << string(7, '\t') << "|3. Back                     |"
+			<< "\n" << string(7, '\t') << "|                            |"
+			<< "\n" << string(7, '\t') << "|Enter choice                |: ";
 		cin >> choice;
 
 		if (choice == 1) {
@@ -320,14 +329,14 @@ void loginRegistrationScreen() { // Code written by Jakob
 		}
 		else if (choice == 2) {
 			system("cls");
-			cout << "\n\t\t\t|----------------------------|"
-				<< "\n\t\t\t|      REGISTER ACCOUNT      |"
-				<< "\n\t\t\t|----------------------------|";
-			cout << "\n\t\t\t|1. Staff account            |";
-			cout << "\n\t\t\t|2. Parent account           |";
-			cout << "\n\t\t\t|3. Back                     |";
-			cout << "\n\t\t\t|                            |";
-			cout << "\n\t\t\t|Enter choice                |: ";
+			cout << "\n" << string(7, '\t') << "|----------------------------|"
+				<< "\n" << string(7, '\t') << "|      REGISTER ACCOUNT      |"
+				<< "\n" << string(7, '\t') << "|----------------------------|"
+				<< "\n" << string(7, '\t') << "|1. Staff account            |"
+				<< "\n" << string(7, '\t') << "|2. Parent account           |"
+				<< "\n" << string(7, '\t') << "|3. Back                     |"
+				<< "\n" << string(7, '\t') << "|                            |"
+				<< "\n" << string(7, '\t') << "|Enter choice                |: ";
 			cin >> registerChoice;
 
 			if (registerChoice == 1) {
@@ -342,14 +351,14 @@ void loginRegistrationScreen() { // Code written by Jakob
 				continue;
 			}
 			else {
-				cout << "\n\t\t\tPlease enter a number relevant to the given menu.\n";
+				cout << "\n" << string(7, '\t') << "Please enter a number relevant to the given menu.\n";
 			}
 		}
 		else if (choice == 3) {
 			break;
 		}
 		else {
-			cout << "\n\t\t\tPlease enter a number relevant to the given menu.\n";
+			cout << "\n" << string(7, '\t') << "Please enter a number relevant to the given menu.\n";
 		}
 	} while (true);
 }
@@ -554,8 +563,8 @@ void registerStaff() {
 }
 
 //This Function lets the user logged in
-//Code by Jay
-void loginScreen() {
+//Code by Jay and Jakob
+void loginScreen() { //plus ultra
 	string username, pass, accPass;
 	bool notExist = true;
 	ifstream loginFile;
@@ -570,20 +579,20 @@ void loginScreen() {
 
 	cin.ignore();
 	system("cls");
-	cout << "\n\t\t\t|----------------------------|"
-		<< "\n\t\t\t|        LOGIN SCREEN        |"
-		<< "\n\t\t\t|   Type 'back' to go back   |"
-		<< "\n\t\t\t|----------------------------|";
+	cout << "\n" << string(7, '\t') << "|----------------------------|"
+		<< "\n" << string(7, '\t') << "|        LOGIN SCREEN        |"
+		<< "\n" << string(7, '\t') << "|   Type 'back' to go back   |"
+		<< "\n" << string(7, '\t') << "|----------------------------|";
 
 	do {
 		loginFile.open("Login_file.csv", ios::in);
-		cout << "\n\t\t\t|Username" << setw(8) << "|: ";
+		cout << "\n" << string(7, '\t') << "|Username" << setw(8) << "|: ";
 		getline(cin, username);
 
 		// giving user option to leave login screen
 		if (username == "back") {
-			cout << "\n\t\t\tYou have canceled your login.";
-			cout << "\n\t\t\t";
+			cout << "\n" << string(7, '\t') << "You have canceled your login.";
+			cout << "\n" << string(7, '\t') << "";
 			system("pause");
 			loginRegistrationScreen();
 			break;
@@ -591,45 +600,41 @@ void loginScreen() {
 
 		accPass = checkLoginInput(username);
 		if (accPass == " ")
-			cout << "\n\t\t\tCouldn't find your account, Please try again...\n";
+			cout << "\n" << string(7, '\t') << "Couldn't find your account, Please try again...\n";
 		else {
 			loginFile.close();
+			do {
+				cout << "\n" << string(7, '\t') << "|Password" << setw(8) << "|: ";
+				getline(cin, pass);
+
+				if (pass != accPass) {
+					// Code by Jakob - This checks how many times the user has attempted
+					// to log in. Pauses program for 2 seconds after 3 attempts.
+					loginAttempt++;
+					if (loginAttempt < maxLoginAttempt) {
+						cout << "\n" << string(7, '\t') << "Wrong password. You have " << maxLoginAttempt - loginAttempt << " attempts left. Please try again...\n";
+					}
+					else if (loginAttempt == maxLoginAttempt) {
+						// block login for 10 seconds
+						cout << "\n" << string(7, '\t') << "Please try again after 2 seconds." << "\n" << string(7, '\t');
+						this_thread::sleep_for(chrono::seconds(2)); // sleep for two seconds
+						maxLoginAttempt = maxLoginAttempt + 3;
+						system("pause");
+					}
+					else {
+						cout << "\n" << string(7, '\t') << "\nLogin attempts will be blocked for two seconds. Please try again later!\n";
+					}
+				}
+				else {
+					accDetails = checkAccount(username); // Find staff or parent account
+					printMainMenu(accDetails);
+					break;
+				}
+			} while (true);
 			break;
 		}
 		loginFile.close();
 	} while (notExist);
-
-	do {
-		cout << "\n\t\t\t|Password" << setw(8) << "|: ";
-		getline(cin, pass);
-
-		if (pass != accPass) {
-			// Code by Jakob - This checks how many times the user has attempted
-			// to log in. Pauses program for 2 seconds after 3 attempts.
-			loginAttempt++;
-			if (loginAttempt < maxLoginAttempt) {
-				cout << "\n\t\t\tWrong password. You have " << maxLoginAttempt - loginAttempt << " attempts left. Please try again...\n";
-			}
-			else if (loginAttempt == maxLoginAttempt) {
-				// block login for 10 seconds
-				cout << "\n\t\t\tPlease try again after 2 seconds.";
-				this_thread::sleep_for(chrono::seconds(2)); // sleep for two seconds
-				maxLoginAttempt = maxLoginAttempt + 3;
-				system("pause");
-			}
-			else {
-				cout << "\n\t\t\tLogin attempts will be blocked for two seconds. Please try again later!\n";
-			}
-		}
-		else {
-			accDetails = checkAccount(username); // Find staff or parent account
-			printMainMenu(accDetails);
-			break;
-		}
-	} while (true);
-
-	cout << "\n\t\t\t";
-	system("pause");
 }
 
 //Code by jay
@@ -1189,7 +1194,7 @@ vector<string> getAccountDetails(string userID) {
 
 // Code by Jakob
 // This function displays the main menu for users that have logged in.
-void printMainMenu(vector<string> accDetails) {
+void printMainMenu(vector<string> accDetails) {//plus ultra
 	int flag;
 	string userAccount, userAccount2;
 	int i, choice;
@@ -1211,19 +1216,19 @@ void printMainMenu(vector<string> accDetails) {
 
 	do {
 		system("cls");
-		cout << "\n\t\t\t========================================";
-		cout << "\n\t\t\t" << accDetails[1];
-		cout << "\n\t\t\tYou are logged in with a " << userAccount << " account.";
-		cout << "\n\t\t\t" << userAccount2 << " ID: " << accDetails[0];
-		cout << "\n\t\t\t========================================";
+		cout << "\n" << string(7, '\t') << "========================================";
+		cout << "\n" << string(7, '\t') << "" << accDetails[1];
+		cout << "\n" << string(7, '\t') << "You are logged in with a " << userAccount << " account.";
+		cout << "\n" << string(7, '\t') << "" << userAccount2 << " ID: " << accDetails[0];
+		cout << "\n" << string(7, '\t') << "========================================";
 
-		cout << "\n\n\t\t\t1. Order food/View Menu";
-		cout << "\n\t\t\t2. Make Complaint";
-		cout << "\n\t\t\t3. Bulk Payment";
-		cout << "\n\t\t\t4. Update Details";
-		cout << "\n\t\t\t5. Logout";
+		cout << "\n\n" << string(7, '\t') << "1. Order food/View Menu";
+		cout << "\n" << string(7, '\t') << "2. Make Complaint";
+		cout << "\n" << string(7, '\t') << "3. Bulk Payment";
+		cout << "\n" << string(7, '\t') << "4. Update Details";
+		cout << "\n" << string(7, '\t') << "5. Logout";
 
-		cout << "\n\n\t\t\tEnter choice: ";
+		cout << "\n\n" << string(7, '\t') << "Enter choice: ";
 		cin >> choice;
 
 		switch (choice) {
@@ -1248,7 +1253,7 @@ void printMainMenu(vector<string> accDetails) {
 			runMenu = false;
 			break;
 		default:
-			cout << "\n\t\t\tPlease enter a number relevant to the menu.";
+			cout << "\n" << string(7, '\t') << "Please enter a number relevant to the menu.";
 			break;
 		}
 	} while (runMenu);
@@ -1988,7 +1993,7 @@ void orderFood(vector<string> user) {
 			system("pause");
 			break;
 		case 4:
-			checkoutOrder(order, user);
+			order = checkoutOrder(order, user); //plusultra
 			break;
 		case 5:
 			cout << "\n\t\t\t\t\t\t\t|-----------------------------------|"
@@ -2010,7 +2015,7 @@ void orderFood(vector<string> user) {
 
 //Code by Jay
 //This function prints out all of the user order from the menu
-void printAllOrders(vector<Order> order) {
+void printAllOrders(vector<Order> order) { //gohere7
 	float total = 0;
 	cout << setprecision(3);
 	if (order.size() == 0) {
@@ -2035,7 +2040,7 @@ void printAllOrders(vector<Order> order) {
 
 //Code by Jay
 //This function lets the user remove orders 
-vector<Order> removeOrder(vector<Order> order) {
+vector<Order> removeOrder(vector<Order> order) { //plus ultra
 	int orderID, vectOrderLoc;
 	bool isTrue, isTrue2, isTrue3;
 	int numChoice;
@@ -2045,21 +2050,21 @@ vector<Order> removeOrder(vector<Order> order) {
 		isTrue = true, isTrue2 = true, isTrue3 = true;
 		do {
 			system("cls");
-			printAllOrders(order);
-			cout << "\n\t\t\t|---------------------------|"
-				<< "\n\t\t\t| Press 1 to remove orders  |"
-				<< "\n\t\t\t| Press 2 to quit           |"
-				<< "\n\t\t\t|---------------------------|"
-				<< "\n\t\t\t| Choose Option: ";
+			cout << "\n" << string(7, '\t') << "|---------------------------|"
+				<< "\n" << string(7, '\t') << "| Press 1 to remove orders  |"
+				<< "\n" << string(7, '\t') << "| Press 2 to quit           |"
+				<< "\n" << string(7, '\t') << "|---------------------------|"
+				<< "\n" << string(7, '\t') << "| Choose Option: ";
 			cin >> numChoice;
 
 			switch (numChoice) {
 			case 1:
 				if (order.size() > 0) {
 					do {
+						system("cls");
 						printAllOrders(order);
-						cout << "\n\t\t\t|-------------------------------------------|"
-							<< "\n\t\t\t| Please enter order ID you wish to remove: ";
+						cout << "\n" << string(7, '\t') << "|-------------------------------------------|"
+							<< "\n" << string(7, '\t') << "| Please enter order ID you wish to remove: ";
 						cin >> orderID;
 						for (int i = 0; i < order.size(); i++) {
 							if (order[i].orderNum == orderID) {
@@ -2069,36 +2074,36 @@ vector<Order> removeOrder(vector<Order> order) {
 							}
 						}
 						if (isTrue) {
-							cout << "\n\t\t\t|-------------------------------------------|"
-								<< "\n\t\t\t|   Invalid order ID.. Please try again...  |"
-								<< "\n\t\t\t|-------------------------------------------|\n";
+							cout << "\n" << string(7, '\t') << "|-------------------------------------------|"
+								<< "\n" << string(7, '\t') << "|   Invalid order ID.. Please try again...  |"
+								<< "\n" << string(7, '\t') << "|-------------------------------------------|" << string(7, '\t');
 							system("pause");
 						}
 					} while (isTrue);
 
 					system("cls");
 					do {
-						cout << "\n\t\t\t|------------------------------------------------|"
-							<< "\n\t\t\t| Order ID:       " << order[vectOrderLoc].orderNum
-							<< "\n\t\t\t| Order Date:     " << order[vectOrderLoc].orderDate
-							<< "\n\t\t\t| Item Name:      " << order[vectOrderLoc].itemName
-							<< "\n\t\t\t| Order Quantity: " << order[vectOrderLoc].quantity
-							<< "\n\t\t\t| Price:          " << order[vectOrderLoc].price
-							<< "\n\t\t\t|------------------------------------------------|"
-							<< "\n\t\t\t| Press 1 to subract order quantity              |"
-							<< "\n\t\t\t| Press 2 to remove order completely             |"
-							<< "\n\t\t\t| Press 3 to exit                                |"
-							<< "\n\t\t\t|------------------------------------------------|"
-							<< "\n\t\t\t| Choose Option: ";
+						cout << "\n" << string(7, '\t') << "|------------------------------------------------|"
+							<< "\n" << string(7, '\t') << "| Order ID:       " << order[vectOrderLoc].orderNum
+							<< "\n" << string(7, '\t') << "| Order Date:     " << order[vectOrderLoc].orderDate
+							<< "\n" << string(7, '\t') << "| Item Name:      " << order[vectOrderLoc].itemName
+							<< "\n" << string(7, '\t') << "| Order Quantity: " << order[vectOrderLoc].quantity
+							<< "\n" << string(7, '\t') << "| Price:          " << order[vectOrderLoc].price
+							<< "\n" << string(7, '\t') << "|------------------------------------------------|"
+							<< "\n" << string(7, '\t') << "| Press 1 to subract order quantity              |"
+							<< "\n" << string(7, '\t') << "| Press 2 to remove order completely             |"
+							<< "\n" << string(7, '\t') << "| Press 3 to exit                                |"
+							<< "\n" << string(7, '\t') << "|------------------------------------------------|"
+							<< "\n" << string(7, '\t') << "| Choose Option: ";
 						cin >> numChoice;
 
 						switch (numChoice) {
 						case 1:
 							order[vectOrderLoc].quantity -= 1;
 							if (order[vectOrderLoc].quantity == 0) {
-								cout << "\n\t\t\t|-------------------------|"
-									<< "\n\t\t\t| Order has been removed  |"
-									<< "\n\t\t\t|-------------------------|\n\t\t\t";
+								cout << "\n" << string(7, '\t') << "|-------------------------|"
+									<< "\n" << string(7, '\t') << "| Order has been removed  |"
+									<< "\n" << string(7, '\t') << "|-------------------------|\n" << string(7, '\t');
 								order.erase(order.begin() + vectOrderLoc);
 								isTrue2 = false;
 								cout << order.size() << endl;
@@ -2107,9 +2112,9 @@ vector<Order> removeOrder(vector<Order> order) {
 							break;
 						case 2:
 							order.erase(order.begin() + vectOrderLoc);
-							cout << "\n\t\t\t|-------------------------|"
-								<< "\n\t\t\t| Order has been removed  |"
-								<< "\n\t\t\t|-------------------------|\n\t\t\t";
+							cout << "\n" << string(7, '\t') << "|-------------------------|"
+								<< "\n" << string(7, '\t') << "| Order has been removed  |"
+								<< "\n" << string(7, '\t') << "|-------------------------|\n" << string(7, '\t');
 							system("pause");
 							isTrue2 = false;
 							break;
@@ -2117,25 +2122,25 @@ vector<Order> removeOrder(vector<Order> order) {
 							isTrue2 = false;
 							break;
 						default:
-							cout << "\n\t\t\t|-----------------------------------|"
-								<< "\n\t\t\t| Invalid Input! Please try again.. |"
-								<< "\n\t\t\t|-----------------------------------|";
+							cout << "\n" << string(7, '\t') << "|-----------------------------------|"
+								<< "\n" << string(7, '\t') << "| Invalid Input! Please try again.. |"
+								<< "\n" << string(7, '\t') << "|-----------------------------------|" << string(7, '\t');
 							system("pause");
 							break;
 						}
 					} while (isTrue2);
 				}
 				else {
-					cout << "\n\t\t\t|--------------------------------|"
-						<< "\n\t\t\t| There are no orders to show    |"
-						<< "\n\t\t\t|--------------------------------|\n\t\t\t";
+					cout << "\n" << string(7, '\t') << "|--------------------------------|"
+						<< "\n" << string(7, '\t') << "| There are no orders to show    |"
+						<< "\n" << string(7, '\t') << "|--------------------------------|\n" << string(7, '\t');
 					system("pause");
 				}
 				break;
 			case 2:
-				cout << "\n\t\t\t|-----------------------------------|"
-					<< "\n\t\t\t| Exiting from remove order menu... |"
-					<< "\n\t\t\t|-----------------------------------|\n\t\t\t";
+				cout << "\n" << string(7, '\t') << "|-----------------------------------|"
+					<< "\n" << string(7, '\t') << "| Exiting from remove order menu... |"
+					<< "\n" << string(7, '\t') << "|-----------------------------------|\n" << string(7, '\t');
 
 				system("pause");
 				numChoice = 69;
@@ -2143,9 +2148,9 @@ vector<Order> removeOrder(vector<Order> order) {
 				break;
 
 			default:
-				cout << "\n\t\t\t|-----------------------------------|"
-					<< "\n\t\t\t| Invalid Input! Please try again.. |"
-					<< "\n\t\t\t|-----------------------------------|\n\t\t\t";
+				cout << "\n" << string(7, '\t') << "|-----------------------------------|"
+					<< "\n" << string(7, '\t') << "| Invalid Input! Please try again.. |"
+					<< "\n" << string(7, '\t') << "|-----------------------------------|\n" << string(7, '\t');
 				system("pause");
 				break;
 			}
@@ -2199,10 +2204,10 @@ vector<Order> getFoodOrderDetails(vector<Order> order, int orderNum) {
 
 //Code by Jay
 //This function lets the user checkout there order
-void checkoutOrder(vector<Order> order, vector<string> user) {
+vector<Order> checkoutOrder(vector<Order> order, vector<string> user) { //plus ultra
 	float subTotal = 0, gstAmount = 0, discount = 0.00;
 	int numChoice = 0, num = 0, idLoc = 0, bulkNum = 0;
-	bool isTrue, isTrue2, isTrue3, isTrue4, isTrue5, usedFoodPass;
+	bool isTrue, isTrue2, isTrue3, isTrue4, isTrue5, usedFoodPass, hasPaid;
 	string uniqueID = "", gstNumber, gstID;
 	vector<BulkPayment> vectBulk;
 	struct Payment payment;
@@ -2217,87 +2222,91 @@ void checkoutOrder(vector<Order> order, vector<string> user) {
 			break;
 		}
 	}
+	//get total price
+	for (int i = 0; i < order.size(); i++) {
+		payment.totalPrice += order[i].price * order[i].quantity;
+	}
+
 	system("cls");
 	cout << setprecision(2);
 	if (order.size() == 0) {
-		cout << "\n\t\t\t|--------------------------|"
-			<< "\n\t\t\t|      No Data Found       |"
-			<< "\n\t\t\t|--------------------------|\n\t\t\t";
+		cout << "\n" << string(8, '\t') << "|--------------------------|"
+			<< "\n" << string(8, '\t') << "|      No Data Found       |"
+			<< "\n" << string(8, '\t') << "|--------------------------|\n\t\t\t";
 		system("pause");
 	}
 	else {
 		do {
 			system("cls");
-			cout << "\n\t\t\t Date: " << getCurrentDate() << endl
-				<< "\n\t\t\t-----------------------------------"
-				<< "\n\t\t\t|           School Name           |"
-				<< "\n\t\t\t|---------------------------------|"
-				<< "\n\t\t\t|            ORDER FOR            |";
+			cout << "\n\n" << string(8, '\t') << " Date: " << getCurrentDate()
+				<< "\n" << string(8, '\t') << "-----------------------------------"
+				<< "\n" << string(8, '\t') << "|           School Name           |"
+				<< "\n" << string(8, '\t') << "|---------------------------------|"
+				<< "\n" << string(8, '\t') << "|            ORDER FOR            |";
 			if (user[0].substr(0, 3) == "270") {
-				cout << "\n\t\t\t| Student Name: " << user[6]
-					<< "\n\t\t\t| Student Room no.: " << user[7];
+				cout << "\n" << string(8, '\t') << "| Student Name: " << user[6]
+					<< "\n" << string(8, '\t') << "| Student Room no.: " << user[7];
 			}
 			else {
-				cout << "\n\t\t\t| Staff Name: " << user[1];
+				cout << "\n" << string(5, '\t') << "| Staff Name: " << user[1];
 			}
-			cout << "\n\t\t\t| -----------------------------------|";
+			cout << "\n" << string(8, '\t') << "-----------------------------------";
 			for (int i = 0; i < order.size(); i++) {
-				payment.totalPrice += order[i].price * order[i].quantity;
-				cout << "\n\t\t\t| Order Date:    " << order[i].orderDate
-					<< "\n\t\t\t| Item Name:      " << order[i].itemName
-					<< "\n\t\t\t| Order Quantity: " << order[i].quantity
-					<< "\n\t\t\t| Price:          $" << order[i].price
-					<< "\n\t\t\t| -----------------------------------|" << endl;
+				cout << "\n" << string(8, '\t') << "| Order Date:    " << order[i].orderDate
+					<< "\n" << string(8, '\t') << "| Item Name:      " << order[i].itemName
+					<< "\n" << string(8, '\t') << "| Order Quantity: " << order[i].quantity
+					<< "\n" << string(8, '\t') << "| Price:          $" << order[i].price
+					<< "\n" << string(8, '\t') << "-----------------------------------";
 			}
-			cout << "\n\t\t\tTOTAL: $" << payment.totalPrice << "\n\t\t\t";
+			cout << "\n" << string(8, '\t') << "| TOTAL: $" << payment.totalPrice << "\n" << string(8, '\t');
 
 
 			isTrue = true, isTrue2 = true, isTrue3 = true, isTrue4 = true, isTrue5 = true, usedFoodPass = false;
-			cout << "\n\t\t\t|---------------------------------|"
-				<< "\n\t\t\t| Press 1 to proceed to checkout  |"
-				<< "\n\t\t\t| Press 2 to exit                 |"
-				<< "\n\t\t\t|---------------------------------|"
-				<< "\n\t\t\t| Choose option: ";
+			cout << "\n" << string(8, '\t') << "|---------------------------------|"
+				<< "\n" << string(8, '\t') << "| Press 1 to proceed to checkout  |"
+				<< "\n" << string(8, '\t') << "| Press 2 to exit                 |"
+				<< "\n" << string(8, '\t') << "|---------------------------------|"
+				<< "\n" << string(8, '\t') << "| Choose option: ";
 			cin >> numChoice;
 
 			switch (numChoice) {
 			case 1:
 				do {
-					cout << "\n\t\t\t|------------------------|"
-						<< "\n\t\t\t| Press 1 to pay now     |"
-						<< "\n\t\t\t| Press 2 to exit        |"
-						<< "\n\t\t\t|------------------------|"
-						<< "\n\t\t\t| Choose option: ";
+					cout << "\n" << string(8, '\t') << "|------------------------|"
+						<< "\n" << string(8, '\t') << "| Press 1 to pay now     |"
+						<< "\n" << string(8, '\t') << "| Press 2 to exit        |"
+						<< "\n" << string(8, '\t') << "|------------------------|"
+						<< "\n" << string(8, '\t') << "| Choose option: ";
 					cin >> numChoice;
 
 					if (numChoice == 1) {
 						if (bulkNum > 0) {
 							do {
-								cout << "\n\t\t\t|-------------------------------------------------------------|"
-									<< "\n\t\t\t| You have " << vectBulk[idLoc].orderCount << " free food pass in your account"
-									<< "\n\t\t\t|-------------------------------------------------------------|"
-									<< "\n\t\t\t| Press 1 to use food pass                                    |"
-									<< "\n\t\t\t| Press 2 to proceed without using food pass                  |"
-									<< "\n\t\t\t|-------------------------------------------------------------|"
-									<< "\n\t\t\t| Choose option: ";
+								cout << "\n\n" << string(8, '\t') << "|-------------------------------------------------------------|"
+									<< "\n" << string(8, '\t') << "| You have " << vectBulk[idLoc].orderCount << " free food pass in your account"
+									<< "\n" << string(8, '\t') << "|-------------------------------------------------------------|"
+									<< "\n" << string(8, '\t') << "| Press 1 to use food pass                                    |"
+									<< "\n" << string(8, '\t') << "| Press 2 to proceed without using food pass                  |"
+									<< "\n" << string(8, '\t') << "|-------------------------------------------------------------|"
+									<< "\n" << string(8, '\t') << "| Choose option: ";
 								cin >> numChoice;
 								if (numChoice == 1) {
 									do {
-										cout << "\n\t\t\t|-------------------------------------------------------|"
-											<< "\n\t\t\t| Press Y to pay all using Bulk Payment                 |"
-											<< "\n\t\t\t| Press N to enter amount of food pass you wish to use  |"
-											<< "\n\t\t\t| Press Q to go back                                    |"
-											<< "\n\t\t\t|-------------------------------------------------------|"
-											<< "\n\t\t\t| Choose option: ";
+										cout << "\n" << string(8, '\t') << "|-------------------------------------------------------|"
+											<< "\n" << string(8, '\t') << "| Press Y to pay all using Bulk Payment                 |"
+											<< "\n" << string(8, '\t') << "| Press N to enter amount of food pass you wish to use  |"
+											<< "\n" << string(8, '\t') << "| Press Q to go back                                    |"
+											<< "\n" << string(8, '\t') << "|-------------------------------------------------------|"
+											<< "\n" << string(8, '\t') << "| Choose option: ";
 										cin >> choice;
 
 										if (tolower(choice) == 'y') {//pay in full
 											do {
-												cout << "\n\t\t\t|-------------------------------|"
-													<< "\n\t\t\t| Press Y to confirm Payment    |"
-													<< "\n\t\t\t| Press N to go back            |"
-													<< "\n\t\t\t|-------------------------------|"
-													<< "\n\t\t\t| Choose option: ";
+												cout << "\n" << string(8, '\t') << "|-------------------------------|"
+													<< "\n" << string(8, '\t') << "| Press Y to confirm Payment    |"
+													<< "\n" << string(8, '\t') << "| Press N to go back            |"
+													<< "\n" << string(8, '\t') << "|-------------------------------|"
+													<< "\n" << string(8, '\t') << "| Choose option: ";
 												cin >> choice;
 												if (tolower(choice) == 'y') {
 													vectBulk[idLoc].orderCount = vectBulk[idLoc].orderCount - (payment.totalPrice / 5);//decrement bulkpayment
@@ -2306,6 +2315,7 @@ void checkoutOrder(vector<Order> order, vector<string> user) {
 													payment.totalPrice -= discount;
 													usedFoodPass = true;
 													payment.typeOfPayment = "BULK PAYMENT";
+													hasPaid = true;
 													isTrue4 = false;
 													isTrue3 = false;
 													break;
@@ -2315,54 +2325,54 @@ void checkoutOrder(vector<Order> order, vector<string> user) {
 													break;
 												}
 												else {
-													cout << "\n\t\t\t|-----------------------------------|"
-														<< "\n\t\t\t| Invalid Input! Please try again.. |"
-														<< "\n\t\t\t|-----------------------------------|";
+													cout << "\n" << string(8, '\t') << "|-----------------------------------|"
+														<< "\n" << string(8, '\t') << "| Invalid Input! Please try again.. |"
+														<< "\n" << string(8, '\t') << "|-----------------------------------|";
 												}
 											} while (true);
 										}
 										else if (tolower(choice) == 'n') {
 											do {
 												do {
-													cout << "\n\t\t\t|-------------------------------------------------------------|"
-														<< "\n\t\t\t| Please enter the amount of food pass you wish to use: ";
+													cout << "\n" << string(8, '\t') << "|-------------------------------------------------------------|"
+														<< "\n" << string(8, '\t') << "| Please enter the amount of food pass you wish to use: ";
 													cin >> num;
 
-													if (num > payment.totalPrice / 5) { // check if amount entered doesn't exceed the amount needed to pay
-														cout << "\n\t\t\t|---------------------------------------------|"
-															<< "\n\t\t\t| Invalid amount! Max amount you can use is: " << payment.totalPrice / 5 << endl;
+													if (num > payment.totalPrice / 5 || num == 0) { // check if amount entered doesn't exceed the amount needed to pay
+														cout << "\n" << string(8, '\t') << "|---------------------------------------------|"
+															<< "\n" << string(8, '\t') << "| Invalid amount! Max amount you can use is: " << payment.totalPrice / 5 << endl;
 													}
 													else
 														break;
 												} while (true);
 
-												cout << "\n\t\t\t|-------------------------------|"
-													<< "\n\t\t\t| Press Y to confirm Payment    |"
-													<< "\n\t\t\t| Press N to go back            |"
-													<< "\n\t\t\t|-------------------------------|"
-													<< "\n\t\t\t| Choose option: ";
+												cout << "\n" << string(8, '\t') << "|-------------------------------|"
+													<< "\n" << string(8, '\t') << "| Press Y to confirm Payment    |"
+													<< "\n" << string(8, '\t') << "| Press N to go back            |"
+													<< "\n" << string(8, '\t') << "|-------------------------------|"
+													<< "\n" << string(8, '\t') << "| Choose option: ";
 												cin >> choice;
-
+												discount = 5.00 * num;
 												if (tolower(choice) == 'y') {
-													discount = 5.00 * num;
-													vectBulk[idLoc].orderCount -= num;
-													bulkNum = vectBulk[idLoc].orderCount;
 													if (discount == payment.totalPrice) {//if amount of bulk payment used is equal to the amount need to pay
 														do {
-															cout << "\n\t\t\t|-----------------------------------------------|"
-																<< "\n\t\t\t| You opted to pay for all using Bulk Payment   |"
-																<< "\n\t\t\t| Do you wish to proceed with this payment?     |"
-																<< "\n\t\t\t|-------------------------------------------------------------------------------------------|"
-																<< "\n\t\t\t| Press 1 to proceed payment ***WARNING THERE IS NO GOING BACK AT THIS POINT THIS POINT***  |"
-																<< "\n\t\t\t| Press 2 to exit from payment                                                              |"
-																<< "\n\t\t\t|-------------------------------------------------------------------------------------------|"
-																<< "\n\t\t\t| Choose option: ";
+															cout << "\n" << string(7, '\t') << "|-----------------------------------------------|"
+																<< "\n" << string(7, '\t') << "| You opted to pay for all using Bulk Payment   |"
+																<< "\n" << string(7, '\t') << "| Do you wish to proceed with this payment?     |"
+																<< "\n" << string(7, '\t') << "|-------------------------------------------------------------------------------------------|"
+																<< "\n" << string(7, '\t') << "| Press 1 to proceed payment ***WARNING THERE IS NO GOING BACK AT THIS POINT THIS POINT***  |"
+																<< "\n" << string(7, '\t') << "| Press 2 to exit from payment                                                              |"
+																<< "\n" << string(7, '\t') << "|-------------------------------------------------------------------------------------------|"
+																<< "\n" << string(7, '\t') << "| Choose option: ";
 															cin >> numChoice;
 
 															if (numChoice == 1) {
+																vectBulk[idLoc].orderCount -= num;
+																bulkNum = vectBulk[idLoc].orderCount;
 																usedFoodPass = true;
 																payment.typeOfPayment = "BULK PAYMENT";
 																payment.totalPrice -= discount;
+																hasPaid = true;
 																isTrue5 = false;
 																isTrue4 = false;
 																isTrue3 = false;
@@ -2373,13 +2383,16 @@ void checkoutOrder(vector<Order> order, vector<string> user) {
 																break;
 															}
 															else {
-																cout << "\n\t\t\t|-----------------------------------|"
-																	<< "\n\t\t\t| Invalid Input! Please try again.. |"
-																	<< "\n\t\t\t|-----------------------------------|";
+																cout << "\n" << string(8, '\t') << "|-----------------------------------|"
+																	<< "\n" << string(8, '\t') << "| Invalid Input! Please try again.. |"
+																	<< "\n" << string(8, '\t') << "|-----------------------------------|";
 															}
 														} while (true);
 													}
 													else {
+														discount = 5.00 * num;
+														vectBulk[idLoc].orderCount -= num; //gohere7
+														bulkNum = vectBulk[idLoc].orderCount;
 														payment.totalPrice -= discount;
 														usedFoodPass = true;
 														isTrue5 = false;
@@ -2392,9 +2405,9 @@ void checkoutOrder(vector<Order> order, vector<string> user) {
 													isTrue5 = false;
 												}
 												else {
-													cout << "\n\t\t\t|-----------------------------------|"
-														<< "\n\t\t\t| Invalid Input! Please try again.. |"
-														<< "\n\t\t\t|-----------------------------------|";
+													cout << "\n" << string(8, '\t') << "|-----------------------------------|"
+														<< "\n" << string(8, '\t') << "| Invalid Input! Please try again.. |"
+														<< "\n" << string(8, '\t') << "|-----------------------------------|";
 												}
 											} while (isTrue5);
 										}
@@ -2402,9 +2415,9 @@ void checkoutOrder(vector<Order> order, vector<string> user) {
 											break;
 										}
 										else { //if wrong input
-											cout << "\n\t\t\t|-----------------------------------|"
-												<< "\n\t\t\t| Invalid Input! Please try again.. |"
-												<< "\n\t\t\t|-----------------------------------|";
+											cout << "\n" << string(8, '\t') << "|-----------------------------------|"
+												<< "\n" << string(8, '\t') << "| Invalid Input! Please try again.. |"
+												<< "\n" << string(8, '\t') << "|-----------------------------------|";
 										}
 									} while (isTrue4);
 								}
@@ -2414,174 +2427,192 @@ void checkoutOrder(vector<Order> order, vector<string> user) {
 								}
 								//add exit
 								else {
-									cout << "\n\t\t\t|-----------------------------------|"
-										<< "\n\t\t\t| Invalid Input! Please try again.. |"
-										<< "\n\t\t\t|-----------------------------------|";
+									cout << "\n" << string(8, '\t') << "|-----------------------------------|"
+										<< "\n" << string(8, '\t') << "| Invalid Input! Please try again.. |"
+										<< "\n" << string(8, '\t') << "|-----------------------------------|";
 								}
 							} while (isTrue3);//main loop
 						}
+
 						if (discount <= payment.totalPrice) {//if there is still remaing amount to pay
 							do {
 								payment.totalPrice = payment.totalPrice + (payment.totalPrice * payment.GST); // apply GST
 								payment.GSTAmount = payment.totalPrice * payment.GST;
-								cout << "\n\t\t\t|------------------------------------------|"
-									<< "\n\t\t\t| Amount left to pay: $" << payment.totalPrice
-									<< "\n\t\t\t| Choose type of Payment"
-									<< "\n\t\t\t|------------------------------------------|"
-									<< "\n\t\t\t| Press 1 VISA                             |"
-									<< "\n\t\t\t| Press 2 American Express                 |"
-									<< "\n\t\t\t| Press 3 Mastercard                       |"
-									<< "\n\t\t\t| Press 4 to exit                          |"
-									<< "\n\t\t\t|------------------------------------------|"
-									<< "\n\t\t\t| Choose option: ";
+								cout << "\n\n" << string(8, '\t') << "|------------------------------------------|"
+									<< "\n" << string(8, '\t') << "| Amount left to pay: $" << payment.totalPrice
+									<< "\n" << string(8, '\t') << "| Choose type of Payment"
+									<< "\n" << string(8, '\t') << "|------------------------------------------|"
+									<< "\n" << string(8, '\t') << "| Press 1 VISA                             |"
+									<< "\n" << string(8, '\t') << "| Press 2 American Express                 |"
+									<< "\n" << string(8, '\t') << "| Press 3 Mastercard                       |"
+									<< "\n" << string(8, '\t') << "| Press 4 to exit                          |"
+									<< "\n" << string(8, '\t') << "|------------------------------------------|"
+									<< "\n" << string(8, '\t') << "| Choose option: ";
 								cin >> numChoice;
 
 								switch (numChoice) {
 								case 1:
-									if (usedFoodPass)
+									if (usedFoodPass) {
 										payment.typeOfPayment = "BULK PAYMENT / VISA";
-									else
+										hasPaid = true;
+									}
+									else {
 										payment.typeOfPayment = "BULK PAYMENT";
+										hasPaid = true;
+									}
 									isTrue2 = false;
 									break;
 								case 2:
-									if (usedFoodPass)
+									if (usedFoodPass) {
 										payment.typeOfPayment = "BULK PAYMENT / American Express";
-									else
+										hasPaid = true;
+									}
+									else {
 										payment.typeOfPayment = "American Express";
+										hasPaid = true;
+									}
 									isTrue2 = false;
 									break;
 								case 3:
-									if (usedFoodPass)
+									if (usedFoodPass) {
 										payment.typeOfPayment = "BULK PAYMENT / Mastercard";
-									else
+										hasPaid = true;
+									}
+									else {
+										hasPaid = true;
 										payment.typeOfPayment = "Mastercard";
+									}
 									isTrue2 = false;
 									break;
 								case 4:
+									hasPaid = false;
 									isTrue2 = false;
 									break;
 								default:
-									cout << "\n\t\t\t|-----------------------------------|"
-										<< "\n\t\t\t| Invalid Input! Please try again.. |"
-										<< "\n\t\t\t|-----------------------------------|";
+									cout << "\n" << string(8, '\t') << "|-----------------------------------|"
+										<< "\n" << string(8, '\t') << "| Invalid Input! Please try again.. |"
+										<< "\n" << string(8, '\t') << "|-----------------------------------|";
 									system("pause");
 									break;
 								}
 							} while (isTrue2);
 						}
-						payment.date = getCurrentDate();
-						cout << "\n\t\t\t|------------------------------------------|"
-							<< "\n\t\t\t|      Bulk Payment left: " << bulkNum
-							<< "\n\t\t\t|------------------------------------------|"
-							<< "\n\t\t\t Date: " << payment.date << endl
-							<< "\n\t\t\t|------------------------------------------|"
-							<< "\n\t\t\t|                School Name               |"
-							<< "\n\t\t\t|------------------------------------------|"
-							<< "\n\t\t\t|            A Block, School Name          |"
-							<< "\n\t\t\t|            Phone: 0800 83 83 83          |"
-							<< "\n\t\t\t|------------------------------------------|";
 
-						for (int i = 0; i < order.size(); i++) {
-							subTotal = order[i].price * order[i].quantity;
-							cout << "\n\t\t\t|------------------------------------------|"
-								<< "\n\t\t\t| Item Name:       " << order[i].itemName
-								<< "\n\t\t\t| Number of items: " << order[i].quantity
-								<< "\n\t\t\t| Order ID:        " << order[i].orderNum
-								<< "\n\t\t\t| Price:          $" << order[i].price
-								<< "\n\t\t\t|------------------------------------------|"
-								<< "\n\t\t\t|SUBTOTAL:        $" << subTotal << endl;
-							subTotal = 0;
-						}
-						if (usedFoodPass) {
-							cout << "\n\t\t\t|------------------------------------------|"
-								<< "\n\t\t\t|Food Pass Discount: $" << discount;
-						}
+						if (hasPaid) {
+							payment.date = getCurrentDate();
+							cout << "\n\n" << string(8, '\t') << "|------------------------------------------|"
+								<< "\n" << string(8, '\t') << "|      Bulk Payment left: " << bulkNum
+								<< "\n" << string(8, '\t') << "|------------------------------------------|"
+								<< "\n" << string(8, '\t') << " Date: " << payment.date << endl
+								<< "\n" << string(8, '\t') << "|------------------------------------------|"
+								<< "\n" << string(8, '\t') << "|                School Name               |"
+								<< "\n" << string(8, '\t') << "|------------------------------------------|"
+								<< "\n" << string(8, '\t') << "|            A Block, School Name          |"
+								<< "\n" << string(8, '\t') << "|            Phone: 0800 83 83 83          |"
+								<< "\n" << string(8, '\t') << "|------------------------------------------|";
 
-						do {//generate a unique GST number and check if id is unique
-							gstNumber = generateID(6);
-							if (checkUniqueID(5, gstNumber)) {
-								payment.GSTNumber = gstNumber;
-								break;
+							for (int i = 0; i < order.size(); i++) {
+								subTotal = order[i].price * order[i].quantity;
+								cout << "\n" << string(8, '\t') << "|------------------------------------------|"
+									<< "\n" << string(8, '\t') << "| Item Name:       " << order[i].itemName
+									<< "\n" << string(8, '\t') << "| Number of items: " << order[i].quantity
+									<< "\n" << string(8, '\t') << "| Order ID:        " << order[i].orderNum
+									<< "\n" << string(8, '\t') << "| Price:          $" << order[i].price
+									<< "\n" << string(8, '\t') << "|------------------------------------------|"
+									<< "\n" << string(8, '\t') << "|SUBTOTAL:        $" << subTotal << endl;
+								subTotal = 0;
 							}
-						} while (true);
-						cout << "\n\t\t\t|------------------------------------------|"
-							<< "\n\t\t\t|TOTAL PRICE:      $" << payment.totalPrice
-							<< "\n\t\t\t|------------------------------------------|"
-							<< "\n\t\t\t|Type of Payment:  " << payment.typeOfPayment
-							<< "\n\t\t\t|Change:           $ 0.00"
-							<< "\n\t\t\t|GST Included      $" << payment.GSTAmount
-							<< "\n\t\t\t|GST Number:       " << payment.GSTNumber
-							<< "\n\t\t\t|------------------------------------------|\n\n\t\t\t";
-
-						//save order to csv
-						ofstream saveOrder("Order_file.csv", ios::app);
-						do {//generate a unique id for order and check if id is unique
-							ord.orderID = generateID(4);
-							if (checkUniqueID(4, ord.orderID))
-								break;
-						} while (true);
-						ord.foreignKey = user[0];
-						for (int i = 0; i < order.size(); i++) {
-							saveOrder << ord.orderID << ", " << ord.foreignKey << "," << getCurrentDate() << "," << order[i].itemName << "," << order[i].quantity << "," << order[i].price << endl;
-						}
-						saveOrder.close();
-
-						//save payment details to csv
-						ofstream savePayment("Payment_file.csv", ios::app);
-						do {//generate a unique id for payment and check if id is unique
-							gstID = generateID(5);
-							if (checkUniqueID(5, gstID)) {
-								payment.paymentID = gstID;
-								break;
+							if (usedFoodPass) {
+								cout << "\n" << string(8, '\t') << "|------------------------------------------|"
+									<< "\n" << string(8, '\t') << "|Food Pass Discount: $" << discount;
 							}
-						} while (true);
-						savePayment << payment.paymentID << ", " << user[0] << "," << payment.GSTNumber << "," << payment.GSTAmount << "," << payment.typeOfPayment << "," << discount << "," << payment.totalPrice << "," << payment.date << endl;
-						savePayment.close();
 
-						//update bulk payment csv
-						ofstream updateBulkPayment("BulkOrder_file.csv", ios::out);
-						updateBulkPayment << "USER_ID" << "," << "ORDER_COUNT" << endl;
-						for (int i = 0; i < vectBulk.size(); i++) {
-							updateBulkPayment << vectBulk[i].bulkID << "," << vectBulk[i].orderCount << endl;
+							do {//generate a unique GST number and check if id is unique
+								gstNumber = generateID(6);
+								if (checkUniqueID(5, gstNumber)) {
+									payment.GSTNumber = gstNumber;
+									break;
+								}
+							} while (true);
+							cout << "\n" << string(8, '\t') << "|------------------------------------------|"
+								<< "\n" << string(8, '\t') << "|TOTAL PRICE:      $" << payment.totalPrice
+								<< "\n" << string(8, '\t') << "|------------------------------------------|"
+								<< "\n" << string(8, '\t') << "|Type of Payment:  " << payment.typeOfPayment
+								<< "\n" << string(8, '\t') << "|Change:           $ 0.00"
+								<< "\n" << string(8, '\t') << "|GST Included      $" << payment.GSTAmount
+								<< "\n" << string(8, '\t') << "|GST Number:       " << payment.GSTNumber
+								<< "\n" << string(8, '\t') << "|------------------------------------------|\n\n\t\t\t";
+
+							//save order to csv
+							ofstream saveOrder("Order_file.csv", ios::app);
+							do {//generate a unique id for order and check if id is unique
+								ord.orderID = generateID(4);
+								if (checkUniqueID(4, ord.orderID))
+									break;
+							} while (true);
+							ord.foreignKey = user[0];
+							for (int i = 0; i < order.size(); i++) {
+								saveOrder << ord.orderID << ", " << ord.foreignKey << "," << getCurrentDate() << "," << order[i].itemName << "," << order[i].quantity << "," << order[i].price << endl;
+							}
+							saveOrder.close();
+
+							//save payment details to csv
+							ofstream savePayment("Payment_file.csv", ios::app);
+							do {//generate a unique id for payment and check if id is unique
+								gstID = generateID(5);
+								if (checkUniqueID(5, gstID)) {
+									payment.paymentID = gstID;
+									break;
+								}
+							} while (true);
+							savePayment << payment.paymentID << ", " << user[0] << "," << payment.GSTNumber << "," << payment.GSTAmount << "," << payment.typeOfPayment << "," << discount << "," << payment.totalPrice << "," << payment.date << endl;
+							savePayment.close();
+
+							//update bulk payment csv
+							ofstream updateBulkPayment("BulkOrder_file.csv", ios::out);
+							updateBulkPayment << "USER_ID" << "," << "ORDER_COUNT" << endl;
+							for (int i = 0; i < vectBulk.size(); i++) {
+								updateBulkPayment << vectBulk[i].bulkID << "," << vectBulk[i].orderCount << endl;
+							}
+							updateBulkPayment.close();
+
+							cout << "\n" << string(8, '\t') << "|---------------------------------|"
+								<< "\n" << string(8, '\t') << "|   PAYMENT CONFIRMED THANK YOU   |"
+								<< "\n" << string(8, '\t') << "|---------------------------------|\n\t\t\t";
+
+							isTrue = false;
+							order.clear();//clear order after paying		
+							system("pause");
 						}
-						updateBulkPayment.close();
-
-						cout << "\n\t\t\t|---------------------------------|"
-							<< "\n\t\t\t|   PAYMENT CONFIRMED THANK YOU   |"
-							<< "\n\t\t\t|---------------------------------|\n\t\t\t";
-
-						isTrue = false;
-						order.clear();//clear order after paying		
-						system("pause");
 						break;
 					}
 					else if (numChoice == 2)
 						break;
 					else {
-						cout << "\n\t\t\t|-----------------------------------|"
-							<< "\n\t\t\t| Invalid Input! Please try again.. |"
-							<< "\n\t\t\t|-----------------------------------|\n\t\t\t";
+						cout << "\n" << string(8, '\t') << "|-----------------------------------|"
+							<< "\n" << string(8, '\t') << "| Invalid Input! Please try again.. |"
+							<< "\n" << string(8, '\t') << "|-----------------------------------|\n\t\t\t";
 						system("pause");
 					}
 				} while (true);
 				break;
 			case 2:
-				cout << "\n\t\t\t|-----------------------------------|"
-					<< "\n\t\t\t|        Exiting from checkout..    |"
-					<< "\n\t\t\t|-----------------------------------|\n\t\t\t";
+				cout << "\n" << string(8, '\t') << "|-----------------------------------|"
+					<< "\n" << string(8, '\t') << "|        Exiting from checkout..    |"
+					<< "\n" << string(8, '\t') << "|-----------------------------------|\n\t\t\t";
 				system("pause");
 				isTrue = false;
 				break;
 			default:
-				cout << "\n\t\t\t|-----------------------------------|"
-					<< "\n\t\t\t| Invalid Input! Please try again.. |"
-					<< "\n\t\t\t|-----------------------------------|\n\t\t\t";
+				cout << "\n" << string(8, '\t') << "|-----------------------------------|"
+					<< "\n" << string(8, '\t') << "| Invalid Input! Please try again.. |"
+					<< "\n" << string(8, '\t') << "|-----------------------------------|\n\t\t\t";
 				system("pause");
 				break;
 			}
 		} while (isTrue);
 	}
+	return order;
 }
 
 //Code by Jay
@@ -2676,17 +2707,20 @@ void printAllStaffDetails() {
 
 //Code by Jay
 //This function gets all the parent data(order,payment) from csv and stores it in a vector and returns it
-vector<Parent> getAllParentDetails() {
+vector<Parent> getAllParentDetails() {//plus Ultra
 
 	vector<Parent> vectParent;
 	vector<Order> vectOrder;
 	vector<Payment> vectPayment;
 	vector<Login> vectLogin;
+	vector<Login>* ptrVectLogin; //plus ultra
 	vector<string> parentData;
 	Parent parent;
 	string tempStr, line;
 	char storeChar[8];
 	ifstream myfile;
+
+	ptrVectLogin = &vectLogin; //plus ultra
 	myfile.open("Parent_file.csv", ios::in);
 
 	while (getline(myfile, line)) {
@@ -2714,7 +2748,7 @@ vector<Parent> getAllParentDetails() {
 	myfile.close();
 	vectOrder = getAllOrderDetails();
 	vectPayment = getAllPaymentDetails();
-	//vectLogin = getAllLoginDetails(); //gohere3
+	getAllLoginDetails(ptrVectLogin); //plus ultra //gohere3
 
 	//get all order details
 	for (int i = 0; i < vectParent.size(); i++) {
@@ -2737,7 +2771,6 @@ vector<Parent> getAllParentDetails() {
 	//get all login details
 	for (int i = 0; i < vectParent.size(); i++) {
 		for (int x = 0; x < vectLogin.size(); x++) {
-			vectPayment[x].foreignKey.erase(remove(vectPayment[x].foreignKey.begin(), vectPayment[x].foreignKey.end(), ' '), vectPayment[x].foreignKey.end());//remove spaces in the string
 			if (vectParent[i].parentID == vectLogin[x].userForeignID) {
 				vectParent[i].login.loginID = vectLogin[x].loginID;
 				vectParent[i].login.userForeignID = vectLogin[x].userForeignID;
@@ -2752,13 +2785,15 @@ vector<Parent> getAllParentDetails() {
 
 //Code by Jay
 //This function gets all the staff data(order,payment) from csv and stores it in a vector and returns it
-vector<Staff> getAllStaffDetails() {
+vector<Staff> getAllStaffDetails() {//Plus Ultra
 
 	vector<Staff> vectStaff;
 	vector<Order> vectOrder;
 	vector<Payment> vectPayment;
 	vector<Login> vectLogin;
 	vector<string> staffData;
+	vector<Login>* ptrVectLogin; //plus ultra
+	ptrVectLogin = &vectLogin; //plus ultra
 	Staff staff;
 	string tempStr, line;
 
@@ -2789,7 +2824,7 @@ vector<Staff> getAllStaffDetails() {
 
 	vectOrder = getAllOrderDetails();
 	vectPayment = getAllPaymentDetails();
-	//vectLogin = getAllLoginDetails();
+	vectLogin = getAllLoginDetails(ptrVectLogin); //plus ultra
 
 	//get all order details
 	for (int i = 0; i < vectStaff.size(); i++) {
@@ -2812,7 +2847,6 @@ vector<Staff> getAllStaffDetails() {
 	//get all login details
 	for (int i = 0; i < vectStaff.size(); i++) {
 		for (int x = 0; x < vectLogin.size(); x++) {
-			vectPayment[x].foreignKey.erase(remove(vectPayment[x].foreignKey.begin(), vectPayment[x].foreignKey.end(), ' '), vectPayment[x].foreignKey.end());//remove spaces in the string
 			if (vectStaff[i].staffID == vectLogin[x].userForeignID) {
 				vectStaff[i].login.loginID = vectLogin[x].loginID;
 				vectStaff[i].login.userForeignID = vectLogin[x].userForeignID;
@@ -2900,15 +2934,14 @@ vector<Payment> getAllPaymentDetails() {
 
 //Code by Jay
 //This function gets all Login data from csv and stores it in vector
-vector<Login> getAllLoginDetails() {
+vector<Login>& getAllLoginDetails(vector<Login>* vectLogin) { //plus ultra
 
+	vector<Login>& vecRef = *vectLogin;
 	vector<string> loginData;
 	string tempStr, line;
-	vector<Login> vectLog;
 	Login login;
 	ifstream myfile;
 
-	vectLog.push_back(login);
 	myfile.open("Login_file.csv", ios::in);
 
 	while (getline(myfile, line)) {
@@ -2923,13 +2956,13 @@ vector<Login> getAllLoginDetails() {
 			login.userForeignID = loginData[1];
 			login.username = loginData[2];
 			login.password = loginData[3]; //gohere2
-			vectLog.push_back(login);
+			vecRef.push_back(login);
 		}
 		loginData.clear();
 	}
 	myfile.close();
 
-	return vectLog;
+	return vecRef;
 }
 
 vector<BulkPayment> getAllBulkDetails() {
@@ -2965,15 +2998,17 @@ vector<BulkPayment> getAllBulkDetails() {
 
 //Code by Jay
 //This function updates the parents details
-void updateParentDetails(string userID) {
+void updateParentDetails(string userID) { //plus ultra all changes
 	vector<Parent> parent;
 	vector<Login> login;
+	vector<Login>* ptrVectLogin; //plus ultra
+	ptrVectLogin = &login; //plus ultra
 	int choice, userVectLocation = 0, tempContactNo;
 	bool isTrue, isTrue2, isTrue3, isFound = true;
 	string password, verifyPassword, tempData;
 
 	parent = getAllParentDetails();
-	login = getAllLoginDetails();
+	login = getAllLoginDetails(ptrVectLogin); //plus ultra
 	//get user location in vector
 	for (int i = 0; i < parent.size(); i++) {
 		if (parent[i].parentID == userID) {
@@ -2989,360 +3024,360 @@ void updateParentDetails(string userID) {
 		tempData = "";
 		do {
 			system("cls");
-			cout << "\n\t\t\t|--------------------------------------------|"
-				<< "\n\t\t\t|                PARENT USER                 |"
-				<< "\n\t\t\t|--------------------------------------------|"
-				<< "\n\t\t\t| Press 1 to update Parent Details           |"
-				<< "\n\t\t\t| Press 2 to change password                 |"
-				<< "\n\t\t\t| Press 3 to exit                            |"
-				<< "\n\t\t\t|--------------------------------------------|"
-				<< "\n\t\t\t| Choose option: ";
+			cout << "\n" << string(8, '\t') << "|--------------------------------------------|"
+				<< "\n" << string(8, '\t') << "|                PARENT USER                 |"
+				<< "\n" << string(8, '\t') << "|--------------------------------------------|"
+				<< "\n" << string(8, '\t') << "| Press 1 to update Parent Details           |"
+				<< "\n" << string(8, '\t') << "| Press 2 to change password                 |"
+				<< "\n" << string(8, '\t') << "| Press 3 to exit                            |"
+				<< "\n" << string(8, '\t') << "|--------------------------------------------|"
+				<< "\n" << string(8, '\t') << "| Choose option: ";
 			cin >> choice;
 			if (choice == 1) {
 				isTrue = true;
 				do {
 					system("cls");
-					cout << "\n\t\t\t|--------------------------------------------|"
-						<< "\n\t\t\t|            UPDATE PARENT DETAILS           |"
-						<< "\n\t\t\t|--------------------------------------------|"
-						<< "\n\t\t\t| Press 1 to update Parent Name              |"
-						<< "\n\t\t\t| Press 2 to update Parent Gender            |"
-						<< "\n\t\t\t| Press 3 to update Parent Date of Birth     |"
-						<< "\n\t\t\t| Press 4 to update Parent Contact Number    |"
-						<< "\n\t\t\t| Press 5 to update Parent Email             |"
-						<< "\n\t\t\t| Press 6 to update Parent Child's Name      |"
-						<< "\n\t\t\t| Press 7 to update Parent Child's Room No.  |"
-						<< "\n\t\t\t| Press 8 to update Parent Visa Card No.     |"
-						<< "\n\t\t\t| Press 9 to update Parent Visa Expiry Date  |"
-						<< "\n\t\t\t| Press 0 to exit                            |"
-						<< "\n\t\t\t|--------------------------------------------|"
-						<< "\n\t\t\t| Choose option: ";
+					cout << "\n" << string(8, '\t') << "|--------------------------------------------|"
+						<< "\n" << string(8, '\t') << "|            UPDATE PARENT DETAILS           |"
+						<< "\n" << string(8, '\t') << "|--------------------------------------------|"
+						<< "\n" << string(8, '\t') << "| Press 1 to update Parent Name              |"
+						<< "\n" << string(8, '\t') << "| Press 2 to update Parent Gender            |"
+						<< "\n" << string(8, '\t') << "| Press 3 to update Parent Date of Birth     |"
+						<< "\n" << string(8, '\t') << "| Press 4 to update Parent Contact Number    |"
+						<< "\n" << string(8, '\t') << "| Press 5 to update Parent Email             |"
+						<< "\n" << string(8, '\t') << "| Press 6 to update Parent Child's Name      |"
+						<< "\n" << string(8, '\t') << "| Press 7 to update Parent Child's Room No.  |"
+						<< "\n" << string(8, '\t') << "| Press 8 to update Parent Visa Card No.     |"
+						<< "\n" << string(8, '\t') << "| Press 9 to update Parent Visa Expiry Date  |"
+						<< "\n" << string(8, '\t') << "| Press 0 to exit                            |"
+						<< "\n" << string(8, '\t') << "|--------------------------------------------|"
+						<< "\n" << string(8, '\t') << "| Choose option: ";
 					cin >> choice;
 					cin.ignore();
 
 					switch (choice) {
-						cout << "\n\t\t\t|--------------------------------------------|"
-							<< "\n\t\t\t|            UPDATE PARENT DETAILS           |"
-							<< "\n\t\t\t|--------------------------------------------|";
+						cout << "\n" << string(8, '\t') << "|--------------------------------------------|"
+							<< "\n" << string(8, '\t') << "|            UPDATE PARENT DETAILS           |"
+							<< "\n" << string(8, '\t') << "|--------------------------------------------|";
 					case 1:
-						cout << "\n\t\t\t| Current Name: " << parent[userVectLocation].fullName;
+						cout << "\n" << string(8, '\t') << "| Current Name: " << parent[userVectLocation].fullName;
 						do {
-							cout << "\n\t\t\t| Enter Full name" << setw(16) << "|: ";
+							cout << "\n" << string(8, '\t') << "| Enter Full name" << setw(16) << "|: ";
 							getline(cin, tempData);
 							if (tempData == "")
-								cout << "\n\t\t\tInvalid Input.. Please Enter your name..\n";
+								cout << "\n" << string(8, '\t') << "Invalid Input.. Please Enter your name..\n";
 							else {
-								cout << "\n\t\t\t|--------------------------------------------|"
-									<< "\n\t\t\t| Press 1 to Confirm Name                    |"
-									<< "\n\t\t\t| Press 2 to Re-enter Name                   |"
-									<< "\n\t\t\t| Press 3 to exit                            |"
-									<< "\n\t\t\t|--------------------------------------------|"
-									<< "\n\t\t\t| Choose option: ";
+								cout << "\n" << string(8, '\t') << "|--------------------------------------------|"
+									<< "\n" << string(8, '\t') << "| Press 1 to Confirm Name                    |"
+									<< "\n" << string(8, '\t') << "| Press 2 to Re-enter Name                   |"
+									<< "\n" << string(8, '\t') << "| Press 3 to exit                            |"
+									<< "\n" << string(8, '\t') << "|--------------------------------------------|"
+									<< "\n" << string(8, '\t') << "| Choose option: ";
 								cin >> choice;
 								cin.ignore();
 								if (choice == 1) {
-									cout << "\n\t\t\t|---------------------------------------------|"
-										<< "\n\t\t\t|            NAME HAS BEEN UPDATED            |"
-										<< "\n\t\t\t|---------------------------------------------|\n\t\t\t";
+									cout << "\n" << string(8, '\t') << "|---------------------------------------------|"
+										<< "\n" << string(8, '\t') << "|            NAME HAS BEEN UPDATED            |"
+										<< "\n" << string(8, '\t') << "|---------------------------------------------|\n" << string(8, '\t') << "";
 									parent[userVectLocation].fullName = tempData;
 									system("pause");
 									break;
 								}
 								else if (choice == 2) {
-									cout << "\n\t\t\t|---------------------------------------------|";
+									cout << "\n" << string(8, '\t') << "|---------------------------------------------|";
 								}
 								else if (choice == 3) {
 									break;
 								}
 								else
-									cout << "\n\t\t\tInvalid Input.. Please Try Again..\n";
+									cout << "\n" << string(8, '\t') << "Invalid Input.. Please Try Again..\n";
 							}
 						} while (true);
 						break;
 					case 2:
-						cout << "\n\t\t\t| Current Gender: " << parent[userVectLocation].gender;
+						cout << "\n" << string(8, '\t') << "| Current Gender: " << parent[userVectLocation].gender;
 						do {
-							cout << "\n\t\t\t| Enter Gender" << setw(19) << "|: ";
+							cout << "\n" << string(8, '\t') << "| Enter Gender" << setw(19) << "|: ";
 							getline(cin, tempData);
 							if (tempData == "")
 								cout << "\n\t\t\tInvalid input, Please Enter your gender\n";
 							else {
-								cout << "\n\t\t\t|--------------------------------------------|"
-									<< "\n\t\t\t| Press 1 to Confirm Gender                  |"
-									<< "\n\t\t\t| Press 2 to Re-enter Gender                 |"
-									<< "\n\t\t\t| Press 3 to exit                            |"
-									<< "\n\t\t\t|--------------------------------------------|"
-									<< "\n\t\t\t| Choose option: ";
+								cout << "\n" << string(8, '\t') << "|--------------------------------------------|"
+									<< "\n" << string(8, '\t') << "| Press 1 to Confirm Gender                  |"
+									<< "\n" << string(8, '\t') << "| Press 2 to Re-enter Gender                 |"
+									<< "\n" << string(8, '\t') << "| Press 3 to exit                            |"
+									<< "\n" << string(8, '\t') << "|--------------------------------------------|"
+									<< "\n" << string(8, '\t') << "| Choose option: ";
 								cin >> choice;
 								if (choice == 1) {
-									cout << "\n\t\t\t|---------------------------------------------|"
-										<< "\n\t\t\t|           GENDER HAS BEEN UPDATED           |"
-										<< "\n\t\t\t|---------------------------------------------|\n\t\t\t";
+									cout << "\n" << string(8, '\t') << "|---------------------------------------------|"
+										<< "\n" << string(8, '\t') << "|           GENDER HAS BEEN UPDATED           |"
+										<< "\n" << string(8, '\t') << "|---------------------------------------------|\n" << string(8, '\t') << "";
 									parent[userVectLocation].gender = tempData;
 									system("pause");
 									break;
 								}
 								else if (choice == 2) {
-									cout << "\n\t\t\t|---------------------------------------------|";
+									cout << "\n" << string(8, '\t') << "|---------------------------------------------|";
 								}
 								else if (choice == 3) {
 									break;
 								}
 								else
-									cout << "\n\t\t\tInvalid Input.. Please Try Again..\n";
+									cout << "\n" << string(8, '\t') << "Invalid Input.. Please Try Again..\n";
 							}
 						} while (true);
 						break;
 					case 3:
-						cout << "\n\t\t\t| Current Date of Birth: " << parent[userVectLocation].dob;
+						cout << "\n" << string(8, '\t') << "| Current Date of Birth: " << parent[userVectLocation].dob;
 						do {
-							cout << "\n\t\t\t| Enter Date of birth" << setw(12) << "|: ";
+							cout << "\n" << string(8, '\t') << "| Enter Date of birth" << setw(12) << "|: ";
 							getline(cin, tempData);
 							if (tempData == "")
-								cout << "\n\t\t\tInvalid input, Please Enter your Date of birth\n";
+								cout << "\n" << string(8, '\t') << "Invalid input, Please Enter your Date of birth\n";
 							else {
-								cout << "\n\t\t\t|--------------------------------------------|"
-									<< "\n\t\t\t| Press 1 to Confirm Date of Birth           |"
-									<< "\n\t\t\t| Press 2 to Re-enter Date of Birth          |"
-									<< "\n\t\t\t| Press 3 to exit                            |"
-									<< "\n\t\t\t|--------------------------------------------|"
-									<< "\n\t\t\t| Choose option: ";
+								cout << "\n" << string(8, '\t') << "|--------------------------------------------|"
+									<< "\n" << string(8, '\t') << "| Press 1 to Confirm Date of Birth           |"
+									<< "\n" << string(8, '\t') << "| Press 2 to Re-enter Date of Birth          |"
+									<< "\n" << string(8, '\t') << "| Press 3 to exit                            |"
+									<< "\n" << string(8, '\t') << "|--------------------------------------------|"
+									<< "\n" << string(8, '\t') << "| Choose option: ";
 								cin >> choice;
 								if (choice == 1) {
-									cout << "\n\t\t\t|---------------------------------------------|"
-										<< "\n\t\t\t|        DATE OF BIRTH HAS BEEN UPDATED       |"
-										<< "\n\t\t\t|---------------------------------------------|\n\t\t\t";
+									cout << "\n" << string(8, '\t') << "|---------------------------------------------|"
+										<< "\n" << string(8, '\t') << "|        DATE OF BIRTH HAS BEEN UPDATED       |"
+										<< "\n" << string(8, '\t') << "|---------------------------------------------|\n" << string(8, '\t') << "";
 									parent[userVectLocation].dob = tempData;
 									system("pause");
 									break;
 								}
 								else if (choice == 2) {
-									cout << "\n\t\t\t|---------------------------------------------|";
+									cout << "\n" << string(8, '\t') << "|---------------------------------------------|";
 								}
 								else if (choice == 3) {
 									break;
 								}
 								else
-									cout << "\n\t\t\tInvalid Input.. Please Try Again..\n";
+									cout << "\n" << string(8, '\t') << "Invalid Input.. Please Try Again..\n";
 							}
 						} while (true);
 						break;
 					case 4:
-						cout << "\n\t\t\t| Current Contact No: " << parent[userVectLocation].countNum;
+						cout << "\n" << string(8, '\t') << "| Current Contact No: " << parent[userVectLocation].countNum;
 						do {
-							cout << "\n\t\t\t| Enter Contact Number" << setw(11) << "|: ";
+							cout << "\n" << string(8, '\t') << "| Enter Contact Number" << setw(11) << "|: ";
 							cin >> tempContactNo;
 							if (to_string(tempContactNo).length() < 9 || to_string(tempContactNo).length() > 10)
-								cout << "\n\t\t\tInvalid input, Please Enter your contact number.\n";
+								cout << "\n" << string(8, '\t') << "Invalid input, Please Enter your contact number.\n";
 							else {
 								cin.ignore();
 								{
-									cout << "\n\t\t\t|--------------------------------------------|"
-										<< "\n\t\t\t| Press 1 to Confirm Contact No              |"
-										<< "\n\t\t\t| Press 2 to Re-enter Contact No             |"
-										<< "\n\t\t\t| Press 3 to exit                            |"
-										<< "\n\t\t\t|--------------------------------------------|"
-										<< "\n\t\t\t| Choose option: ";
+									cout << "\n" << string(8, '\t') << "|--------------------------------------------|"
+										<< "\n" << string(8, '\t') << "| Press 1 to Confirm Contact No              |"
+										<< "\n" << string(8, '\t') << "| Press 2 to Re-enter Contact No             |"
+										<< "\n" << string(8, '\t') << "| Press 3 to exit                            |"
+										<< "\n" << string(8, '\t') << "|--------------------------------------------|"
+										<< "\n" << string(8, '\t') << "| Choose option: ";
 									cin >> choice;
 									if (choice == 1) {
-										cout << "\n\t\t\t|---------------------------------------------|"
-											<< "\n\t\t\t|        CONTACT NO. HAS BEEN UPDATED         |"
-											<< "\n\t\t\t|---------------------------------------------|\n\t\t\t";
+										cout << "\n" << string(8, '\t') << "|---------------------------------------------|"
+											<< "\n" << string(8, '\t') << "|        CONTACT NO. HAS BEEN UPDATED         |"
+											<< "\n" << string(8, '\t') << "|---------------------------------------------|\n" << string(8, '\t') << "";
 										parent[userVectLocation].countNum = tempContactNo;
 										system("pause");
 										cin.ignore();
 										break;
 									}
 									else if (choice == 2) {
-										cout << "\n\t\t\t|---------------------------------------------|";
+										cout << "\n" << string(8, '\t') << "|---------------------------------------------|";
 									}
 									else if (choice == 3) {
 										cin.ignore();
 										break;
 									}
 									else
-										cout << "\n\t\t\tInvalid Input.. Please Try Again..\n";
+										cout << "\n" << string(8, '\t') << "Invalid Input.. Please Try Again..\n";
 								}
 							}
 							cin.ignore();
 						} while (true);
 						break;
 					case 5:
-						cout << "\n\t\t\t| Current Email: " << parent[userVectLocation].email;
+						cout << "\n" << string(8, '\t') << "| Current Email: " << parent[userVectLocation].email;
 						do {
-							cout << "\n\t\t\t| Enter Email Address" << setw(12) << "|: ";
+							cout << "\n" << string(8, '\t') << "| Enter Email Address" << setw(12) << "|: ";
 							getline(cin, tempData);
 							if (tempData == "")
-								cout << "\n\t\t\tInvalid input, Please Enter your Email Address\n";
+								cout << "\n" << string(8, '\t') << "Invalid input, Please Enter your Email Address\n";
 							else {
 								{
-									cout << "\n\t\t\t|--------------------------------------------|"
-										<< "\n\t\t\t| Press 1 to Confirm Email                   |"
-										<< "\n\t\t\t| Press 2 to Re-enter Email                  |"
-										<< "\n\t\t\t| Press 3 to exit                            |"
-										<< "\n\t\t\t|--------------------------------------------|"
-										<< "\n\t\t\t| Choose option: ";
+									cout << "\n" << string(8, '\t') << "|--------------------------------------------|"
+										<< "\n" << string(8, '\t') << "| Press 1 to Confirm Email                   |"
+										<< "\n" << string(8, '\t') << "| Press 2 to Re-enter Email                  |"
+										<< "\n" << string(8, '\t') << "| Press 3 to exit                            |"
+										<< "\n" << string(8, '\t') << "|--------------------------------------------|"
+										<< "\n" << string(8, '\t') << "| Choose option: ";
 									cin >> choice;
 									if (choice == 1) {
-										cout << "\n\t\t\t|---------------------------------------------|"
-											<< "\n\t\t\t|            EMAIL HAS BEEN UPDATED           |"
-											<< "\n\t\t\t|---------------------------------------------|\n\t\t\t";
+										cout << "\n" << string(8, '\t') << "|---------------------------------------------|"
+											<< "\n" << string(8, '\t') << "|            EMAIL HAS BEEN UPDATED           |"
+											<< "\n" << string(8, '\t') << "|---------------------------------------------|\n\t\t\t";
 										parent[userVectLocation].email = tempData;
 										system("pause");
 										break;
 									}
 									else if (choice == 2) {
-										cout << "\n\t\t\t|---------------------------------------------|";
+										cout << "\n" << string(8, '\t') << "|---------------------------------------------|";
 									}
 									else if (choice == 3) {
 										break;
 									}
 									else
-										cout << "\n\t\t\tInvalid Input.. Please Try Again..\n";
+										cout << "\n" << string(8, '\t') << "Invalid Input.. Please Try Again..\n";
 								}
 							}
 						} while (true);
 						break;
 					case 6:
-						cout << "\n\t\t\t| Current Child's name: " << parent[userVectLocation].childFullName;
+						cout << "\n" << string(8, '\t') << "| Current Child's name: " << parent[userVectLocation].childFullName;
 						do {
-							cout << "\n\t\t\t| Enter Child's name" << setw(13) << "|: ";
+							cout << "\n" << string(8, '\t') << "| Enter Child's name" << setw(13) << "|: ";
 							getline(cin, tempData);
 							if (tempData == "")
-								cout << "\n\t\t\tInvalid input, Please Enter your Child's name\n";
+								cout << "\n" << string(8, '\t') << "Invalid input, Please Enter your Child's name\n";
 							else {
 								{
-									cout << "\n\t\t\t|--------------------------------------------|"
-										<< "\n\t\t\t| Press 1 to Child's name                    |"
-										<< "\n\t\t\t| Press 2 to Re-enter Child's name           |"
-										<< "\n\t\t\t| Press 3 to exit                            |"
-										<< "\n\t\t\t|--------------------------------------------|"
-										<< "\n\t\t\t| Choose option: ";
+									cout << "\n" << string(8, '\t') << "|--------------------------------------------|"
+										<< "\n" << string(8, '\t') << "| Press 1 to Child's name                    |"
+										<< "\n" << string(8, '\t') << "| Press 2 to Re-enter Child's name           |"
+										<< "\n" << string(8, '\t') << "| Press 3 to exit                            |"
+										<< "\n" << string(8, '\t') << "|--------------------------------------------|"
+										<< "\n" << string(8, '\t') << "| Choose option: ";
 									cin >> choice;
 									if (choice == 1) {
-										cout << "\n\t\t\t|---------------------------------------------|"
-											<< "\n\t\t\t|        CHILD'S NAME HAS BEEN UPDATED        |"
-											<< "\n\t\t\t|---------------------------------------------|\n\t\t\t";
+										cout << "\n" << string(8, '\t') << "|---------------------------------------------|"
+											<< "\n" << string(8, '\t') << "|        CHILD'S NAME HAS BEEN UPDATED        |"
+											<< "\n" << string(8, '\t') << "|---------------------------------------------|\n" << string(8, '\t') << "";
 										parent[userVectLocation].childFullName = tempData;
 										system("pause");
 										break;
 									}
 									else if (choice == 2) {
-										cout << "\n\t\t\t|---------------------------------------------|";
+										cout << "\n" << string(8, '\t') << "|---------------------------------------------|";
 									}
 									else if (choice == 3) {
 										break;
 									}
 									else
-										cout << "\n\t\t\tInvalid Input.. Please Try Again..\n";
+										cout << "\n" << string(8, '\t') << "Invalid Input.. Please Try Again..\n";
 								}
 							}
 						} while (true);
 						break;
 					case 7:
-						cout << "\n\t\t\t| Current Child's Room Number: " << parent[userVectLocation].childRoomNum;
+						cout << "\n" << string(8, '\t') << "| Current Child's Room Number: " << parent[userVectLocation].childRoomNum;
 						do {
-							cout << "\n\t\t\t| Enter Child's Room Number" << setw(6) << "|: ";
+							cout << "\n" << string(8, '\t') << "| Enter Child's Room Number" << setw(6) << "|: ";
 							getline(cin, tempData);
 							if (tempData == "")
-								cout << "\n\t\t\tInvalid input, Please Enter your Child's Room Number\n";
+								cout << "\n" << string(8, '\t') << "Invalid input, Please Enter your Child's Room Number\n";
 							else {
 								{
-									cout << "\n\t\t\t|--------------------------------------------|"
-										<< "\n\t\t\t| Press 1 to Child's Room Number             |"
-										<< "\n\t\t\t| Press 2 to Re-enter Child's Room Number    |"
-										<< "\n\t\t\t| Press 3 to exit                            |"
-										<< "\n\t\t\t|--------------------------------------------|"
-										<< "\n\t\t\t| Choose option: ";
+									cout << "\n" << string(8, '\t') << "|--------------------------------------------|"
+										<< "\n" << string(8, '\t') << "| Press 1 to Child's Room Number             |"
+										<< "\n" << string(8, '\t') << "| Press 2 to Re-enter Child's Room Number    |"
+										<< "\n" << string(8, '\t') << "| Press 3 to exit                            |"
+										<< "\n" << string(8, '\t') << "|--------------------------------------------|"
+										<< "\n" << string(8, '\t') << "| Choose option: ";
 									cin >> choice;
 									if (choice == 1) {
-										cout << "\n\t\t\t|---------------------------------------------|"
-											<< "\n\t\t\t|     CHILD'S ROOM NUMBER HAS BEEN UPDATED    |"
-											<< "\n\t\t\t|---------------------------------------------|\n\t\t\t";
+										cout << "\n" << string(8, '\t') << "|---------------------------------------------|"
+											<< "\n" << string(8, '\t') << "|     CHILD'S ROOM NUMBER HAS BEEN UPDATED    |"
+											<< "\n" << string(8, '\t') << "|---------------------------------------------|\n" << string(8, '\t') << "";
 										parent[userVectLocation].childRoomNum = tempData;
 										system("pause");
 										break;
 									}
 									else if (choice == 2) {
-										cout << "\n\t\t\t|---------------------------------------------|";
+										cout << "\n" << string(8, '\t') << "|---------------------------------------------|";
 									}
 									else if (choice == 3) {
 										break;
 									}
 									else
-										cout << "\n\t\t\tInvalid Input.. Please Try Again..\n";
+										cout << "\n" << string(8, '\t') << "Invalid Input.. Please Try Again..\n";
 								}
 							}
 						} while (true);
 						break;
 					case 8:
-						cout << "\n\t\t\t| Current Visa Card Number: " << parent[userVectLocation].visaCardNo;
+						cout << "\n" << string(8, '\t') << "| Current Visa Card Number: " << parent[userVectLocation].visaCardNo;
 						do {
-							cout << "\n\t\t\t| Enter Visa Card Number" << setw(9) << "|: ";
+							cout << "\n" << string(8, '\t') << "| Enter Visa Card Number" << setw(9) << "|: ";
 							getline(cin, tempData);
 							if (tempData == "")
-								cout << "\n\t\t\tInvalid input, Please Enter your Visa Card Number\n";
+								cout << "\n" << string(8, '\t') << "Invalid input, Please Enter your Visa Card Number\n";
 							else {
 								{
-									cout << "\n\t\t\t|--------------------------------------------|"
-										<< "\n\t\t\t| Press 1 to Visa Card Number                |"
-										<< "\n\t\t\t| Press 2 to Re-enter Visa Card Number       |"
-										<< "\n\t\t\t| Press 3 to exit                            |"
-										<< "\n\t\t\t|--------------------------------------------|"
-										<< "\n\t\t\t| Choose option: ";
+									cout << "\n" << string(8, '\t') << "|--------------------------------------------|"
+										<< "\n" << string(8, '\t') << "| Press 1 to Visa Card Number                |"
+										<< "\n" << string(8, '\t') << "| Press 2 to Re-enter Visa Card Number       |"
+										<< "\n" << string(8, '\t') << "| Press 3 to exit                            |"
+										<< "\n" << string(8, '\t') << "|--------------------------------------------|"
+										<< "\n" << string(8, '\t') << "| Choose option: ";
 									cin >> choice;
 									if (choice == 1) {
-										cout << "\n\t\t\t|---------------------------------------------|"
-											<< "\n\t\t\t|      VISA CARD NUMBER HAS BEEN UPDATED      |"
-											<< "\n\t\t\t|---------------------------------------------|\n\t\t\t";
+										cout << "\n" << string(8, '\t') << "|---------------------------------------------|"
+											<< "\n" << string(8, '\t') << "|      VISA CARD NUMBER HAS BEEN UPDATED      |"
+											<< "\n" << string(8, '\t') << "|---------------------------------------------|\n" << string(8, '\t') << "";
 										parent[userVectLocation].visaCardNo = tempData;
 										system("pause");
 										break;
 									}
 									else if (choice == 2) {
-										cout << "\n\t\t\t|---------------------------------------------|";
+										cout << "\n" << string(8, '\t') << "|---------------------------------------------|";
 									}
 									else if (choice == 3) {
 										break;
 									}
 									else
-										cout << "\n\t\t\tInvalid Input.. Please Try Again..\n";
+										cout << "\n" << string(8, '\t') << "Invalid Input.. Please Try Again..\n";
 								}
 							}
 						} while (true);
 						break;
 					case 9:
-						cout << "\n\t\t\t| Current Visa Card Expiry Date: " << parent[userVectLocation].visaCardExpiry;
+						cout << "\n" << string(8, '\t') << "| Current Visa Card Expiry Date: " << parent[userVectLocation].visaCardExpiry;
 						do {
-							cout << "\n\t\t\t| Enter Visa Card Expiry Date |: ";
+							cout << "\n" << string(8, '\t') << "| Enter Visa Card Expiry Date |: ";
 							getline(cin, tempData);
 							if (tempData == "")
-								cout << "\n\t\t\tInvalid input, Please Enter your Visa Card Expiry Date\n";
+								cout << "\n" << string(8, '\t') << "Invalid input, Please Enter your Visa Card Expiry Date\n";
 							else {
 								{
-									cout << "\n\t\t\t|--------------------------------------------|"
-										<< "\n\t\t\t| Press 1 to Visa Card Expiry Date           |"
-										<< "\n\t\t\t| Press 2 to Re-enter Visa Card Expiry Date  |"
-										<< "\n\t\t\t| Press 3 to exit                            |"
-										<< "\n\t\t\t|--------------------------------------------|"
-										<< "\n\t\t\t| Choose option: ";
+									cout << "\n" << string(8, '\t') << "|--------------------------------------------|"
+										<< "\n" << string(8, '\t') << "| Press 1 to Visa Card Expiry Date           |"
+										<< "\n" << string(8, '\t') << "| Press 2 to Re-enter Visa Card Expiry Date  |"
+										<< "\n" << string(8, '\t') << "| Press 3 to exit                            |"
+										<< "\n" << string(8, '\t') << "|--------------------------------------------|"
+										<< "\n" << string(8, '\t') << "| Choose option: ";
 									cin >> choice;
 									if (choice == 1) {
-										cout << "\n\t\t\t|---------------------------------------------|"
-											<< "\n\t\t\t|      VISA EXPIRY DATE HAS BEEN UPDATED      |"
-											<< "\n\t\t\t|---------------------------------------------|\n\t\t\t";
+										cout << "\n" << string(8, '\t') << "|---------------------------------------------|"
+											<< "\n" << string(8, '\t') << "|      VISA EXPIRY DATE HAS BEEN UPDATED      |"
+											<< "\n" << string(8, '\t') << "|---------------------------------------------|\n" << string(8, '\t') << "";
 										parent[userVectLocation].visaCardExpiry = tempData;
 										system("pause");
 										break;
 									}
 									else if (choice == 2) {
-										cout << "\n\t\t\t|---------------------------------------------|";
+										cout << "\n" << string(8, '\t') << "|---------------------------------------------|";
 									}
 									else if (choice == 3) {
 										break;
 									}
 									else
-										cout << "\n\t\t\tInvalid Input.. Please Try Again..\n";
+										cout << "\n" << string(8, '\t') << "Invalid Input.. Please Try Again..\n";
 								}
 							}
 						} while (true);
@@ -3351,7 +3386,7 @@ void updateParentDetails(string userID) {
 						isTrue = false;
 						break;
 					default:
-						cout << "\n\t\t\tInvalid input, Please try again\n\t\t\t";
+						cout << "\n" << string(8, '\t') << "Invalid input, Please try again\n" << string(8, '\t') << "";
 						system("pause");
 						break;
 					}
@@ -3370,21 +3405,20 @@ void updateParentDetails(string userID) {
 			else if (choice == 2) {
 				isTrue2 = true;
 				do {
-					cout << "\n\t\t\t|--------------------------------------------|"
-						<< "\n\t\t\t| Press 1 to Change Password                 |"
-						<< "\n\t\t\t| Press 2 to exit                            |"
-						<< "\n\t\t\t|--------------------------------------------|"
-						<< "\n\t\t\t| Choose option: ";
+					cout << "\n" << string(8, '\t') << "|--------------------------------------------|"
+						<< "\n" << string(8, '\t') << "| Press 1 to Change Password                 |"
+						<< "\n" << string(8, '\t') << "| Press 2 to exit                            |"
+						<< "\n" << string(8, '\t') << "|--------------------------------------------|"
+						<< "\n" << string(8, '\t') << "| Choose option: ";
 					cin >> choice;
 					cin.ignore();
 					if (choice == 1) {
 						//enter current password
 						do {
-							cout << parent[userVectLocation].login.password << endl;
-							cout << "\n\t\t\t|--------------------------------------------|"
-								<< "\n\t\t\t| Type: quit@ to exit from password          |"
-								<< "\n\t\t\t|--------------------------------------------|"
-								<< "\n\t\t\t| Enter current password: ";
+							cout << "\n" << string(8, '\t') << "|--------------------------------------------|"
+								<< "\n" << string(8, '\t') << "| Type: quit@ to exit from password          |"
+								<< "\n" << string(8, '\t') << "|--------------------------------------------|"
+								<< "\n" << string(8, '\t') << "| Enter current password: ";
 							getline(cin, password);
 
 							if (password == parent[userVectLocation].login.password)
@@ -3394,38 +3428,38 @@ void updateParentDetails(string userID) {
 								break;
 							}
 							else
-								cout << "\n\t\t\tPassword did not match.. Please Try Again..\n";
+								cout << "\n" << string(8, '\t') << "Password did not match.. Please Try Again..\n";
 						} while (true);
 
 						//enter new password
 						if (password != "quit@") {
 							do {
 								do {
-									cout << "\t\t\t|-------------------------------------------------------------------|"
-										<< "\n\t\t\t| Use 8 or more characters with a mix of letters, numbers & symbols |"
-										<< "\n\t\t\t|-------------------------------------------------------------------|"
-										<< "\n\t\t\t|Enter Password" << setw(17) << "|: ";
+									cout << "" << string(8, '\t') << "|-------------------------------------------------------------------|"
+										<< "\n" << string(8, '\t') << "| Use 8 or more characters with a mix of letters, numbers & symbols |"
+										<< "\n" << string(8, '\t') << "|-------------------------------------------------------------------|"
+										<< "\n" << string(8, '\t') << "|Enter Password" << setw(17) << "|: ";
 									getline(cin, password);
 
 									if (checkPassword(password))
 										break;
 									else
-										cout << "\n\t\t\tInvalid password, Please try again\n";
+										cout << "\n" << string(8, '\t') << "Invalid password, Please try again\n";
 								} while (true);
 
 								//verify password
 								do {
-									cout << "\t\t\t|Enter Verify Password" << setw(10) << "|: ";
+									cout << "" << string(8, '\t') << "|Enter Verify Password" << setw(10) << "|: ";
 									getline(cin, verifyPassword);
 
 									if (verifyPassword == "")
-										cout << "\n\t\t\tPassword did not match, Please try again\n";
+										cout << "\n" << string(8, '\t') << "Password did not match, Please try again\n";
 									else
 										break;
 								} while (true);
 
 								if (password != verifyPassword)
-									cout << "\n\t\t\tPassword did not match please try again...\n";
+									cout << "\n" << string(8, '\t') << "Password did not match please try again...\n";
 								else {
 									parent[userVectLocation].login.password = password;
 
@@ -3442,9 +3476,9 @@ void updateParentDetails(string userID) {
 									}
 									loginFile.close();
 
-									cout << "\n\t\t\t|--------------------------------------------|"
-										<< "\n\t\t\t|   Password has been successfully changed   |"
-										<< "\n\t\t\t|--------------------------------------------|";
+									cout << "\n" << string(8, '\t') << "|--------------------------------------------|"
+										<< "\n" << string(8, '\t') << "|   Password has been successfully changed   |"
+										<< "\n" << string(8, '\t') << "|--------------------------------------------|";
 									break;
 								}
 							} while (true);
@@ -3453,9 +3487,9 @@ void updateParentDetails(string userID) {
 					else if (choice == 2)
 						isTrue2 = false;
 					else
-						cout << "\n\t\t\tInvalid input, Please Try Again\n\t\t\t";
+						cout << "\n" << string(8, '\t') << "Invalid input, Please Try Again\n" << string(8, '\t') << "";
 
-					cout << "\n\t\t\t";
+					cout << "\n" << string(8, '\t') << "";
 					system("pause");
 				} while (isTrue2);
 			}
@@ -3463,16 +3497,16 @@ void updateParentDetails(string userID) {
 				break;
 			}
 			else {
-				cout << "\n\t\t\tInvalid Input.. Please try again...\n\t\t\t";
+				cout << "\n" << string(8, '\t') << "Invalid Input.. Please try again...\n" << string(8, '\t') << "";
 				system("pause");
 			}
 		} while (true);
 	}
 	else {
-		cout << "\n\t\t\t|--------------------------------------------|"
-			<< "\n\t\t\t|               INVALID USER ID              |"
-			<< "\n\t\t\t|               CANT FIND USER               |"
-			<< "\n\t\t\t|--------------------------------------------|\n\t\t\t";
+		cout << "\n" << string(8, '\t') << "|--------------------------------------------|"
+			<< "\n" << string(8, '\t') << "|               INVALID USER ID              |"
+			<< "\n" << string(8, '\t') << "|               CANT FIND USER               |"
+			<< "\n" << string(8, '\t') << "|--------------------------------------------|\n" << string(8, '\t') << "";
 		system("pause");
 	}
 }
@@ -3482,12 +3516,14 @@ void updateParentDetails(string userID) {
 void updateStaffDetails(string userID) {
 	vector<Staff> staff;
 	vector<Login> login;
+	vector<Login>* ptrLogin;  //plus ultra
+	ptrLogin = &login; //plus ultra
 	int choice, userVectLocation = 0, tempContactNo;
 	bool isTrue, isTrue2, isTrue3, isFound = true;
 	string password, verifyPassword, tempData;
 
 	staff = getAllStaffDetails();
-	login = getAllLoginDetails();
+	login = getAllLoginDetails(ptrLogin); //plus ultra
 
 	//get staff location in vector
 	for (int i = 0; i < staff.size(); i++) {
@@ -3504,286 +3540,286 @@ void updateStaffDetails(string userID) {
 		tempData = "";
 		do {
 			system("cls");
-			cout << "\n\t\t\t|--------------------------------------------|"
-				<< "\n\t\t\t|                STAFF USER                  |"
-				<< "\n\t\t\t|--------------------------------------------|"
-				<< "\n\t\t\t| Press 1 to update Staff Details            |"
-				<< "\n\t\t\t| Press 2 to change password                 |"
-				<< "\n\t\t\t| Press 3 to exit                            |"
-				<< "\n\t\t\t|--------------------------------------------|"
-				<< "\n\t\t\t| Choose option: ";
+			cout << "\n" << string(8, '\t') << "|--------------------------------------------|"
+				<< "\n" << string(8, '\t') << "|                STAFF USER                  |"
+				<< "\n" << string(8, '\t') << "|--------------------------------------------|"
+				<< "\n" << string(8, '\t') << "| Press 1 to update Staff Details            |"
+				<< "\n" << string(8, '\t') << "| Press 2 to change password                 |"
+				<< "\n" << string(8, '\t') << "| Press 3 to exit                            |"
+				<< "\n" << string(8, '\t') << "|--------------------------------------------|"
+				<< "\n" << string(8, '\t') << "| Choose option: ";
 			cin >> choice;
 			if (choice == 1) {
 				isTrue = true;
 				do {
 					system("cls");
-					cout << "\n\t\t\t|--------------------------------------------|"
-						<< "\n\t\t\t|             UPDATE STAFF DETAILS           |"
-						<< "\n\t\t\t|--------------------------------------------|"
-						<< "\n\t\t\t| Press 1 to update Staff Name               |"
-						<< "\n\t\t\t| Press 2 to update Staff Gender             |"
-						<< "\n\t\t\t| Press 3 to update Staff Date of Birth      |"
-						<< "\n\t\t\t| Press 4 to update Staff Contact Number     |"
-						<< "\n\t\t\t| Press 5 to update Staff Email              |"
-						<< "\n\t\t\t| Press 6 to update Staff Visa Card No.      |"
-						<< "\n\t\t\t| Press 7 to update Staff Visa Expiry Date   |"
-						<< "\n\t\t\t| Press 0 to exit                            |"
-						<< "\n\t\t\t|--------------------------------------------|"
-						<< "\n\t\t\t| Choose option: ";
+					cout << "\n" << string(8, '\t') << "|--------------------------------------------|"
+						<< "\n" << string(8, '\t') << "|             UPDATE STAFF DETAILS           |"
+						<< "\n" << string(8, '\t') << "|--------------------------------------------|"
+						<< "\n" << string(8, '\t') << "| Press 1 to update Staff Name               |"
+						<< "\n" << string(8, '\t') << "| Press 2 to update Staff Gender             |"
+						<< "\n" << string(8, '\t') << "| Press 3 to update Staff Date of Birth      |"
+						<< "\n" << string(8, '\t') << "| Press 4 to update Staff Contact Number     |"
+						<< "\n" << string(8, '\t') << "| Press 5 to update Staff Email              |"
+						<< "\n" << string(8, '\t') << "| Press 6 to update Staff Visa Card No.      |"
+						<< "\n" << string(8, '\t') << "| Press 7 to update Staff Visa Expiry Date   |"
+						<< "\n" << string(8, '\t') << "| Press 0 to exit                            |"
+						<< "\n" << string(8, '\t') << "t|--------------------------------------------|"
+						<< "\n" << string(8, '\t') << "| Choose option: ";
 					cin >> choice;
 					cin.ignore();
 
 					switch (choice) {
-						cout << "\n\t\t\t|--------------------------------------------|"
-							<< "\n\t\t\t|             UPDATE STAFF DETAILS           |"
-							<< "\n\t\t\t|--------------------------------------------|";
+						cout << "\n" << string(8, '\t') << "|--------------------------------------------|"
+							<< "\n" << string(8, '\t') << "|             UPDATE STAFF DETAILS           |"
+							<< "\n" << string(8, '\t') << "|--------------------------------------------|";
 					case 1:
-						cout << "\n\t\t\t| Current Name: " << staff[userVectLocation].fullName;
+						cout << "\n" << string(8, '\t') << "| Current Name: " << staff[userVectLocation].fullName;
 						do {
-							cout << "\n\t\t\t| Enter Full name" << setw(16) << "|: ";
+							cout << "\n" << string(8, '\t') << "| Enter Full name" << setw(16) << "|: ";
 							getline(cin, tempData);
 							if (tempData == "")
-								cout << "\n\t\t\tInvalid Input.. Please Enter your name..\n";
+								cout << "\n" << string(8, '\t') << "Invalid Input.. Please Enter your name..\n";
 							else {
-								cout << "\n\t\t\t|--------------------------------------------|"
-									<< "\n\t\t\t| Press 1 to Confirm Name                    |"
-									<< "\n\t\t\t| Press 2 to Re-enter Name                   |"
-									<< "\n\t\t\t| Press 3 to exit                            |"
-									<< "\n\t\t\t|--------------------------------------------|"
-									<< "\n\t\t\t| Choose option: ";
+								cout << "\n" << string(8, '\t') << "|--------------------------------------------|"
+									<< "\n" << string(8, '\t') << "| Press 1 to Confirm Name                    |"
+									<< "\n" << string(8, '\t') << "| Press 2 to Re-enter Name                   |"
+									<< "\n" << string(8, '\t') << "| Press 3 to exit                            |"
+									<< "\n" << string(8, '\t') << "|--------------------------------------------|"
+									<< "\n" << string(8, '\t') << "| Choose option: ";
 								cin >> choice;
 								cin.ignore();
 								if (choice == 1) {
-									cout << "\n\t\t\t|---------------------------------------------|"
-										<< "\n\t\t\t|            NAME HAS BEEN UPDATED            |"
-										<< "\n\t\t\t|---------------------------------------------|\n\t\t\t";
+									cout << "\n" << string(8, '\t') << "|---------------------------------------------|"
+										<< "\n" << string(8, '\t') << "|            NAME HAS BEEN UPDATED            |"
+										<< "\n" << string(8, '\t') << "|---------------------------------------------|\n" << string(8, '\t') << "";
 									staff[userVectLocation].fullName = tempData;
 									system("pause");
 									break;
 								}
 								else if (choice == 2) {
-									cout << "\n\t\t\t|---------------------------------------------|";
+									cout << "\n" << string(8, '\t') << "|---------------------------------------------|";
 								}
 								else if (choice == 3) {
 									break;
 								}
 								else
-									cout << "\n\t\t\tInvalid Input.. Please Try Again..\n";
+									cout << "\n" << string(8, '\t') << "Invalid Input.. Please Try Again..\n";
 							}
 						} while (true);
 						break;
 					case 2:
-						cout << "\n\t\t\t| Current Gender: " << staff[userVectLocation].gender;
+						cout << "\n" << string(8, '\t') << "| Current Gender: " << staff[userVectLocation].gender;
 						do {
-							cout << "\n\t\t\t| Enter Gender" << setw(19) << "|: ";
+							cout << "\n" << string(8, '\t') << "| Enter Gender" << setw(19) << "|: ";
 							getline(cin, tempData);
 							if (tempData == "")
-								cout << "\n\t\t\tInvalid input, Please Enter your gender\n";
+								cout << "\n" << string(8, '\t') << "Invalid input, Please Enter your gender\n";
 							else {
-								cout << "\n\t\t\t|--------------------------------------------|"
-									<< "\n\t\t\t| Press 1 to Confirm Gender                  |"
-									<< "\n\t\t\t| Press 2 to Re-enter Gender                 |"
-									<< "\n\t\t\t| Press 3 to exit                            |"
-									<< "\n\t\t\t|--------------------------------------------|"
-									<< "\n\t\t\t| Choose option: ";
+								cout << "\n" << string(8, '\t') << "|--------------------------------------------|"
+									<< "\n" << string(8, '\t') << "| Press 1 to Confirm Gender                  |"
+									<< "\n" << string(8, '\t') << "| Press 2 to Re-enter Gender                 |"
+									<< "\n" << string(8, '\t') << "| Press 3 to exit                            |"
+									<< "\n" << string(8, '\t') << "|--------------------------------------------|"
+									<< "\n" << string(8, '\t') << "| Choose option: ";
 								cin >> choice;
 								if (choice == 1) {
-									cout << "\n\t\t\t|---------------------------------------------|"
-										<< "\n\t\t\t|           GENDER HAS BEEN UPDATED           |"
-										<< "\n\t\t\t|---------------------------------------------|\n\t\t\t";
+									cout << "\n" << string(8, '\t') << "|---------------------------------------------|"
+										<< "\n" << string(8, '\t') << "|           GENDER HAS BEEN UPDATED           |"
+										<< "\n" << string(8, '\t') << "|---------------------------------------------|\n" << string(8, '\t') << "";
 									staff[userVectLocation].gender = tempData;
 									system("pause");
 									break;
 								}
 								else if (choice == 2) {
-									cout << "\n\t\t\t|---------------------------------------------|";
+									cout << "\n" << string(8, '\t') << "|---------------------------------------------|";
 								}
 								else if (choice == 3) {
 									break;
 								}
 								else
-									cout << "\n\t\t\tInvalid Input.. Please Try Again..\n";
+									cout << "\n" << string(8, '\t') << "Invalid Input.. Please Try Again..\n";
 							}
 						} while (true);
 						break;
 					case 3:
-						cout << "\n\t\t\t| Current Date of Birth: " << staff[userVectLocation].dob;
+						cout << "\n" << string(8, '\t') << "| Current Date of Birth: " << staff[userVectLocation].dob;
 						do {
-							cout << "\n\t\t\t| Enter Date of birth" << setw(12) << "|: ";
+							cout << "\n" << string(8, '\t') << "| Enter Date of birth" << setw(12) << "|: ";
 							getline(cin, tempData);
 							if (tempData == "")
-								cout << "\n\t\t\tInvalid input, Please Enter your Date of birth\n";
+								cout << "\n" << string(8, '\t') << "Invalid input, Please Enter your Date of birth\n";
 							else {
-								cout << "\n\t\t\t|--------------------------------------------|"
-									<< "\n\t\t\t| Press 1 to Confirm Date of Birth           |"
-									<< "\n\t\t\t| Press 2 to Re-enter Date of Birth          |"
-									<< "\n\t\t\t| Press 3 to exit                            |"
-									<< "\n\t\t\t|--------------------------------------------|"
-									<< "\n\t\t\t| Choose option: ";
+								cout << "\n" << string(8, '\t') << "|--------------------------------------------|"
+									<< "\n" << string(8, '\t') << "| Press 1 to Confirm Date of Birth           |"
+									<< "\n" << string(8, '\t') << "| Press 2 to Re-enter Date of Birth          |"
+									<< "\n" << string(8, '\t') << "| Press 3 to exit                            |"
+									<< "\n" << string(8, '\t') << "|--------------------------------------------|"
+									<< "\n" << string(8, '\t') << "| Choose option: ";
 								cin >> choice;
 								if (choice == 1) {
-									cout << "\n\t\t\t|---------------------------------------------|"
-										<< "\n\t\t\t|        DATE OF BIRTH HAS BEEN UPDATED       |"
-										<< "\n\t\t\t|---------------------------------------------|\n\t\t\t";
+									cout << "\n" << string(8, '\t') << "|---------------------------------------------|"
+										<< "\n" << string(8, '\t') << "|        DATE OF BIRTH HAS BEEN UPDATED       |"
+										<< "\n" << string(8, '\t') << "|---------------------------------------------|\n" << string(8, '\t') << "";
 									staff[userVectLocation].dob = tempData;
 									system("pause");
 									break;
 								}
 								else if (choice == 2) {
-									cout << "\n\t\t\t|---------------------------------------------|";
+									cout << "\n" << string(8, '\t') << "|---------------------------------------------|";
 								}
 								else if (choice == 3) {
 									break;
 								}
 								else
-									cout << "\n\t\t\tInvalid Input.. Please Try Again..\n";
+									cout << "\n" << string(8, '\t') << "Invalid Input.. Please Try Again..\n";
 							}
 						} while (true);
 						break;
 					case 4:
-						cout << "\n\t\t\t| Current Contact No: " << staff[userVectLocation].countNum;
+						cout << "\n" << string(8, '\t') << "| Current Contact No: " << staff[userVectLocation].countNum;
 						do {
-							cout << "\n\t\t\t| Enter Contact Number" << setw(11) << "|: ";
+							cout << "\n" << string(8, '\t') << "| Enter Contact Number" << setw(11) << "|: ";
 							cin >> tempContactNo;
 							if (to_string(tempContactNo).length() < 9 || to_string(tempContactNo).length() > 10)
-								cout << "\n\t\t\tInvalid input, Please Enter your contact number.\n";
+								cout << "\n" << string(8, '\t') << "Invalid input, Please Enter your contact number.\n";
 							else {
 								cin.ignore();
 								{
-									cout << "\n\t\t\t|--------------------------------------------|"
-										<< "\n\t\t\t| Press 1 to Confirm Contact No              |"
-										<< "\n\t\t\t| Press 2 to Re-enter Contact No             |"
-										<< "\n\t\t\t| Press 3 to exit                            |"
-										<< "\n\t\t\t|--------------------------------------------|"
-										<< "\n\t\t\t| Choose option: ";
+									cout << "\n" << string(8, '\t') << "|--------------------------------------------|"
+										<< "\n" << string(8, '\t') << "| Press 1 to Confirm Contact No              |"
+										<< "\n" << string(8, '\t') << "| Press 2 to Re-enter Contact No             |"
+										<< "\n" << string(8, '\t') << "| Press 3 to exit                            |"
+										<< "\n" << string(8, '\t') << "|--------------------------------------------|"
+										<< "\n" << string(8, '\t') << "| Choose option: ";
 									cin >> choice;
 									if (choice == 1) {
-										cout << "\n\t\t\t|---------------------------------------------|"
-											<< "\n\t\t\t|        CONTACT NO. HAS BEEN UPDATED         |"
-											<< "\n\t\t\t|---------------------------------------------|\n\t\t\t";
+										cout << "\n" << string(8, '\t') << "|---------------------------------------------|"
+											<< "\n" << string(8, '\t') << "|        CONTACT NO. HAS BEEN UPDATED         |"
+											<< "\n" << string(8, '\t') << "|---------------------------------------------|\n" << string(8, '\t') << "";
 										staff[userVectLocation].countNum = tempContactNo;
 										system("pause");
 										cin.ignore();
 										break;
 									}
 									else if (choice == 2) {
-										cout << "\n\t\t\t|---------------------------------------------|";
+										cout << "\n" << string(8, '\t') << "|---------------------------------------------|";
 									}
 									else if (choice == 3) {
 										cin.ignore();
 										break;
 									}
 									else
-										cout << "\n\t\t\tInvalid Input.. Please Try Again..\n";
+										cout << "\n" << string(8, '\t') << "Invalid Input.. Please Try Again..\n";
 								}
 							}
 							cin.ignore();
 						} while (true);
 						break;
 					case 5:
-						cout << "\n\t\t\t| Current Email: " << staff[userVectLocation].email;
+						cout << "\n" << string(8, '\t') << "| Current Email: " << staff[userVectLocation].email;
 						do {
-							cout << "\n\t\t\t| Enter Email Address" << setw(12) << "|: ";
+							cout << "\n" << string(8, '\t') << "| Enter Email Address" << setw(12) << "|: ";
 							getline(cin, tempData);
 							if (tempData == "")
-								cout << "\n\t\t\tInvalid input, Please Enter your Email Address\n";
+								cout << "\n" << string(8, '\t') << "Invalid input, Please Enter your Email Address\n";
 							else {
 								{
-									cout << "\n\t\t\t|--------------------------------------------|"
-										<< "\n\t\t\t| Press 1 to Confirm Email                   |"
-										<< "\n\t\t\t| Press 2 to Re-enter Email                  |"
-										<< "\n\t\t\t| Press 3 to exit                            |"
-										<< "\n\t\t\t|--------------------------------------------|"
-										<< "\n\t\t\t| Choose option: ";
+									cout << "\n" << string(8, '\t') << "|--------------------------------------------|"
+										<< "\n" << string(8, '\t') << "| Press 1 to Confirm Email                   |"
+										<< "\n" << string(8, '\t') << "| Press 2 to Re-enter Email                  |"
+										<< "\n" << string(8, '\t') << "| Press 3 to exit                            |"
+										<< "\n" << string(8, '\t') << "|--------------------------------------------|"
+										<< "\n" << string(8, '\t') << "| Choose option: ";
 									cin >> choice;
 									if (choice == 1) {
-										cout << "\n\t\t\t|---------------------------------------------|"
-											<< "\n\t\t\t|            EMAIL HAS BEEN UPDATED           |"
-											<< "\n\t\t\t|---------------------------------------------|\n\t\t\t";
+										cout << "\n" << string(8, '\t') << "|---------------------------------------------|"
+											<< "\n" << string(8, '\t') << "|            EMAIL HAS BEEN UPDATED           |"
+											<< "\n" << string(8, '\t') << "|---------------------------------------------|\n" << string(8, '\t') << "";
 										staff[userVectLocation].email = tempData;
 										system("pause");
 										break;
 									}
 									else if (choice == 2) {
-										cout << "\n\t\t\t|---------------------------------------------|";
+										cout << "\n" << string(8, '\t') << "|---------------------------------------------|";
 									}
 									else if (choice == 3) {
 										break;
 									}
 									else
-										cout << "\n\t\t\tInvalid Input.. Please Try Again..\n";
+										cout << "\n" << string(8, '\t') << "Invalid Input.. Please Try Again..\n";
 								}
 							}
 						} while (true);
 						break;
 					case 6:
-						cout << "\n\t\t\t| Current Visa Card Number: " << staff[userVectLocation].visaCardNo;
+						cout << "\n" << string(8, '\t') << "| Current Visa Card Number: " << staff[userVectLocation].visaCardNo;
 						do {
-							cout << "\n\t\t\t| Enter Visa Card Number" << setw(9) << "|: ";
+							cout << "\n" << string(8, '\t') << "| Enter Visa Card Number" << setw(9) << "|: ";
 							getline(cin, tempData);
 							if (tempData == "")
-								cout << "\n\t\t\tInvalid input, Please Enter your Visa Card Number\n";
+								cout << "\n" << string(8, '\t') << "Invalid input, Please Enter your Visa Card Number\n";
 							else {
 								{
-									cout << "\n\t\t\t|--------------------------------------------|"
-										<< "\n\t\t\t| Press 1 to Visa Card Number                |"
-										<< "\n\t\t\t| Press 2 to Re-enter Visa Card Number       |"
-										<< "\n\t\t\t| Press 3 to exit                            |"
-										<< "\n\t\t\t|--------------------------------------------|"
-										<< "\n\t\t\t| Choose option: ";
+									cout << "\n" << string(8, '\t') << "|--------------------------------------------|"
+										<< "\n" << string(8, '\t') << "| Press 1 to Visa Card Number                |"
+										<< "\n" << string(8, '\t') << "| Press 2 to Re-enter Visa Card Number       |"
+										<< "\n" << string(8, '\t') << "| Press 3 to exit                            |"
+										<< "\n" << string(8, '\t') << "|--------------------------------------------|"
+										<< "\n" << string(8, '\t') << "| Choose option: ";
 									cin >> choice;
 									if (choice == 1) {
-										cout << "\n\t\t\t|---------------------------------------------|"
-											<< "\n\t\t\t|      VISA CARD NUMBER HAS BEEN UPDATED      |"
-											<< "\n\t\t\t|---------------------------------------------|\n\t\t\t";
+										cout << "\n" << string(8, '\t') << "|---------------------------------------------|"
+											<< "\n" << string(8, '\t') << "|      VISA CARD NUMBER HAS BEEN UPDATED      |"
+											<< "\n" << string(8, '\t') << "|---------------------------------------------|\n" << string(8, '\t') << "";
 										staff[userVectLocation].visaCardNo = tempData;
 										system("pause");
 										break;
 									}
 									else if (choice == 2) {
-										cout << "\n\t\t\t|---------------------------------------------|";
+										cout << "\n" << string(8, '\t') << "|---------------------------------------------|";
 									}
 									else if (choice == 3) {
 										break;
 									}
 									else
-										cout << "\n\t\t\tInvalid Input.. Please Try Again..\n";
+										cout << "\n" << string(8, '\t') << "Invalid Input.. Please Try Again..\n";
 								}
 							}
 						} while (true);
 						break;
 					case 7:
-						cout << "\n\t\t\t| Current Visa Card Expiry Date: " << staff[userVectLocation].visaCardExpiry;
+						cout << "\n" << string(8, '\t') << "| Current Visa Card Expiry Date: " << staff[userVectLocation].visaCardExpiry;
 						do {
-							cout << "\n\t\t\t| Enter Visa Card Expiry Date |: ";
+							cout << "\n" << string(8, '\t') << "| Enter Visa Card Expiry Date |: ";
 							getline(cin, tempData);
 							if (tempData == "")
-								cout << "\n\t\t\tInvalid input, Please Enter your Visa Card Expiry Date\n";
+								cout << "\n" << string(8, '\t') << "Invalid input, Please Enter your Visa Card Expiry Date\n";
 							else {
 								{
-									cout << "\n\t\t\t|--------------------------------------------|"
-										<< "\n\t\t\t| Press 1 to Visa Card Expiry Date           |"
-										<< "\n\t\t\t| Press 2 to Re-enter Visa Card Expiry Date  |"
-										<< "\n\t\t\t| Press 3 to exit                            |"
-										<< "\n\t\t\t|--------------------------------------------|"
-										<< "\n\t\t\t| Choose option: ";
+									cout << "\n" << string(8, '\t') << "|--------------------------------------------|"
+										<< "\n" << string(8, '\t') << "| Press 1 to Visa Card Expiry Date           |"
+										<< "\n" << string(8, '\t') << "| Press 2 to Re-enter Visa Card Expiry Date  |"
+										<< "\n" << string(8, '\t') << "| Press 3 to exit                            |"
+										<< "\n" << string(8, '\t') << "|--------------------------------------------|"
+										<< "\n" << string(8, '\t') << "| Choose option: ";
 									cin >> choice;
 									if (choice == 1) {
-										cout << "\n\t\t\t|---------------------------------------------|"
-											<< "\n\t\t\t|      VISA EXPIRY DATE HAS BEEN UPDATED      |"
-											<< "\n\t\t\t|---------------------------------------------|\n\t\t\t";
+										cout << "\n" << string(8, '\t') << "|---------------------------------------------|"
+											<< "\n" << string(8, '\t') << "|      VISA EXPIRY DATE HAS BEEN UPDATED      |"
+											<< "\n" << string(8, '\t') << "|---------------------------------------------|\n" << string(8, '\t') << "";
 										staff[userVectLocation].visaCardExpiry = tempData;
 										system("pause");
 										break;
 									}
 									else if (choice == 2) {
-										cout << "\n\t\t\t|---------------------------------------------|";
+										cout << "\n" << string(8, '\t') << "|---------------------------------------------|";
 									}
 									else if (choice == 3) {
 										break;
 									}
 									else
-										cout << "\n\t\t\tInvalid Input.. Please Try Again..\n";
+										cout << "\n" << string(8, '\t') << "Invalid Input.. Please Try Again..\n";
 								}
 							}
 						} while (true);
@@ -3792,7 +3828,7 @@ void updateStaffDetails(string userID) {
 						isTrue = false;
 						break;
 					default:
-						cout << "\n\t\t\tInvalid input, Please try again\n\t\t\t";
+						cout << "\n" << string(8, '\t') << "Invalid input, Please try again\n" << string(8, '\t') << "";
 						system("pause");
 						break;
 					}
@@ -3810,21 +3846,21 @@ void updateStaffDetails(string userID) {
 			else if (choice == 2) {
 				isTrue2 = true;
 				do {
-					cout << "\n\t\t\t|--------------------------------------------|"
-						<< "\n\t\t\t| Press 1 to Change Password                 |"
-						<< "\n\t\t\t| Press 2 to exit                            |"
-						<< "\n\t\t\t|--------------------------------------------|"
-						<< "\n\t\t\t| Choose option: ";
+					cout << "\n" << string(8, '\t') << "|--------------------------------------------|"
+						<< "\n" << string(8, '\t') << "| Press 1 to Change Password                 |"
+						<< "\n" << string(8, '\t') << "| Press 2 to exit                            |"
+						<< "\n" << string(8, '\t') << "|--------------------------------------------|"
+						<< "\n" << string(8, '\t') << "| Choose option: ";
 					cin >> choice;
 					cin.ignore();
 					if (choice == 1) {
 						//enter current password
 						do {
 							cout << staff[userVectLocation].login.password << endl;
-							cout << "\n\t\t\t|--------------------------------------------|"
-								<< "\n\t\t\t| Type: quit@ to exit from password          |"
-								<< "\n\t\t\t|--------------------------------------------|"
-								<< "\n\t\t\t| Enter current password: ";
+							cout << "\n" << string(8, '\t') << "|--------------------------------------------|"
+								<< "\n" << string(8, '\t') << "| Type: quit@ to exit from password          |"
+								<< "\n" << string(8, '\t') << "|--------------------------------------------|"
+								<< "\n" << string(8, '\t') << "| Enter current password: ";
 							getline(cin, password);
 
 							if (password == staff[userVectLocation].login.password)
@@ -3834,38 +3870,38 @@ void updateStaffDetails(string userID) {
 								break;
 							}
 							else
-								cout << "\n\t\t\tPassword did not match.. Please Try Again..\n";
+								cout << "\n" << string(8, '\t') << "Password did not match.. Please Try Again..\n";
 						} while (true);
 
 						//enter new password
 						if (password != "quit@") {
 							do {
 								do {
-									cout << "\t\t\t|-------------------------------------------------------------------|"
-										<< "\n\t\t\t| Use 8 or more characters with a mix of letters, numbers & symbols |"
-										<< "\n\t\t\t|-------------------------------------------------------------------|"
-										<< "\n\t\t\t|Enter Password" << setw(17) << "|: ";
+									cout << "" << string(8, '\t') << "|-------------------------------------------------------------------|"
+										<< "\n" << string(8, '\t') << "| Use 8 or more characters with a mix of letters, numbers & symbols |"
+										<< "\n" << string(8, '\t') << "|-------------------------------------------------------------------|"
+										<< "\n" << string(8, '\t') << "|Enter Password" << setw(17) << "|: ";
 									getline(cin, password);
 
 									if (checkPassword(password))
 										break;
 									else
-										cout << "\n\t\t\tInvalid password, Please try again\n";
+										cout << "\n" << string(8, '\t') << "Invalid password, Please try again\n";
 								} while (true);
 
 								//verify password
 								do {
-									cout << "\t\t\t|Enter Verify Password" << setw(10) << "|: ";
+									cout << "" << string(8, '\t') << "|Enter Verify Password" << setw(10) << "|: ";
 									getline(cin, verifyPassword);
 
 									if (verifyPassword == "")
-										cout << "\n\t\t\tPassword did not match, Please try again\n";
+										cout << "\n" << string(8, '\t') << "Password did not match, Please try again\n";
 									else
 										break;
 								} while (true);
 
 								if (password != verifyPassword)
-									cout << "\n\t\t\tPassword did not match please try again...\n";
+									cout << "\n" << string(8, '\t') << "Password did not match please try again...\n";
 
 								else {
 									staff[userVectLocation].login.password = password;
@@ -3883,9 +3919,9 @@ void updateStaffDetails(string userID) {
 									}
 									loginFile.close();
 
-									cout << "\n\t\t\t|--------------------------------------------|"
-										<< "\n\t\t\t|   Password has been successfully changed   |"
-										<< "\n\t\t\t|--------------------------------------------|";
+									cout << "\n" << string(8, '\t') << "|--------------------------------------------|"
+										<< "\n" << string(8, '\t') << "|   Password has been successfully changed   |"
+										<< "\n" << string(8, '\t') << "|--------------------------------------------|";
 									break;
 								}
 							} while (true);
@@ -3894,9 +3930,9 @@ void updateStaffDetails(string userID) {
 					else if (choice == 2)
 						isTrue2 = false;
 					else
-						cout << "\n\t\t\tInvalid input, Please Try Again\n\t\t\t";
+						cout << "\n" << string(8, '\t') << "Invalid input, Please Try Again\n" << string(8, '\t');
 
-					cout << "\n\t\t\t";
+					cout << "\n" << string(8, '\t') << "";
 					system("pause");
 				} while (isTrue2);
 			}
@@ -3904,23 +3940,23 @@ void updateStaffDetails(string userID) {
 				break;
 			}
 			else {
-				cout << "\n\t\t\tInvalid Input.. Please try again...\n\t\t\t";
+				cout << "\n" << string(8, '\t') << "Invalid Input.. Please try again...\n" << string(8, '\t');
 				system("pause");
 			}
 		} while (true);
 	}
 	else {
-		cout << "\n\t\t\t|--------------------------------------------|"
-			<< "\n\t\t\t|               INVALID USER ID              |"
-			<< "\n\t\t\t|               CANT FIND USER               |"
-			<< "\n\t\t\t|--------------------------------------------|\n\t\t\t";
+		cout << "\n" << string(8, '\t') << "|--------------------------------------------|"
+			<< "\n" << string(8, '\t') << "|               INVALID USER ID              |"
+			<< "\n" << string(8, '\t') << "|               CANT FIND USER               |"
+			<< "\n" << string(8, '\t') << "|--------------------------------------------|\n" << string(8, '\t');
 		system("pause");
 	}
 }
 
 // Code by Jakob
 // this function shows the different options for the admin once they've logged in.
-void adminScreen() {
+void adminScreen() { //plus ultra
 	system("cls");
 	int choice;
 	bool isTrue = true;
@@ -3929,25 +3965,29 @@ void adminScreen() {
 
 	do {
 		system("cls");
-		cout << "\n\t\t\t|---------------------------|";
-		cout << "\n\t\t\t|        ADMIN SCREEN       |";
-		cout << "\n\t\t\t|---------------------------|";
-		cout << "\n\t\t\t|1. Menu Update             |";
-		cout << "\n\t\t\t|2. Daily Order Report      |";
-		cout << "\n\t\t\t|3. Weekly Sales Report     |";
-		cout << "\n\t\t\t|4. Pending Payment Report  |";
-		cout << "\n\t\t\t|5. Weekly Complaint        |";
-		cout << "\n\t\t\t|6. Exit                    |";
-		cout << "\n\t\t\t|---------------------------|";
-		cout << "\n\t\t\t Enter option: ";
+		cout << "\n" << string(8, '\t') << "|---------------------------|";
+		cout << "\n" << string(8, '\t') << "|        ADMIN SCREEN       |";
+		cout << "\n" << string(8, '\t') << "|---------------------------|";
+		cout << "\n" << string(8, '\t') << "|1. Menu Update             |";
+		cout << "\n" << string(8, '\t') << "|2. Daily Order Report      |";
+		cout << "\n" << string(8, '\t') << "|3. Weekly Sales Report     |";
+		cout << "\n" << string(8, '\t') << "|4. Pending Payment Report  |";
+		cout << "\n" << string(8, '\t') << "|5. Weekly Complaint        |";
+		cout << "\n" << string(8, '\t') << "|6. Show all Parent         |";
+		cout << "\n" << string(8, '\t') << "|7. Show all Staff          |";
+		cout << "\n" << string(8, '\t') << "|8. Exit                    |";
+		cout << "\n" << string(8, '\t') << "|---------------------------|";
+		cout << "\n" << string(8, '\t') << " Enter option: ";
 		cin >> choice;
 
 		switch (choice) {
 		case 1:
+			system("cls");
 			updateMenuList();
 			system("pause");
 			break;
 		case 2:
+			system("cls");
 			printAllOrders(getAllOrderDetails());
 			system("pause");
 			break;
@@ -3967,6 +4007,16 @@ void adminScreen() {
 			system("pause");
 			break;
 		case 6:
+			system("cls");
+			printAllParentDetails();
+			system("pause");
+			break;
+		case 7:
+			system("cls");
+			printAllStaffDetails();
+			system("pause");
+			break;
+		case 8:
 			SetConsoleTextAttribute(h, 7);
 			isTrue = false;
 			break;
