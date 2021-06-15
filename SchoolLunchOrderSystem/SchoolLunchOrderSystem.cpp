@@ -7,6 +7,7 @@
 #include <chrono>
 #include <thread>
 #include <vector>
+#include <Windows.h>
 using namespace std;
 
 // Structures written by Jakob and Jay
@@ -26,12 +27,11 @@ struct Login {
 	string username;
 	string password;
 
-	Login(int defLoginID = 0, string defUsername = "Def Username", string defPassword = "Def Password") {
-
-		loginID = defLoginID;
-		userForeignID = defLoginID;
-		username = defUsername;
-		password = defPassword;
+	Login(string def = "Def") {
+		loginID = def;
+		userForeignID = def;
+		username = def;
+		password = def;
 	}
 };
 
@@ -226,7 +226,7 @@ vector<BulkPayment> getAllBulkDetails();
 
 int main()
 {
-	createFiles();
+	createFiles(); //gohere
 	return printMenuList();
 }
 
@@ -1194,16 +1194,19 @@ void printMainMenu(vector<string> accDetails) {
 	string userAccount, userAccount2;
 	int i, choice;
 	bool runMenu = true;
+	HANDLE h = GetStdHandle(STD_OUTPUT_HANDLE);
 
 	if (accDetails[0].substr(0, 3) == "270") { // parent
 		flag = 1;
 		userAccount = "parent";
 		userAccount2 = "Parent";
+		SetConsoleTextAttribute(h, 11);
 	}
 	else { // staff
 		flag = 2;
 		userAccount = "staff";
 		userAccount2 = "Staff";
+		SetConsoleTextAttribute(h, 9);
 	}
 
 	do {
@@ -1241,6 +1244,7 @@ void printMainMenu(vector<string> accDetails) {
 				updateStaffDetails(accDetails[0]);
 			break;
 		case 5:
+			SetConsoleTextAttribute(h, 7);
 			runMenu = false;
 			break;
 		default:
@@ -1693,7 +1697,6 @@ void updateMenuList() {
 	updateFoodMenu.close();
 
 	cout << "\n\t\t\t*****Food Menu has been updated*****\n";
-	system("pause");
 }
 
 //Code by Jay
@@ -1751,10 +1754,9 @@ void printWeeklyMenu() {
 	bool rowIsDone[3] = { 0,0,0 };
 
 	for (int row = 0; row < 10; row++) {
-
-		if (row == 1 || row == 4 || row == 6 || row == 8) {
+		if (row == 2 || row == 4 || row == 6 || row == 8) {	//print line to separte food name, description and price		
 			for (int print = 0; print < 3; print++) {
-				cout << "----------------------" << "\t\t\t";
+				cout << "\t\t----------------------\t\t";
 				if (print == 2)
 					cout << endl;
 			}
@@ -1769,6 +1771,7 @@ void printWeeklyMenu() {
 			{
 				int column = 0;
 				while (column < 3) {
+					cout << "\t\t";
 					if (rowIsDone[column]) {
 						for (int i = 0; i < 21; i++)
 							cout << " ";
@@ -1776,7 +1779,6 @@ void printWeeklyMenu() {
 					for (int letter = lastPos[column]; letter < (*ptrFD)[row][column].length(); letter++) {
 						if (count < 21) {
 							if ((*ptrFD)[row][column][letter] == ' ') { //if next char is space 
-
 								int p = letter + 1;
 								while ((*ptrFD)[row][column][p] != ' ' && p < (*ptrFD)[row][column].length()) { //loop while next index is space
 									wordSpace++;
@@ -1804,7 +1806,7 @@ void printWeeklyMenu() {
 							lastPos[column] = letter + 1;
 						}
 					}
-					cout << "\t\t\t";
+					cout << "\t\t";
 					count = 0;
 					if ((*ptrFD)[row][column][lastPos[column]] == ' ')
 						lastPos[column]++;
@@ -1816,6 +1818,7 @@ void printWeeklyMenu() {
 		if (row == 4)
 			cout << "\n\n";
 	}
+	cout << endl;
 }
 
 void createFiles() {
@@ -1903,60 +1906,76 @@ void orderFood(vector<string> user) {
 	do {
 		system("cls");
 		printWeeklyMenu();
-		cout << "\n\t\t\t Date: " << getCurrentDate() << endl
-			<< "\n\t\t\t-----------------------------------"
-			<< "\n\t\t\t|           School Name           |"
-			<< "\n\t\t\t|---------------------------------|"
-			<< "\n\t\t\t|            ORDER FOR            |"
-			<< "\n\t\t\t|---------------------------------|";
+		cout << "\n\t\t\t\t\t\t\t Date: " << getCurrentDate()
+			<< "\n\t\t\t\t\t\t\t|---------------------------------|"
+			<< "\n\t\t\t\t\t\t\t|           School Name           |"
+			<< "\n\t\t\t\t\t\t\t|---------------------------------|"
+			<< "\n\t\t\t\t\t\t\t|            ORDER FOR            |"
+			<< "\n\t\t\t\t\t\t\t|---------------------------------|";
 		if (user[0].substr(0, 3) == "270") {
-			cout << "\n\t\t\t| Student Name: " << user[6]
-				<< "\n\t\t\t| Student Room no.: " << user[7];
+			cout << "\n\t\t\t\t\t\t\t| Student Name:     " << user[6]
+				<< "\n\t\t\t\t\t\t\t| Student Room no.: " << user[7];
 		}
 		else {
-			cout << "\n\t\t\t| Staff Name: " << user[1];
+			cout << "\n\t\t\t\t\t\t\t| Staff Name:   " << user[1];
 		}
-		cout << "\n\t\t\t|---------------------------------|"
-			<< "\n\t\t\tPress 1 to order meal"
-			<< "\n\t\t\tPress 2 to remove order"
-			<< "\n\t\t\tPress 3 to print order details"
-			<< "\n\t\t\tPress 4 to checkout"
-			<< "\n\t\t\tPress 5 to exit"
-			<< "\n\t\t\tChoose option: ";
+		cout << "\n\t\t\t\t\t\t\t|---------------------------------|"
+			<< "\n\t\t\t\t\t\t\t| Press 1 to order meal           |"
+			<< "\n\t\t\t\t\t\t\t| Press 2 to remove order         |"
+			<< "\n\t\t\t\t\t\t\t| Press 3 to print order details  |"
+			<< "\n\t\t\t\t\t\t\t| Press 4 to checkout             |"
+			<< "\n\t\t\t\t\t\t\t| Press 5 to exit                 |"
+			<< "\n\t\t\t\t\t\t\t|---------------------------------|"
+			<< "\n\t\t\t\t\t\t\t| Choose option: ";
 		cin >> orderNum;
-
 		switch (orderNum) {
 		case 1:
 			do {
 				do {
-					cout << "\n\t\t\tEnter meal number: ";
+					cout << "\n\t\t\t\t\t\t\t|--------------------------"
+						<< "\n\t\t\t\t\t\t\t| Enter meal number: ";
 					cin >> orderNum;
 					if (orderNum >= 1 && orderNum <= 6)
 						break;
-					else
-						cout << "\n\t\t\tInvalid meal number, Please try again...\n";
+					else {
+						cout << "\n\t\t\t\t\t\t\t|-------------------------------------------|"
+							<< "\n\t\t\t\t\t\t\t| Invalid meal number, Please try again...  |"
+							<< "\n\t\t\t\t\t\t\t|-------------------------------------------|\n";
+					}
 				} while (true);
 
-				cout << "\n\t\t\tDo you want to confirm this odrder?"
-					<< "\n\t\t\tPress 'Y' to confirm order"
-					<< "\n\t\t\tPress 'N' to change the order"
-					<< "\n\t\t\tPress 'Q' to quit from order"
-					<< "\n\t\t\tChoose option: ";
+				cout << "\n\t\t\t\t\t\t\t|--------------------------------------|"
+					<< "\n\t\t\t\t\t\t\t| Do you want to confirm this odrder?  |"
+					<< "\n\t\t\t\t\t\t\t| Press 'Y' to confirm order           |"
+					<< "\n\t\t\t\t\t\t\t| Press 'N' to change the order        |"
+					<< "\n\t\t\t\t\t\t\t| Press 'Q' to quit from order        |"
+					<< "\n\t\t\t\t\t\t\t|--------------------------------------|"
+					<< "\n\t\t\t\t\t\t\t| Choose option: ";
 				cin >> choice;
 
 				if (tolower(choice) == 'y') {
-					cout << "\n\t\t\tOrder confirmed\n\t\t\t";
+					cout << "\n\t\t\t\t\t\t\t|---------------------|"
+						<< "\n\t\t\t\t\t\t\t|   Order confirmed   |"
+						<< "\n\t\t\t\t\t\t\t|---------------------|\n\t\t\t\t\t\t";
 					order = getFoodOrderDetails(order, orderNum);
 					break;
 				}
-				else if (tolower(choice) == 'n')
-					cout << "\n\t\t\tOrder cancelled\n";
+				else if (tolower(choice) == 'n') {
+					cout << "\n\t\t\t\t\t\t\t|---------------------|"
+						<< "\n\t\t\t\t\t\t\t|   Order cancelled   |"
+						<< "\n\t\t\t\t\t\t\t|---------------------|\n";
+				}
 				else if (tolower(choice) == 'q') {
-					cout << "\n\t\t\tExiting order menu\n";
+					cout << "\n\t\t\t\t\t\t\t|-----------------------------------|"
+						<< "\n\t\t\t\t\t\t\t|     Exiting from order menu...    |"
+						<< "\n\t\t\t\t\t\t\t|-----------------------------------|\n\t\t\t\t\t\t";
 					break;
 				}
-				else
-					cout << "\n\t\t\tInvalid Input, Please try again...\n";
+				else {
+					cout << "\n\t\t\t\t\t\t\t|-----------------------------------|"
+						<< "\n\t\t\t\t\t\t\t| Invalid Input! Please try again.. |"
+						<< "\n\t\t\t\t\t\t\t|-----------------------------------|";
+				}
 			} while (true);
 			system("pause");
 			break;
@@ -1972,12 +1991,16 @@ void orderFood(vector<string> user) {
 			checkoutOrder(order, user);
 			break;
 		case 5:
-			cout << "\n\t\t\tExiting from order menu...\n\t\t\t";
+			cout << "\n\t\t\t\t\t\t\t|-----------------------------------|"
+				<< "\n\t\t\t\t\t\t\t|     Exiting from order menu...    |"
+				<< "\n\t\t\t\t\t\t\t|-----------------------------------|\n\t\t\t\t\t\t";
 			isTrue = false;
 			system("pause");
 			break;
 		default:
-			cout << "\n\t\t\tInvalid Input.. Please try again...\n";
+			cout << "\n\t\t\t\t\t\t\t|-----------------------------------|"
+				<< "\n\t\t\t\t\t\t\t| Invalid Input! Please try again.. |"
+				<< "\n\t\t\t\t\t\t\t|-----------------------------------|";
 			system("pause");
 			break;
 		}
@@ -1991,18 +2014,23 @@ void printAllOrders(vector<Order> order) {
 	float total = 0;
 	cout << setprecision(3);
 	if (order.size() == 0) {
-		cout << "\n\t\t\t*****No Data Found*****\n\t\t\t";
+		cout << "\n\t\t\t|--------------------|"
+			<< "\n\t\t\t|   No Data Found    |"
+			<< "\n\t\t\t|--------------------|\n\t\t\t";
 	}
 	for (int i = 0; i < order.size(); i++) {
 		total += order[i].price * order[i].quantity;
-		cout << "\n\t\t\tOrder ID: " << order[i].orderNum << endl
-			<< "\n\t\t\tOrder Date: " << order[i].orderDate << endl
-			<< "\n\t\t\tItem Name: " << order[i].itemName << endl
-			<< "\n\t\t\tOrder Quantity: " << order[i].quantity << endl
-			<< "\n\t\t\tPrice: $" << order[i].price << endl
-			<< "\n\t\t\t------------------------------------" << endl;
+		cout << "\n\t\t\t|------------------------------------|"
+			<< "\n\t\t\t| Order ID:        " << order[i].orderNum
+			<< "\n\t\t\t| Order Date:      " << order[i].orderDate
+			<< "\n\t\t\t| Item Name:       " << order[i].itemName
+			<< "\n\t\t\t| Order Quantity:  " << order[i].quantity
+			<< "\n\t\t\t| Price:           $" << order[i].price
+			<< "\n\t\t\t|------------------------------------|" << endl;
 	}
-	cout << "\n\t\t\tTOTAL: $" << total << "\n\t\t\t";
+	cout << "\n\t\t\t|-----------------------|"
+		<< "\n\t\t\t| TOTAL: $" << total
+		<< "\n\t\t\t|-----------------------|\n\t\t\t";
 }
 
 //Code by Jay
@@ -2014,13 +2042,15 @@ vector<Order> removeOrder(vector<Order> order) {
 
 	do {
 		system("cls");
-		printAllOrders(order);
 		isTrue = true, isTrue2 = true, isTrue3 = true;
 		do {
 			system("cls");
-			cout << "\n\t\t\tPress 1 to remove orders"
-				<< "\n\t\t\tPress 2 to quit..."
-				<< "\n\t\t\tChoose Option: ";
+			printAllOrders(order);
+			cout << "\n\t\t\t|---------------------------|"
+				<< "\n\t\t\t| Press 1 to remove orders  |"
+				<< "\n\t\t\t| Press 2 to quit           |"
+				<< "\n\t\t\t|---------------------------|"
+				<< "\n\t\t\t| Choose Option: ";
 			cin >> numChoice;
 
 			switch (numChoice) {
@@ -2028,7 +2058,8 @@ vector<Order> removeOrder(vector<Order> order) {
 				if (order.size() > 0) {
 					do {
 						printAllOrders(order);
-						cout << "\n\t\t\tPlease enter order ID you wish to remove: ";
+						cout << "\n\t\t\t|-------------------------------------------|"
+							<< "\n\t\t\t| Please enter order ID you wish to remove: ";
 						cin >> orderID;
 						for (int i = 0; i < order.size(); i++) {
 							if (order[i].orderNum == orderID) {
@@ -2038,30 +2069,36 @@ vector<Order> removeOrder(vector<Order> order) {
 							}
 						}
 						if (isTrue) {
-							cout << "\n\t\t\tInvalid order ID.. Please try again...\n";
+							cout << "\n\t\t\t|-------------------------------------------|"
+								<< "\n\t\t\t|   Invalid order ID.. Please try again...  |"
+								<< "\n\t\t\t|-------------------------------------------|\n";
 							system("pause");
 						}
 					} while (isTrue);
 
 					system("cls");
 					do {
-						cout << "\n\t\t\tOrder ID: " << order[vectOrderLoc].orderNum << endl
-							<< "\n\t\t\tOrder Date: " << order[vectOrderLoc].orderDate << endl
-							<< "\n\t\t\tItem Name: " << order[vectOrderLoc].itemName << endl
-							<< "\n\t\t\tOrder Quantity: " << order[vectOrderLoc].quantity << endl
-							<< "\n\t\t\tPrice: " << order[vectOrderLoc].price << endl
-							<< "\n\t\t\t------------------------------------" << endl
-							<< "\n\t\t\tPress 1 to subract order quantity"
-							<< "\n\t\t\tPress 2 to remove order completely"
-							<< "\n\t\t\tPress 3 to exit..."
-							<< "\n\t\t\tChoose Option: ";
+						cout << "\n\t\t\t|------------------------------------------------|"
+							<< "\n\t\t\t| Order ID:       " << order[vectOrderLoc].orderNum
+							<< "\n\t\t\t| Order Date:     " << order[vectOrderLoc].orderDate
+							<< "\n\t\t\t| Item Name:      " << order[vectOrderLoc].itemName
+							<< "\n\t\t\t| Order Quantity: " << order[vectOrderLoc].quantity
+							<< "\n\t\t\t| Price:          " << order[vectOrderLoc].price
+							<< "\n\t\t\t|------------------------------------------------|"
+							<< "\n\t\t\t| Press 1 to subract order quantity              |"
+							<< "\n\t\t\t| Press 2 to remove order completely             |"
+							<< "\n\t\t\t| Press 3 to exit                                |"
+							<< "\n\t\t\t|------------------------------------------------|"
+							<< "\n\t\t\t| Choose Option: ";
 						cin >> numChoice;
 
 						switch (numChoice) {
 						case 1:
 							order[vectOrderLoc].quantity -= 1;
 							if (order[vectOrderLoc].quantity == 0) {
-								cout << "\n\t\t\tOrder has been removed\n\t\t\t";
+								cout << "\n\t\t\t|-------------------------|"
+									<< "\n\t\t\t| Order has been removed  |"
+									<< "\n\t\t\t|-------------------------|\n\t\t\t";
 								order.erase(order.begin() + vectOrderLoc);
 								isTrue2 = false;
 								cout << order.size() << endl;
@@ -2070,7 +2107,9 @@ vector<Order> removeOrder(vector<Order> order) {
 							break;
 						case 2:
 							order.erase(order.begin() + vectOrderLoc);
-							cout << "\n\t\t\tOrder has been removed\n\t\t\t";
+							cout << "\n\t\t\t|-------------------------|"
+								<< "\n\t\t\t| Order has been removed  |"
+								<< "\n\t\t\t|-------------------------|\n\t\t\t";
 							system("pause");
 							isTrue2 = false;
 							break;
@@ -2078,26 +2117,35 @@ vector<Order> removeOrder(vector<Order> order) {
 							isTrue2 = false;
 							break;
 						default:
-							cout << "\n\t\t\tInvalid Input.. Please try again..\n";
+							cout << "\n\t\t\t|-----------------------------------|"
+								<< "\n\t\t\t| Invalid Input! Please try again.. |"
+								<< "\n\t\t\t|-----------------------------------|";
 							system("pause");
 							break;
 						}
 					} while (isTrue2);
 				}
 				else {
-					cout << "\n\t\t\t******There are no orders to show******\n\t\t\t";
+					cout << "\n\t\t\t|--------------------------------|"
+						<< "\n\t\t\t| There are no orders to show    |"
+						<< "\n\t\t\t|--------------------------------|\n\t\t\t";
 					system("pause");
 				}
 				break;
 			case 2:
-				cout << "\n\t\t\tExiting from remove order menu...\n\t\t\t";
+				cout << "\n\t\t\t|-----------------------------------|"
+					<< "\n\t\t\t| Exiting from remove order menu... |"
+					<< "\n\t\t\t|-----------------------------------|\n\t\t\t";
+
 				system("pause");
 				numChoice = 69;
 				isTrue3 = false;
 				break;
 
 			default:
-				cout << "\n\t\t\tInvalid Input.. Please try again..\n";
+				cout << "\n\t\t\t|-----------------------------------|"
+					<< "\n\t\t\t| Invalid Input! Please try again.. |"
+					<< "\n\t\t\t|-----------------------------------|\n\t\t\t";
 				system("pause");
 				break;
 			}
@@ -2152,8 +2200,8 @@ vector<Order> getFoodOrderDetails(vector<Order> order, int orderNum) {
 //Code by Jay
 //This function lets the user checkout there order
 void checkoutOrder(vector<Order> order, vector<string> user) {
-	float subTotal = 0, gstAmount = 0, discount = 0.00, foodPass = 5.00;
-	int numChoice, num;
+	float subTotal = 0, gstAmount = 0, discount = 0.00;
+	int numChoice = 0, num = 0, idLoc = 0, bulkNum = 0;
 	bool isTrue, isTrue2, isTrue3, isTrue4, isTrue5, usedFoodPass;
 	string uniqueID = "", gstNumber, gstID;
 	vector<BulkPayment> vectBulk;
@@ -2161,12 +2209,21 @@ void checkoutOrder(vector<Order> order, vector<string> user) {
 	struct Order ord;
 	char choice;
 
-	//vectBulk = getAllBulkDetails();
-
+	vectBulk = getAllBulkDetails();
+	for (int i = 0; i < vectBulk.size(); i++) {
+		if (vectBulk[i].bulkID == user[0]) {
+			bulkNum = vectBulk[i].orderCount;
+			idLoc = i;
+			break;
+		}
+	}
 	system("cls");
 	cout << setprecision(2);
 	if (order.size() == 0) {
-		cout << "\n\t\t\t*****No Data Found*****\n\t\t\t";
+		cout << "\n\t\t\t|--------------------------|"
+			<< "\n\t\t\t|      No Data Found       |"
+			<< "\n\t\t\t|--------------------------|\n\t\t\t";
+		system("pause");
 	}
 	else {
 		do {
@@ -2183,14 +2240,14 @@ void checkoutOrder(vector<Order> order, vector<string> user) {
 			else {
 				cout << "\n\t\t\t| Staff Name: " << user[1];
 			}
-			cout << "\n\t\t\t|---------------------------------|";
+			cout << "\n\t\t\t| -----------------------------------|";
 			for (int i = 0; i < order.size(); i++) {
 				payment.totalPrice += order[i].price * order[i].quantity;
-				cout << "\n\t\t\tOrder Date: " << order[i].orderDate << endl
-					<< "\n\t\t\tItem Name: " << order[i].itemName << endl
-					<< "\n\t\t\tOrder Quantity: " << order[i].quantity << endl
-					<< "\n\t\t\tPrice: $" << order[i].price << endl
-					<< "\n\t\t\t------------------------------------" << endl;
+				cout << "\n\t\t\t| Order Date:    " << order[i].orderDate
+					<< "\n\t\t\t| Item Name:      " << order[i].itemName
+					<< "\n\t\t\t| Order Quantity: " << order[i].quantity
+					<< "\n\t\t\t| Price:          $" << order[i].price
+					<< "\n\t\t\t| -----------------------------------|" << endl;
 			}
 			cout << "\n\t\t\tTOTAL: $" << payment.totalPrice << "\n\t\t\t";
 
@@ -2214,10 +2271,11 @@ void checkoutOrder(vector<Order> order, vector<string> user) {
 					cin >> numChoice;
 
 					if (numChoice == 1) {
-						if (foodPass > 0) {
+						if (bulkNum > 0) {
 							do {
 								cout << "\n\t\t\t|-------------------------------------------------------------|"
-									<< "\n\t\t\t| You have " << foodPass << " free food pass in your account  |"
+									<< "\n\t\t\t| You have " << vectBulk[idLoc].orderCount << " free food pass in your account"
+									<< "\n\t\t\t|-------------------------------------------------------------|"
 									<< "\n\t\t\t| Press 1 to use food pass                                    |"
 									<< "\n\t\t\t| Press 2 to proceed without using food pass                  |"
 									<< "\n\t\t\t|-------------------------------------------------------------|"
@@ -2242,6 +2300,8 @@ void checkoutOrder(vector<Order> order, vector<string> user) {
 													<< "\n\t\t\t| Choose option: ";
 												cin >> choice;
 												if (tolower(choice) == 'y') {
+													vectBulk[idLoc].orderCount = vectBulk[idLoc].orderCount - (payment.totalPrice / 5);//decrement bulkpayment
+													bulkNum = vectBulk[idLoc].orderCount;
 													discount = payment.totalPrice;
 													payment.totalPrice -= discount;
 													usedFoodPass = true;
@@ -2254,8 +2314,11 @@ void checkoutOrder(vector<Order> order, vector<string> user) {
 													isTrue4 = false;
 													break;
 												}
-												else
-													cout << "\n\t\t\tInvalid Input.. Please try again..";
+												else {
+													cout << "\n\t\t\t|-----------------------------------|"
+														<< "\n\t\t\t| Invalid Input! Please try again.. |"
+														<< "\n\t\t\t|-----------------------------------|";
+												}
 											} while (true);
 										}
 										else if (tolower(choice) == 'n') {
@@ -2265,8 +2328,10 @@ void checkoutOrder(vector<Order> order, vector<string> user) {
 														<< "\n\t\t\t| Please enter the amount of food pass you wish to use: ";
 													cin >> num;
 
-													if (num > payment.totalPrice / 5) // check if amount entered doesn't exceed the amount needed to pay
-														cout << "Invalid amount! Max amount you can use is: " << payment.totalPrice / 5 << endl;
+													if (num > payment.totalPrice / 5) { // check if amount entered doesn't exceed the amount needed to pay
+														cout << "\n\t\t\t|---------------------------------------------|"
+															<< "\n\t\t\t| Invalid amount! Max amount you can use is: " << payment.totalPrice / 5 << endl;
+													}
 													else
 														break;
 												} while (true);
@@ -2280,7 +2345,8 @@ void checkoutOrder(vector<Order> order, vector<string> user) {
 
 												if (tolower(choice) == 'y') {
 													discount = 5.00 * num;
-
+													vectBulk[idLoc].orderCount -= num;
+													bulkNum = vectBulk[idLoc].orderCount;
 													if (discount == payment.totalPrice) {//if amount of bulk payment used is equal to the amount need to pay
 														do {
 															cout << "\n\t\t\t|-----------------------------------------------|"
@@ -2306,8 +2372,11 @@ void checkoutOrder(vector<Order> order, vector<string> user) {
 																isTrue5 = false;
 																break;
 															}
-															else
-																cout << "\n\t\t\tInvalid Input.. Please try again..";
+															else {
+																cout << "\n\t\t\t|-----------------------------------|"
+																	<< "\n\t\t\t| Invalid Input! Please try again.. |"
+																	<< "\n\t\t\t|-----------------------------------|";
+															}
 														} while (true);
 													}
 													else {
@@ -2322,15 +2391,21 @@ void checkoutOrder(vector<Order> order, vector<string> user) {
 													isTrue4 = false;
 													isTrue5 = false;
 												}
-												else
-													cout << "\n\t\t\tInvalid Input.. Please try again..";
+												else {
+													cout << "\n\t\t\t|-----------------------------------|"
+														<< "\n\t\t\t| Invalid Input! Please try again.. |"
+														<< "\n\t\t\t|-----------------------------------|";
+												}
 											} while (isTrue5);
 										}
 										else if (tolower(choice) == 'q') {
 											break;
 										}
-										else //if wrong input
-											cout << "\n\t\t\tInvalid Input.. Please try again..";
+										else { //if wrong input
+											cout << "\n\t\t\t|-----------------------------------|"
+												<< "\n\t\t\t| Invalid Input! Please try again.. |"
+												<< "\n\t\t\t|-----------------------------------|";
+										}
 									} while (isTrue4);
 								}
 								else if (numChoice == 2) {
@@ -2338,13 +2413,13 @@ void checkoutOrder(vector<Order> order, vector<string> user) {
 									isTrue3 = false;//break main loop
 								}
 								//add exit
-								else
-									cout << "\n\t\t\tInvalid Input.. Please try again..";
-
+								else {
+									cout << "\n\t\t\t|-----------------------------------|"
+										<< "\n\t\t\t| Invalid Input! Please try again.. |"
+										<< "\n\t\t\t|-----------------------------------|";
+								}
 							} while (isTrue3);//main loop
 						}
-
-						//gohere
 						if (discount <= payment.totalPrice) {//if there is still remaing amount to pay
 							do {
 								payment.totalPrice = payment.totalPrice + (payment.totalPrice * payment.GST); // apply GST
@@ -2387,30 +2462,35 @@ void checkoutOrder(vector<Order> order, vector<string> user) {
 									isTrue2 = false;
 									break;
 								default:
-									cout << "\n\t\t\tInvalid Input.. Please try again..";
+									cout << "\n\t\t\t|-----------------------------------|"
+										<< "\n\t\t\t| Invalid Input! Please try again.. |"
+										<< "\n\t\t\t|-----------------------------------|";
 									system("pause");
 									break;
 								}
 							} while (isTrue2);
 						}
-
 						payment.date = getCurrentDate();
-						cout << "\n\t\t\t Date: " << payment.date << endl
-							<< "\n\t\t\t-----------------------------------"
-							<< "\n\t\t\t|           School Name           |"
-							<< "\n\t\t\t|---------------------------------|"
-							<< "\n\t\t\t|     A Block, School Name        |"
-							<< "\n\t\t\t|     Phone: 0800 83 83 83        |"
-							<< "\n\t\t\t|---------------------------------|";
+						cout << "\n\t\t\t|------------------------------------------|"
+							<< "\n\t\t\t|      Bulk Payment left: " << bulkNum
+							<< "\n\t\t\t|------------------------------------------|"
+							<< "\n\t\t\t Date: " << payment.date << endl
+							<< "\n\t\t\t|------------------------------------------|"
+							<< "\n\t\t\t|                School Name               |"
+							<< "\n\t\t\t|------------------------------------------|"
+							<< "\n\t\t\t|            A Block, School Name          |"
+							<< "\n\t\t\t|            Phone: 0800 83 83 83          |"
+							<< "\n\t\t\t|------------------------------------------|";
 
 						for (int i = 0; i < order.size(); i++) {
 							subTotal = order[i].price * order[i].quantity;
-							cout << "\n\t\t\t----------------------------------------"
-								<< "\n\t\t\tItem Name:       " << order[i].itemName
-								<< "\n\t\t\tNumber of items: " << order[i].quantity
-								<< "\n\t\t\tOrder ID:        " << order[i].orderNum << "\t" << "\n\t\t\tPrice: $" << order[i].price
-								<< "\n\t\t\t----------------------------------------"
-								<< "\n\t\t\t|SUBTOTAL:       " << subTotal << endl;
+							cout << "\n\t\t\t|------------------------------------------|"
+								<< "\n\t\t\t| Item Name:       " << order[i].itemName
+								<< "\n\t\t\t| Number of items: " << order[i].quantity
+								<< "\n\t\t\t| Order ID:        " << order[i].orderNum
+								<< "\n\t\t\t| Price:          $" << order[i].price
+								<< "\n\t\t\t|------------------------------------------|"
+								<< "\n\t\t\t|SUBTOTAL:        $" << subTotal << endl;
 							subTotal = 0;
 						}
 						if (usedFoodPass) {
@@ -2426,11 +2506,11 @@ void checkoutOrder(vector<Order> order, vector<string> user) {
 							}
 						} while (true);
 						cout << "\n\t\t\t|------------------------------------------|"
-							<< "\n\t\t\t|TOTAL PRICE:     $" << payment.totalPrice
+							<< "\n\t\t\t|TOTAL PRICE:      $" << payment.totalPrice
 							<< "\n\t\t\t|------------------------------------------|"
 							<< "\n\t\t\t|Type of Payment:  " << payment.typeOfPayment
-							<< "\n\t\t\t|Change:          $ 0.00"
-							<< "\n\t\t\t|GST Included     $" << payment.GSTAmount
+							<< "\n\t\t\t|Change:           $ 0.00"
+							<< "\n\t\t\t|GST Included      $" << payment.GSTAmount
 							<< "\n\t\t\t|GST Number:       " << payment.GSTNumber
 							<< "\n\t\t\t|------------------------------------------|\n\n\t\t\t";
 
@@ -2459,31 +2539,44 @@ void checkoutOrder(vector<Order> order, vector<string> user) {
 						savePayment << payment.paymentID << ", " << user[0] << "," << payment.GSTNumber << "," << payment.GSTAmount << "," << payment.typeOfPayment << "," << discount << "," << payment.totalPrice << "," << payment.date << endl;
 						savePayment.close();
 
+						//update bulk payment csv
+						ofstream updateBulkPayment("BulkOrder_file.csv", ios::out);
+						updateBulkPayment << "USER_ID" << "," << "ORDER_COUNT" << endl;
+						for (int i = 0; i < vectBulk.size(); i++) {
+							updateBulkPayment << vectBulk[i].bulkID << "," << vectBulk[i].orderCount << endl;
+						}
+						updateBulkPayment.close();
+
 						cout << "\n\t\t\t|---------------------------------|"
 							<< "\n\t\t\t|   PAYMENT CONFIRMED THANK YOU   |"
 							<< "\n\t\t\t|---------------------------------|\n\t\t\t";
 
 						isTrue = false;
-						order.clear();//clear order after paying
-						cout << order.size();
+						order.clear();//clear order after paying		
 						system("pause");
 						break;
 					}
 					else if (numChoice == 2)
 						break;
 					else {
-						cout << "\n\t\t\tInvalid Input.. Please try again..";
+						cout << "\n\t\t\t|-----------------------------------|"
+							<< "\n\t\t\t| Invalid Input! Please try again.. |"
+							<< "\n\t\t\t|-----------------------------------|\n\t\t\t";
 						system("pause");
 					}
 				} while (true);
 				break;
 			case 2:
-				cout << "\n\t\t\tExiting from checkout\n\t\t\t";
+				cout << "\n\t\t\t|-----------------------------------|"
+					<< "\n\t\t\t|        Exiting from checkout..    |"
+					<< "\n\t\t\t|-----------------------------------|\n\t\t\t";
 				system("pause");
 				isTrue = false;
 				break;
 			default:
-				cout << "\n\t\t\tInvalid Input.. Please try again..";
+				cout << "\n\t\t\t|-----------------------------------|"
+					<< "\n\t\t\t| Invalid Input! Please try again.. |"
+					<< "\n\t\t\t|-----------------------------------|\n\t\t\t";
 				system("pause");
 				break;
 			}
@@ -2614,16 +2707,14 @@ vector<Parent> getAllParentDetails() {
 			parent.childRoomNum = parentData[7];
 			parent.visaCardNo = parentData[8];
 			parent.visaCardExpiry = parentData[9];
+			vectParent.push_back(parent);
 		}
-
-
-		vectParent.push_back(parent);
 		parentData.clear();
 	}
 	myfile.close();
 	vectOrder = getAllOrderDetails();
 	vectPayment = getAllPaymentDetails();
-	vectLogin = getAllLoginDetails();
+	//vectLogin = getAllLoginDetails(); //gohere3
 
 	//get all order details
 	for (int i = 0; i < vectParent.size(); i++) {
@@ -2690,15 +2781,15 @@ vector<Staff> getAllStaffDetails() {
 			staff.email = staffData[5];
 			staff.visaCardNo = staffData[6];
 			staff.visaCardExpiry = staffData[7];
+			vectStaff.push_back(staff);
 		}
-		vectStaff.push_back(staff);
 		staffData.clear();
 	}
 	myfile.close();
 
 	vectOrder = getAllOrderDetails();
 	vectPayment = getAllPaymentDetails();
-	vectLogin = getAllLoginDetails();
+	//vectLogin = getAllLoginDetails();
 
 	//get all order details
 	for (int i = 0; i < vectStaff.size(); i++) {
@@ -2761,9 +2852,8 @@ vector<Order> getAllOrderDetails() {
 			order.itemName = orderData[3];
 			order.quantity = stoi(orderData[4]);
 			order.price = stof(orderData[5]);
+			vectOrder.push_back(order);
 		}
-
-		vectOrder.push_back(order);
 		orderData.clear();
 	}
 	myfile.close();
@@ -2799,9 +2889,8 @@ vector<Payment> getAllPaymentDetails() {
 			payment.typeOfPayment = paymentData[4];
 			payment.totalPrice = stof(paymentData[5]);
 			payment.date = paymentData[6];
+			vectPayment.push_back(payment);
 		}
-
-		vectPayment.push_back(payment);
 		paymentData.clear();
 	}
 	myfile.close();
@@ -2814,14 +2903,14 @@ vector<Payment> getAllPaymentDetails() {
 vector<Login> getAllLoginDetails() {
 
 	vector<string> loginData;
-	vector<Login> vectLogin;
-	Login login;
 	string tempStr, line;
-
+	vector<Login> vectLog;
+	Login login;
 	ifstream myfile;
+
+	vectLog.push_back(login);
 	myfile.open("Login_file.csv", ios::in);
 
-	cout << setprecision(2);
 	while (getline(myfile, line)) {
 		stringstream ss(line);
 
@@ -2829,26 +2918,23 @@ vector<Login> getAllLoginDetails() {
 			getline(ss, tempStr, ',');
 			loginData.push_back(tempStr);
 		}
-		if (loginData.size() != 0) {
-			if (loginData[0] != "PRIMARY_KEY") {
-				login.loginID = loginData[0];
-				login.userForeignID = loginData[1];
-				login.username = loginData[2];
-				login.password = loginData[3];
-				vectLogin.push_back(login);
-			}
+		if (loginData[0] != "PRIMARY_KEY") {
+			login.loginID = loginData[0];
+			login.userForeignID = loginData[1];
+			login.username = loginData[2];
+			login.password = loginData[3]; //gohere2
+			vectLog.push_back(login);
 		}
-
 		loginData.clear();
 	}
 	myfile.close();
 
-	return vectLogin;
+	return vectLog;
 }
 
 vector<BulkPayment> getAllBulkDetails() {
 
-	vector<string> bulkData;//gohere2
+	vector<string> bulkData;
 	vector<BulkPayment> vectBulk;
 	BulkPayment bulk;
 	string tempStr, line;
@@ -2874,8 +2960,6 @@ vector<BulkPayment> getAllBulkDetails() {
 		bulkData.clear();
 	}
 	myfile.close();
-
-	system("pause");
 	return vectBulk;
 }
 
@@ -3840,6 +3924,8 @@ void adminScreen() {
 	system("cls");
 	int choice;
 	bool isTrue = true;
+	HANDLE h = GetStdHandle(STD_OUTPUT_HANDLE);
+	SetConsoleTextAttribute(h, 10);
 
 	do {
 		system("cls");
@@ -3858,13 +3944,11 @@ void adminScreen() {
 
 		switch (choice) {
 		case 1:
-			cout << "\n\t\t\tMenu update";
-			cout << "\n\t\t\t";
+			updateMenuList();
 			system("pause");
 			break;
 		case 2:
-			cout << "\n\t\t\tDaily Order Report";
-			cout << "\n\t\t\t";
+			printAllOrders(getAllOrderDetails());
 			system("pause");
 			break;
 		case 3:
@@ -3883,6 +3967,7 @@ void adminScreen() {
 			system("pause");
 			break;
 		case 6:
+			SetConsoleTextAttribute(h, 7);
 			isTrue = false;
 			break;
 		}
