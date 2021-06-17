@@ -210,7 +210,6 @@ void printWeeklyComplaint();
 vector<string> getWeeklyComplaint();
 void changeActionStatus(vector<string>);
 void printWeeklySales();
-
 void orderFood(vector<string>);
 vector<Order>getFoodOrderDetails(vector<Order>, int);
 vector<Order> removeOrder(vector<Order>);
@@ -227,10 +226,11 @@ vector<Login>& getAllLoginDetails(vector<Login>*);
 void updateParentDetails(string);
 void updateStaffDetails(string userID);
 vector<BulkPayment> getAllBulkDetails();
+void printSpaces(int, int);
 
 int main()
 {
-	createFiles(); //gohere
+	createFiles(); 
 	return printMenuList();
 }
 
@@ -281,7 +281,7 @@ int printMenuList() {
 
 //Written by Jay
 //This function prints out the details of bulk discounts
-void printBulkDiscounts() {  //plus ultra
+void printBulkDiscounts() {  
 	cout << "\n" << string(6, '\t') << "|----------------------------------------------------------------------------------------------|"
 		<< "\n" << string(6, '\t') << "|                                   BULK BOOKING DISCOUNTS                                     |"
 		<< "\n" << string(6, '\t') << "|----------------------------------------------------------------------------------------------|"
@@ -297,8 +297,8 @@ void printBulkDiscounts() {  //plus ultra
 }
 
 //Written by Jay
-//This function prints out the details of the school //plus ultra
-void printContactLocationDetails() {  //plus ultra
+//This function prints out the details of the school 
+void printContactLocationDetails() {  
 	cout << "\n" << string(7, '\t') << "|------------------------------------------------------------|"
 		<< "\n" << string(7, '\t') << "| CONTACT DETAILS                |      OFFICE LOCATION      |"
 		<< "\n" << string(7, '\t') << "|--------------------------------|---------------------------|"
@@ -313,7 +313,7 @@ void printContactLocationDetails() {  //plus ultra
 }
 
 void loginRegistrationScreen() { // Code written by Jakob
-	int choice, registerChoice; //plus ultra
+	int choice, registerChoice; 
 
 	do {
 		system("cls");
@@ -568,7 +568,7 @@ void registerStaff() {
 
 //This Function lets the user logged in
 //Code by Jay and Jakob
-void loginScreen() { //plus ultra
+void loginScreen() { 
 	string username, pass, accPass;
 	bool notExist = true;
 	ifstream loginFile;
@@ -1053,18 +1053,18 @@ void adminLogin() {
 
 	system("cls");
 	ifstream adminFile;
-	cout << "\n\t\t\t|----------------------------|"
-		<< "\n\t\t\t|        ADMIN LOGIN         |"
-		<< "\n\t\t\t|----------------------------|";
+	cout << "\n" << string(7, '\t') << "|----------------------------|"
+		<< "\n" << string(7, '\t') << "|        ADMIN LOGIN         |"
+		<< "\n" << string(7, '\t') << "|----------------------------|";
 
 	do {
 		adminFile.open("Admin_file.csv", ios::in);
-		cout << "\n\t\t\t|Enter admin username" << setw(8) << "        |: ";
+		cout << "\n" << string(7, '\t') << "|Enter admin username" << setw(8) << "        |: ";
 		cin >> username;
 
 		accPass = checkAdminInput(username);
 		if (accPass == " ") {
-			cout << "\n\t\t\tCouldn't find that username, please try again...\n";
+			cout << "\n" << string(7, '\t') << "Couldn't find that username, please try again...\n";
 		}
 		else {
 			adminFile.close();
@@ -1073,16 +1073,16 @@ void adminLogin() {
 	} while (true);
 
 	do {
-		cout << "\n\t\t\t|Enter admin password" << setw(8) << "        |: ";
+		cout << "\n" << string(7, '\t') << "|Enter admin password" << setw(8) << "        |: ";
 		cin >> pass;
 
 		if (pass != accPass) {
 			loginAttempt++;
 			if (loginAttempt < maxLoginAttempt) {
-				cout << "\n\t\t\tWrong password. You have " << (maxLoginAttempt - loginAttempt) << " attempts left. Please try again...\n";
+				cout << "\n" << string(7, '\t') << "tWrong password. You have " << (maxLoginAttempt - loginAttempt) << " attempts left. Please try again...\n";
 			}
 			else if (loginAttempt == maxLoginAttempt) {
-				cout << "\n\t\t\tPlease try again after 2 seconds.\n\t\t\t";
+				cout << "\n" << string(7, '\t') << "Please try again after 2 seconds.\n" << string(7, '\t');
 				this_thread::sleep_for(chrono::seconds(2));
 				maxLoginAttempt = maxLoginAttempt + 3;
 				system("pause");
@@ -1198,7 +1198,7 @@ vector<string> getAccountDetails(string userID) {
 
 // Code by Jakob
 // This function displays the main menu for users that have logged in.
-void printMainMenu(vector<string> accDetails) {//plus ultra
+void printMainMenu(vector<string> accDetails) {
 	int flag;
 	string userAccount, userAccount2;
 	int i, choice;
@@ -1813,7 +1813,7 @@ void printWeeklyMenu() {
 		}
 
 		for (int col = 0; col < 3; col++) {
-			while (!rowIsDone[0] || !rowIsDone[1] || !rowIsDone[2])
+			while (!rowIsDone[0] || !rowIsDone[1] || !rowIsDone[2]) // loop while all rows are done printing
 			{
 				int column = 0;
 				while (column < 3) {
@@ -1835,15 +1835,15 @@ void printWeeklyMenu() {
 							cout << (*ptrFD)[row][column][letter]; //print next char
 
 							int space = 21 - count; //check how many space left in the row if there is no more space for the word goto next line
-							if (wordSpace > space) {
-								for (int i = 0; i < space; i++)
+							if (wordSpace >= space) {
+								for (int i = 0; i < space; i++)//if there is no more room to print letters stop and go to next coloumn
 									cout << " ";
 								count = 21;
 							}
 							else
 								wordSpace = 0;
 
-							if (letter == (*ptrFD)[row][column].length() - 1) {
+							if (letter == (*ptrFD)[row][column].length() - 1) {//print spaces 
 								rowIsDone[column] = true;
 								for (int i = 0; i < space; i++)
 									cout << " ";
@@ -1854,7 +1854,7 @@ void printWeeklyMenu() {
 					}
 					cout << "\t\t";
 					count = 0;
-					if ((*ptrFD)[row][column][lastPos[column]] == ' ')
+					if ((*ptrFD)[row][column][lastPos[column]] == ' ')//if the last character in the range of 21 characters is space increment by one
 						lastPos[column]++;
 					column++;
 				}
@@ -1948,6 +1948,7 @@ void orderFood(vector<string> user) {
 	char choice;
 	string orderName;
 	vector<Order> order;
+	vector<Order> ord;
 
 	do {
 		system("cls");
@@ -1976,7 +1977,7 @@ void orderFood(vector<string> user) {
 		cin >> orderNum;
 		switch (orderNum) {
 		case 1:
-			do {
+			do {			
 				do {
 					cout << "\n\t\t\t\t\t\t\t|--------------------------"
 						<< "\n\t\t\t\t\t\t\t| Enter meal number: ";
@@ -1990,11 +1991,20 @@ void orderFood(vector<string> user) {
 					}
 				} while (true);
 
+				ord = getFoodOrderDetails(ord, orderNum);
+				cout << ord.size();
+				cout << "\n\t\t\t\t\t\t\t|------------------------------------|"
+					<< "\n\t\t\t\t\t\t\t| Order ID:        " << ord[0].orderNum
+					<< "\n\t\t\t\t\t\t\t| Item Name:       " << ord[0].itemName
+					<< "\n\t\t\t\t\t\t\t| Price:           $" << ord[0].price
+					<< "\n\t\t\t\t\t\t\t|------------------------------------|" << endl;
+				ord.clear(); //clear after showing the order
+
 				cout << "\n\t\t\t\t\t\t\t|--------------------------------------|"
-					<< "\n\t\t\t\t\t\t\t| Do you want to confirm this odrder?  |"
+					<< "\n\t\t\t\t\t\t\t| Do you want to confirm this order?   |"
 					<< "\n\t\t\t\t\t\t\t| Press 'Y' to confirm order           |"
 					<< "\n\t\t\t\t\t\t\t| Press 'N' to change the order        |"
-					<< "\n\t\t\t\t\t\t\t| Press 'Q' to quit from order        |"
+					<< "\n\t\t\t\t\t\t\t| Press 'Q' to quit from order         |"
 					<< "\n\t\t\t\t\t\t\t|--------------------------------------|"
 					<< "\n\t\t\t\t\t\t\t| Choose option: ";
 				cin >> choice;
@@ -2003,7 +2013,7 @@ void orderFood(vector<string> user) {
 					cout << "\n\t\t\t\t\t\t\t|---------------------|"
 						<< "\n\t\t\t\t\t\t\t|   Order confirmed   |"
 						<< "\n\t\t\t\t\t\t\t|---------------------|\n\t\t\t\t\t\t";
-					order = getFoodOrderDetails(order, orderNum);
+					order = getFoodOrderDetails(order, orderNum);//gohere
 					break;
 				}
 				else if (tolower(choice) == 'n') {
@@ -2022,6 +2032,21 @@ void orderFood(vector<string> user) {
 						<< "\n\t\t\t\t\t\t\t| Invalid Input! Please try again.. |"
 						<< "\n\t\t\t\t\t\t\t|-----------------------------------|";
 				}
+				system("cls");
+				printWeeklyMenu();
+				cout << "\n\t\t\t\t\t\t\t Date: " << getCurrentDate()
+					<< "\n\t\t\t\t\t\t\t|---------------------------------|"
+					<< "\n\t\t\t\t\t\t\t|           School Name           |"
+					<< "\n\t\t\t\t\t\t\t|---------------------------------|"
+					<< "\n\t\t\t\t\t\t\t|            ORDER FOR            |"
+					<< "\n\t\t\t\t\t\t\t|---------------------------------|";
+				if (user[0].substr(0, 3) == "270") {
+					cout << "\n\t\t\t\t\t\t\t| Student Name:     " << user[6]
+						<< "\n\t\t\t\t\t\t\t| Student Room no.: " << user[7];
+				}
+				else {
+					cout << "\n\t\t\t\t\t\t\t| Staff Name:   " << user[1];
+				}
 			} while (true);
 			system("pause");
 			break;
@@ -2034,7 +2059,7 @@ void orderFood(vector<string> user) {
 			system("pause");
 			break;
 		case 4:
-			order = checkoutOrder(order, user); //plusultra
+			order = checkoutOrder(order, user); 
 			break;
 		case 5:
 			cout << "\n\t\t\t\t\t\t\t|-----------------------------------|"
@@ -2056,9 +2081,44 @@ void orderFood(vector<string> user) {
 
 //Code by Jay
 //This function prints out all of the user order from the menu
-void printAllOrders(vector<Order> order) { //gohere7
+void printAllOrders(vector<Order> order) { 
 	float total = 0;
+
 	cout << setprecision(3);
+	if (order.size() == 0) {
+		cout << "\n" << string(4, '\t') << "|--------------------|"
+			<< "\n" << string(4, '\t') << "|   No Data Found    |"
+			<< "\n" << string(4, '\t') << "|--------------------|" << "\n";
+	}
+
+	for (int i = 0; i < 100; i++)
+		cout << "-";
+	cout << "\n" << string(5, '\t') << "Order Details\n";
+	for (int i = 0; i < 100; i++)
+		cout << "-";
+	cout << "\n| ID      | Date \t| Name\t\t\t| Order Quantity |  Price  | Total  \n";
+	for (int i = 0; i < 100; i++)
+		cout << "-";
+	cout << endl;
+
+
+	for (int i = 0; i < order.size(); i++) {
+		total += order[i].price * order[i].quantity;
+		cout << order[i].orderID;
+		printSpaces(order[i].orderID.length(), 12);
+		cout << order[i].orderDate;
+		printSpaces(order[i].orderDate.length(), 14);
+		cout << order[i].itemName;
+		printSpaces(order[i].itemName.length(), 30);
+		cout << order[i].quantity;
+		printSpaces(to_string(order[i].quantity).length(), 12);
+		cout << "$" << order[i].price;
+		printSpaces(to_string(order[i].price).length(), 15);
+		cout << "$" << total;
+		cout << endl;
+	}
+
+	/*cout << setprecision(3);
 	if (order.size() == 0) {
 		cout << "\n\t\t\t|--------------------|"
 			<< "\n\t\t\t|   No Data Found    |"
@@ -2076,12 +2136,12 @@ void printAllOrders(vector<Order> order) { //gohere7
 	}
 	cout << "\n\t\t\t|-----------------------|"
 		<< "\n\t\t\t| TOTAL: $" << total
-		<< "\n\t\t\t|-----------------------|\n\t\t\t";
+		<< "\n\t\t\t|-----------------------|\n\t\t\t";*/
 }
 
 //Code by Jay
 //This function lets the user remove orders 
-vector<Order> removeOrder(vector<Order> order) { //plus ultra
+vector<Order> removeOrder(vector<Order> order) { 
 	int orderID, vectOrderLoc;
 	bool isTrue, isTrue2, isTrue3;
 	int numChoice;
@@ -2091,7 +2151,7 @@ vector<Order> removeOrder(vector<Order> order) { //plus ultra
 		isTrue = true, isTrue2 = true, isTrue3 = true;
 		do {
 			system("cls");
-			cout << "\n" << string(7, '\t') << "|---------------------------|"
+			cout << "\n\n\n" << string(7, '\t') << "|---------------------------|"
 				<< "\n" << string(7, '\t') << "| Press 1 to remove orders  |"
 				<< "\n" << string(7, '\t') << "| Press 2 to quit           |"
 				<< "\n" << string(7, '\t') << "|---------------------------|"
@@ -2104,8 +2164,8 @@ vector<Order> removeOrder(vector<Order> order) { //plus ultra
 					do {
 						system("cls");
 						printAllOrders(order);
-						cout << "\n" << string(7, '\t') << "|-------------------------------------------|"
-							<< "\n" << string(7, '\t') << "| Please enter order ID you wish to remove: ";
+						cout << "\n\n\n" << string(4, '\t') << "|-------------------------------------------|"
+							<< "\n" << string(4, '\t') << "| Please enter order ID you wish to remove: ";
 						cin >> orderID;
 						for (int i = 0; i < order.size(); i++) {
 							if (order[i].orderNum == orderID) {
@@ -2245,7 +2305,7 @@ vector<Order> getFoodOrderDetails(vector<Order> order, int orderNum) {
 
 //Code by Jay
 //This function lets the user checkout there order
-vector<Order> checkoutOrder(vector<Order> order, vector<string> user) { //plus ultra
+vector<Order> checkoutOrder(vector<Order> order, vector<string> user) { 
 	float subTotal = 0, gstAmount = 0, discount = 0.00;
 	int numChoice = 0, num = 0, idLoc = 0, bulkNum = 0;
 	bool isTrue, isTrue2, isTrue3, isTrue4, isTrue5, usedFoodPass, hasPaid;
@@ -2313,6 +2373,7 @@ vector<Order> checkoutOrder(vector<Order> order, vector<string> user) { //plus u
 			switch (numChoice) {
 			case 1:
 				do {
+					system("cls");
 					cout << "\n" << string(8, '\t') << "|------------------------|"
 						<< "\n" << string(8, '\t') << "| Press 1 to pay now     |"
 						<< "\n" << string(8, '\t') << "| Press 2 to exit        |"
@@ -2349,7 +2410,7 @@ vector<Order> checkoutOrder(vector<Order> order, vector<string> user) { //plus u
 													<< "\n" << string(8, '\t') << "|-------------------------------|"
 													<< "\n" << string(8, '\t') << "| Choose option: ";
 												cin >> choice;
-												if (tolower(choice) == 'y') {
+												if (tolower(choice) == 'y') {//if they paid full
 													vectBulk[idLoc].orderCount = vectBulk[idLoc].orderCount - (payment.totalPrice / 5);//decrement bulkpayment
 													bulkNum = vectBulk[idLoc].orderCount;
 													discount = payment.totalPrice;
@@ -2432,7 +2493,7 @@ vector<Order> checkoutOrder(vector<Order> order, vector<string> user) { //plus u
 													}
 													else {
 														discount = 5.00 * num;
-														vectBulk[idLoc].orderCount -= num; //gohere7
+														vectBulk[idLoc].orderCount -= num; 
 														bulkNum = vectBulk[idLoc].orderCount;
 														payment.totalPrice -= discount;
 														usedFoodPass = true;
@@ -2700,8 +2761,43 @@ void printWeeklyOrderReport() {
 //This function prints all of the parents details
 void printAllParentDetails() {
 	vector<Parent> vectParent;
+	int lastpos = 0;
 
 	vectParent = getAllParentDetails();
+	for (int i = 0; i < 300; i++)
+		cout << "-";
+	cout << "\n" << string(10, '\t') << "Parent Details\n";
+
+	for (int i = 0; i < 170; i++)
+		cout << "-";
+	cout << "\n| ID      | Name \t\t| Gender   | DOB \t| Contact No. \t| Email\t\t      | Child Name\t    | Class No. | Visa card no \t\t| Visa Expiry date\n";
+	for (int i = 0; i < 170; i++)
+		cout << "-";
+	cout << endl;
+
+	for (int i = 0; i < vectParent.size(); i++) {
+		cout << vectParent[i].parentID;
+		cout << "   " << vectParent[i].fullName;
+		printSpaces(vectParent[i].parentID.length(), 20);
+		cout << vectParent[i].gender;
+		printSpaces(vectParent[i].gender.length(), 11);
+		cout << vectParent[i].dob;
+		printSpaces(vectParent[i].dob.length(), 13);
+		cout << vectParent[i].countNum;
+		printSpaces(to_string(vectParent[i].countNum).length(), 16);
+		cout << vectParent[i].email;
+		printSpaces(vectParent[i].email.length(), 22);
+		cout << vectParent[i].childFullName;
+		printSpaces(vectParent[i].childFullName.length(), 22);
+		cout << vectParent[i].childRoomNum;
+		printSpaces(vectParent[i].childRoomNum.length(), 12);
+		cout << vectParent[i].visaCardNo;
+		printSpaces(vectParent[i].visaCardNo.length(), 16);
+		cout << vectParent[i].visaCardExpiry << endl;
+	}
+	cout << "\n\t\t\t";
+
+	/*vectParent = getAllParentDetails();
 	cout << "\n\t\t\t|--------------------------------------------|"
 		<< "\n\t\t\t|                Parent Details              |"
 		<< "\n\t\t\t|--------------------------------------------|";
@@ -2719,7 +2815,13 @@ void printAllParentDetails() {
 			<< "\n\t\t\t| Visa Expiry date:      " << vectParent[i].visaCardExpiry
 			<< "\n\t\t\t|-----------------------------------------------\n";
 	}
-	cout << "\n\t\t\t";
+	cout << "\n\t\t\t";*/
+}
+
+//This functions prints spaces;
+void printSpaces(int num, int size) { 
+	for (int i = num; i < size; i++)
+		cout << " ";
 }
 
 //Code by Jay
@@ -2728,6 +2830,35 @@ void printAllStaffDetails() {
 	vector<Staff> vectStaff;
 
 	vectStaff = getAllStaffDetails();
+	int lastpos = 0;
+	for (int i = 0; i < 150; i++)
+		cout << "-";
+	cout << "\n" << string(9, '\t') << " Staff Details\n";
+
+	for (int i = 0; i < 150; i++)
+		cout << "-";
+	cout << "\n| ID      | Name     \t\t| Gender   | DOB \t| Contact No. \t| Email\t\t\t| Visa card no\t\t  | Visa Expiry date\n";
+	for (int i = 0; i < 150; i++)
+		cout << "-";
+	cout << endl;
+
+	for (int i = 0; i < vectStaff.size(); i++) {
+		cout << vectStaff[i].staffID;
+		cout << "   " << vectStaff[i].fullName;
+		printSpaces(vectStaff[i].fullName.length(), 23);
+		cout << vectStaff[i].gender;
+		printSpaces(vectStaff[i].gender.length(), 11);
+		cout << vectStaff[i].dob;
+		printSpaces(vectStaff[i].dob.length(), 13);
+		cout << vectStaff[i].countNum;
+		printSpaces(to_string(vectStaff[i].countNum).length(), 16);
+		cout << vectStaff[i].email;
+		printSpaces(vectStaff[i].email.length(), 24);
+		cout << vectStaff[i].visaCardNo;
+		printSpaces(vectStaff[i].visaCardNo.length(), 26);
+		cout << vectStaff[i].visaCardExpiry << endl;
+	}
+	/*vectStaff = getAllStaffDetails();
 	cout << "\n\t\t\t|--------------------------------------------|"
 		<< "\n\t\t\t|                Staff Details               |"
 		<< "\n\t\t\t|--------------------------------------------|";
@@ -2743,25 +2874,25 @@ void printAllStaffDetails() {
 			<< "\n\t\t\t| Visa Expiry date:     " << vectStaff[i].visaCardExpiry
 			<< "\n\t\t\t|-----------------------------------------------\n";
 	}
-	cout << "\n\t\t\t";
+	cout << "\n\t\t\t";*/
 }
 
 //Code by Jay
 //This function gets all the parent data(order,payment) from csv and stores it in a vector and returns it
-vector<Parent> getAllParentDetails() {//plus Ultra
+vector<Parent> getAllParentDetails() {
 
 	vector<Parent> vectParent;
 	vector<Order> vectOrder;
 	vector<Payment> vectPayment;
 	vector<Login> vectLogin;
-	vector<Login>* ptrVectLogin; //plus ultra
+	vector<Login>* ptrVectLogin; 
 	vector<string> parentData;
 	Parent parent;
 	string tempStr, line;
 	char storeChar[8];
 	ifstream myfile;
 
-	ptrVectLogin = &vectLogin; //plus ultra
+	ptrVectLogin = &vectLogin; 
 	myfile.open("Parent_file.csv", ios::in);
 
 	while (getline(myfile, line)) {
@@ -2789,7 +2920,7 @@ vector<Parent> getAllParentDetails() {//plus Ultra
 	myfile.close();
 	vectOrder = getAllOrderDetails();
 	vectPayment = getAllPaymentDetails();
-	getAllLoginDetails(ptrVectLogin); //plus ultra //gohere3
+	getAllLoginDetails(ptrVectLogin);
 
 	//get all order details
 	for (int i = 0; i < vectParent.size(); i++) {
@@ -2826,15 +2957,15 @@ vector<Parent> getAllParentDetails() {//plus Ultra
 
 //Code by Jay
 //This function gets all the staff data(order,payment) from csv and stores it in a vector and returns it
-vector<Staff> getAllStaffDetails() {//Plus Ultra
+vector<Staff> getAllStaffDetails() {
 
 	vector<Staff> vectStaff;
 	vector<Order> vectOrder;
 	vector<Payment> vectPayment;
 	vector<Login> vectLogin;
 	vector<string> staffData;
-	vector<Login>* ptrVectLogin; //plus ultra
-	ptrVectLogin = &vectLogin; //plus ultra
+	vector<Login>* ptrVectLogin; 
+	ptrVectLogin = &vectLogin; 
 	Staff staff;
 	string tempStr, line;
 
@@ -2865,7 +2996,7 @@ vector<Staff> getAllStaffDetails() {//Plus Ultra
 
 	vectOrder = getAllOrderDetails();
 	vectPayment = getAllPaymentDetails();
-	vectLogin = getAllLoginDetails(ptrVectLogin); //plus ultra
+	vectLogin = getAllLoginDetails(ptrVectLogin); 
 
 	//get all order details
 	for (int i = 0; i < vectStaff.size(); i++) {
@@ -2975,7 +3106,7 @@ vector<Payment> getAllPaymentDetails() {
 
 //Code by Jay
 //This function gets all Login data from csv and stores it in vector
-vector<Login>& getAllLoginDetails(vector<Login>* vectLogin) { //plus ultra
+vector<Login>& getAllLoginDetails(vector<Login>* vectLogin) {
 
 	vector<Login>& vecRef = *vectLogin;
 	vector<string> loginData;
@@ -2996,7 +3127,7 @@ vector<Login>& getAllLoginDetails(vector<Login>* vectLogin) { //plus ultra
 			login.loginID = loginData[0];
 			login.userForeignID = loginData[1];
 			login.username = loginData[2];
-			login.password = loginData[3]; //gohere2
+			login.password = loginData[3]; 
 			vecRef.push_back(login);
 		}
 		loginData.clear();
@@ -3039,17 +3170,17 @@ vector<BulkPayment> getAllBulkDetails() {
 
 //Code by Jay
 //This function updates the parents details
-void updateParentDetails(string userID) { //plus ultra all changes
+void updateParentDetails(string userID) { 
 	vector<Parent> parent;
 	vector<Login> login;
-	vector<Login>* ptrVectLogin; //plus ultra
-	ptrVectLogin = &login; //plus ultra
+	vector<Login>* ptrVectLogin; 
+	ptrVectLogin = &login; 
 	int choice, userVectLocation = 0, tempContactNo;
 	bool isTrue, isTrue2, isTrue3, isFound = true;
 	string password, verifyPassword, tempData;
 
 	parent = getAllParentDetails();
-	login = getAllLoginDetails(ptrVectLogin); //plus ultra
+	login = getAllLoginDetails(ptrVectLogin); 
 	//get user location in vector
 	for (int i = 0; i < parent.size(); i++) {
 		if (parent[i].parentID == userID) {
@@ -3557,14 +3688,14 @@ void updateParentDetails(string userID) { //plus ultra all changes
 void updateStaffDetails(string userID) {
 	vector<Staff> staff;
 	vector<Login> login;
-	vector<Login>* ptrLogin;  //plus ultra
-	ptrLogin = &login; //plus ultra
+	vector<Login>* ptrLogin;  
+	ptrLogin = &login; 
 	int choice, userVectLocation = 0, tempContactNo;
 	bool isTrue, isTrue2, isTrue3, isFound = true;
 	string password, verifyPassword, tempData;
 
 	staff = getAllStaffDetails();
-	login = getAllLoginDetails(ptrLogin); //plus ultra
+	login = getAllLoginDetails(ptrLogin); 
 
 	//get staff location in vector
 	for (int i = 0; i < staff.size(); i++) {
@@ -3997,7 +4128,7 @@ void updateStaffDetails(string userID) {
 
 // Code by Jakob
 // this function shows the different options for the admin once they've logged in.
-void adminScreen() { //plus ultra
+void adminScreen() { 
 	system("cls");
 	int choice;
 	bool isTrue = true;
