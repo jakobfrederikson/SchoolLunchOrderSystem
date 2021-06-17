@@ -4072,6 +4072,8 @@ void printWeeklyComplaint() {
 	system("cls");
 	weeklyComplaint = getWeeklyComplaint();
 
+	// check week
+
 	if (weeklyComplaint.size() == 8) {
 		flag = 1;
 	}
@@ -4216,6 +4218,9 @@ void printWeeklySales() {
 		cout << "\n\t\t\tCould not open file. Please check that Payment_file.csv isn't currently open.\n";
 	}
 	else {
+
+		// check week
+
 		while (getline(getPayData, line)) {
 			lines++;
 			col = 0;
