@@ -1,3 +1,9 @@
+//Programmer:       Jakob Frederikson, Jay Anino   
+//Student ID:       270115050 , Your ID Jakob 69696969
+//School:           Yoobee College
+//Due Date:         28/06/2021
+//Reference:	    Group Project School Lunch Ordering System
+
 #include <iostream>
 #include <string>
 #include <fstream>
