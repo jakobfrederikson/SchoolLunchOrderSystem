@@ -71,15 +71,15 @@ struct Order {
 
 struct Complaint {
 	int complaintID;
-	string itemOrdered;
+	string reason;
 	string complaintDescription;
 	bool actionStatus;
 
-	Complaint(int defComplaintID = 0, string defItemOrdered = "Default Item Ordered", string defComplaintDesc = "Default Complaint",
+	Complaint(int defComplaintID = 0, string defItemOrdered = "Default Reason", string defComplaintDesc = "Default Complaint",
 		bool defActionStatus = false) {
 
 		complaintID = defComplaintID;
-		itemOrdered = defItemOrdered;
+		reason = defItemOrdered;
 		complaintDescription = defComplaintDesc;
 		actionStatus = defActionStatus;
 	}
@@ -206,6 +206,10 @@ void createFiles();
 void adminScreen();
 bool checkBulkFile(vector<string>);
 int updateBulkOrderCount(vector<string>, int);
+void printWeeklyComplaint();
+vector<string> getWeeklyComplaint();
+void changeActionStatus(vector<string>);
+void printWeeklySales();
 
 void orderFood(vector<string>);
 vector<Order>getFoodOrderDetails(vector<Order>, int);
@@ -1264,12 +1268,10 @@ void printMainMenu(vector<string> accDetails) {//plus ultra
 // It will also generate a complaint ID based on the previous complaint ID in the Complaint_file.csv
 void makeComplaint(vector<string> accDetails) {
 
-	system("cls");
-
 	ifstream readFile;
 	ofstream compFile;
 	string line;
-	int complaintID, lineNumber = 0, lastLine = 0;
+	int complaintID, reason, lineNumber = 0, lastLine = 0;
 	bool isTrue = true;
 
 	char choice, tryAgain;
@@ -1277,86 +1279,125 @@ void makeComplaint(vector<string> accDetails) {
 
 	string date = getCurrentDate();
 
-	// find how many lines there are in the file
-	readFile.open("Complaint_file.csv");
-	while (getline(readFile, line)) {
-		lineNumber++;
-	}
-	readFile.close();
-
-	// go to the last line and get the id
-	readFile.open("Complaint_file.csv");
 	do {
-		while (getline(readFile, line)) {
-			lastLine++;
-			if (lastLine == lineNumber) {
-				while (!readFile.eof()) {
-					stringstream ss(line);
+		system("cls");
+		cout << "\n\t\t\t|----------------------------|";
+		cout << "\n\t\t\t| Enter the complaint reason |";
+		cout << "\n\t\t\t|----------------------------|";
+		cout << "\n\t\t\t|1. Food issue               |";
+		cout << "\n\t\t\t|2. Payment issue            |";
+		cout << "\n\t\t\t|3. Other                    |";
+		cout << "\n\t\t\t|4. Back                     |";
+		cout << "\n\t\t\t|____________________________|";
+		cout << "\n\t\t\t|Enter choice: ";
+		cin >> reason;
 
-					try {
-						complaint.complaintID = stoi(ss.str()) + 1;  // convert stringstream to string and then to int
-						//complaint.complaintID = complaint.complaintID + 1;
-					}
-					catch (...) {
-						complaint.complaintID = 1;
+		switch (reason) {
+		case 1:
+			complaint.reason = "Food_issue";
+			isTrue = false;
+			break;
+		case 2:
+			complaint.reason = "Payment_issue";
+			isTrue = false;
+			break;
+		case 3:
+			complaint.reason = "Misc_issue";
+			isTrue = false;
+			break;
+		case 4:
+			isTrue = false;
+			break;
+		default:
+			cout << "\n\t\t\tPlease enter 1, 2 or 3. Try again.\n";
+		}
+	} while (isTrue);	
+
+	if (reason != 4) {
+		isTrue = true;
+		system("cls");
+
+		// find how many lines there are in the file
+		readFile.open("Complaint_file.csv");
+		while (getline(readFile, line)) {
+			lineNumber++;
+		}
+		readFile.close();
+
+		// go to the last line and get the id
+		readFile.open("Complaint_file.csv");
+		do {
+			while (getline(readFile, line)) {
+				lastLine++;
+				if (lastLine == lineNumber) {
+					while (!readFile.eof()) {
+						stringstream ss(line);
+
+						try {
+							complaint.complaintID = stoi(ss.str()) + 1;  // convert stringstream to string and then to int
+						}
+						catch (...) {
+							complaint.complaintID = 1;
+							isTrue = false;
+							break;
+						}
+
 						isTrue = false;
 						break;
 					}
-
-					isTrue = false;
-					break;
 				}
 			}
-		}
-	} while (isTrue);
-	readFile.close();
+		} while (isTrue);
+		readFile.close();
 
-	cout << "\n\n\t\t\tComplaint ID: " << complaint.complaintID;
-	cout << "\n\t\t\tName: " << accDetails[1];
-	cout << "\n\t\t\tDate of order: " << date;
-	cout << "\n\t\t\tItem Ordered: Chicken Burger";
+		cout << "\n\n\t\t\tComplaint ID:      " << complaint.complaintID;
+		cout << "\n\t\t\tName:              " << accDetails[1];
+		cout << "\n\t\t\tDate of complaint: " << date;
+		cout << "\n\t\t\tComplaint reason:  " << complaint.reason;
 
-	cout << "\n\n\t\t\t|------------------------|";
-	cout << "\n\t\t\t| Complaint Description: |";
-	cout << "\n\t\t\t|------------------------|";
-	cout << "\n\n\t\t\t";
-	cin.ignore();
-	getline(cin, complaint.complaintDescription);
+		cout << "\n\n\t\t\t|------------------------|";
+		cout << "\n\t\t\t| Complaint Description: |";
+		cout << "\n\t\t\t|------------------------|";
+		cout << "\n\n\t\t\t";
+		cin.ignore();
+		getline(cin, complaint.complaintDescription);
 
-	cout << "\n\t\t\t|Confirm and place complaint? Y/N|: ";
-	cin >> choice;
+		cout << "\n\t\t\t|Confirm and place complaint? Y/N|: ";
+		cin >> choice;
 
-	do {
-		if (tolower(choice) == 'y') {
-			compFile.open("Complaint_file.csv", ios::app);
-			if (compFile.is_open() == true) {
-				// accDetails[1] = Person Name
-				// accDetails[4] = Contact Number
-				// accDetails[5] = Email
-				compFile << complaint.complaintID << "," << accDetails[1] << "," << date << "," << "item ordered" << ","
-					<< complaint.complaintDescription << "," << accDetails[4] << "," << accDetails[5] << "," << complaint.actionStatus << endl;
-				break;
-			}
-			else {
-				cout << "\n\n\t\t\tError: Could not open complaint file. Please check if the complaint file is currently open.";
-				cout << "\n\t\t\tTry again? y/n: ";
-				cin >> tryAgain;
-				if (tolower(tryAgain) == 'y') {
-					continue;
+		do {
+			if (tolower(choice) == 'y') {
+				compFile.open("Complaint_file.csv", ios::app);
+				if (compFile.is_open() == true) {
+					// accDetails[1] = Person Name
+					// accDetails[4] = Contact Number
+					// accDetails[5] = Email
+					compFile << complaint.complaintID << "," << accDetails[1] << "," << date << "," << complaint.reason << ","
+						<< complaint.complaintDescription << "," << accDetails[4] << "," << accDetails[5] << "," << complaint.actionStatus << endl;
+					break;
 				}
 				else {
-					compFile.close();
-					break;
+					cout << "\n\n\t\t\tError: Could not open complaint file. Please check if the complaint file is currently open.";
+					cout << "\n\t\t\tTry again? y/n: ";
+					cin >> tryAgain;
+					if (tolower(tryAgain) == 'y') {
+						continue;
+					}
+					else {
+						compFile.close();
+						break;
+					}
 				}
 			}
-		}
-		else {
-			cout << "\n\t\t\tYou have canceled your complaint.";
-			break;
-		}
-	} while (true);
+			else {
+				cout << "\n\t\t\tYou have canceled your complaint.";
+				break;
+			}
+		} while (true);
 
-	compFile.close();
+		compFile.close();
+	}
+	
 	cout << "\n\t\t\t";
 	system("pause");
 }
@@ -1871,7 +1912,7 @@ void createFiles() {
 	if (!compFile.good()) {
 		ofstream compFile;
 		compFile.open("Complaint_file.csv", ios::out);
-		compFile << "COMP_ID" << "," << "NAME" << "," << "DATE" << "," << "ITEM_ORDERED" << "," << "DESC." << "," << "CONTACT NUM"
+		compFile << "COMP_ID" << "," << "NAME" << "," << "DATE" << "," << "REASON" << "," << "DESC." << "," << "CONTACT NUM"
 			<< "," << "EMAIL" << "," << "ACTION STATUS" << endl;
 	}
 
@@ -1879,7 +1920,7 @@ void createFiles() {
 	if (!orderFile.good()) {
 		ofstream orderFile;
 		orderFile.open("Order_file.csv", ios::out);
-		orderFile << "ORDER_NUM" << "," << "FOREIGN_KEY" << "," << "DATE" << "," << "ITEM_NAME" << "," << "QUANTITY" << "," << "PAYMENT_STATUS" << endl;
+		orderFile << "ORDER_NUM" << "," << "FOREIGN_KEY" << "," << "DATE" << "," << "ITEM_NAME" << "," << "QUANTITY" << "," << "PRICE" << "," << "PAYMENT_STATUS" << endl;
 	}
 
 	if (!FoodMenu_file.good()) {
@@ -2248,7 +2289,7 @@ vector<Order> checkoutOrder(vector<Order> order, vector<string> user) { //plus u
 					<< "\n" << string(8, '\t') << "| Student Room no.: " << user[7];
 			}
 			else {
-				cout << "\n" << string(5, '\t') << "| Staff Name: " << user[1];
+				cout << "\n" << string(8, '\t') << "| Staff Name: " << user[1];
 			}
 			cout << "\n" << string(8, '\t') << "-----------------------------------";
 			for (int i = 0; i < order.size(); i++) {
@@ -3992,19 +4033,15 @@ void adminScreen() { //plus ultra
 			system("pause");
 			break;
 		case 3:
-			cout << "\n\t\t\tWeekly sales report";
-			cout << "\n\t\t\t";
-			system("pause");
+			printWeeklySales(); // Written by Jakob
 			break;
-		case 4: // Written by Jakob
+		case 4: 
 			cout << "\n\t\t\tPending payment report";
 			cout << "\n\t\t\t";
 			system("pause");
 			break;
 		case 5:
-			cout << "\n\t\t\tWeekly Complaint";
-			cout << "\n\t\t\t";
-			system("pause");
+			printWeeklyComplaint(); // Written by Jakob
 			break;
 		case 6:
 			system("cls");
@@ -4022,4 +4059,207 @@ void adminScreen() { //plus ultra
 			break;
 		}
 	} while (isTrue);
+}
+
+// Code by Jakob
+// This function outputs the weekly complaints and allows the admin to repsond to a complaint (change the action status).
+void printWeeklyComplaint() {
+	int i;
+	vector<string> weeklyComplaint;
+	int id;
+	int flag = 0;
+
+	system("cls");
+	weeklyComplaint = getWeeklyComplaint();
+
+	if (weeklyComplaint.size() == 8) {
+		flag = 1;
+	}
+	
+	if (flag != 1) {
+		cout << "\n\tID\tNAME\t\t\tDATE\t\tEMAIL\t\t\tREASON\t\t\tA_STATUS\n\n";
+		for (int i = 8; i < weeklyComplaint.size();) {
+			cout << "\t" << weeklyComplaint[i] << ".\t" << weeklyComplaint[i + 1] << "\t" << weeklyComplaint[i + 2] << "\t" << weeklyComplaint[i + 6] << "\t\t" << weeklyComplaint[i + 3] << "\t\t" << weeklyComplaint[i + 7] << endl;
+			i = i + 8;
+		}
+
+		cout << "\n\t|-------------------------------------------------|";
+		cout << "\n\t| Enter the complaint ID to change action status. |";
+		cout << "\n\t|       Enter 0 to return to previous menu.       |";
+		cout << "\n\t|-------------------------------------------------|";
+		cout << "\n\t| Enter choice: ";
+		cin >> id;
+
+		do {
+			if (id == 0) {
+				cout << "\n\t";
+				system("pause");
+				break;
+			}
+			else {
+				// starting from 8 to skip the file headers
+				for (i = 8; i < weeklyComplaint.size();) {
+					if (stoi(weeklyComplaint[i]) == id) {
+						char choice;
+						cout << "\n\tComplaint ID: " << weeklyComplaint[i];
+						cout << "\n\tName: " << weeklyComplaint[i + 1];
+						cout << "\n\tDate of complaint: " << weeklyComplaint[i + 2];
+						cout << "\n\tItem ordered: " << weeklyComplaint[i + 3];
+						cout << "\n\tComplaint description: " << weeklyComplaint[i + 4];
+						if (stoi(weeklyComplaint[i + 7]) == 0) { // If action status = 0
+							cout << "\n\n\tMark complaint as responded? y/n: ";
+							cin >> choice;
+							if (tolower(choice) == 'y') {
+								weeklyComplaint[i + 7] = "1";
+								changeActionStatus(weeklyComplaint);
+								break;
+							}
+							else {
+								break;
+							}
+						}
+						else { // if actions status = 1
+							cout << "\n\n\tUnmark complaint as responded? y/n: ";
+							cin >> choice;
+							if (tolower(choice) == 'y') {
+								weeklyComplaint[i + 7] = "0";
+								changeActionStatus(weeklyComplaint);
+								break;
+							}
+							else {
+								break;
+							}
+						}
+					}
+					i = i + 8;
+				}
+			}
+			break;
+		} while (true);
+	}
+	else {
+		cout << "\n\t[NO COMPLAINTS HAVE BEEN FOUND]\n\n\t";
+		system("pause");
+	}	
+}
+
+// Code by Jakob
+// If admin is looking at weekly complaints, this function gets the weekly complaint data from Complaint_file.csv and returns it as a vector.
+vector<string> getWeeklyComplaint() {
+	vector<string> weeklyComplaint;
+	string line, tempStr;
+	ifstream complaints;
+	bool isTrue = true;
+
+	do {
+		complaints.open("Complaint_file.csv", ios::in);
+		if (!complaints.good()) {
+			cout << "\n\t\t\tError: Could not open complaint file, please check if the complaint file is currently open.";
+			cout << "\n\t\t\t";
+			system("pause");
+		}
+		while (getline(complaints, line)) {
+			stringstream ss(line);
+			while (!ss.eof()) {
+				getline(ss, tempStr, ',');
+				weeklyComplaint.push_back(tempStr);
+			}
+		}
+		isTrue = false;
+		break;
+	} while (isTrue);
+
+	complaints.close();
+	return weeklyComplaint;
+}
+
+// Code by Jakob
+// This function changes the complaint file to include the new action status.
+void changeActionStatus(vector<string> weeklyComplaint) {
+	ofstream changeFile;
+	changeFile.open("Complaint_file.csv", ios::out);
+	int i, checkLine = 0;
+
+	do {
+		if (!changeFile.good()) {
+			cout << "\n\t\t\tError: Could not open complaint file, please check if the complaint file is currently open.";
+			cout << "\n\t\t\t";
+			system("pause");
+		}
+		else {
+			for (i = 0; i < weeklyComplaint.size();) {
+				changeFile << weeklyComplaint[i] << "," << weeklyComplaint[i + 1] << "," << weeklyComplaint[i + 2] << "," << weeklyComplaint[i + 3] <<
+					"," << weeklyComplaint[i + 4] << "," << weeklyComplaint[i + 5] << "," << weeklyComplaint[i + 6] << "," << weeklyComplaint[i + 7] << endl;
+				i = i + 8;
+			}
+			cout << "\n\n\t";
+			system("pause");
+		}
+		changeFile.close();
+		break;
+	} while (true);
+}
+
+// Code by Jakob
+// This function outputs the number of total orders, date and total amount received.
+void printWeeklySales() {
+	int lines = 0;
+	int col;
+	float grossPay = 0, totalTax = 0, totalBulk = 0;
+	string line, tempStr;
+	string date = getCurrentDate();
+
+	ifstream getPayData;
+	getPayData.open("Payment_file.csv");
+	
+	if (!getPayData.good()) {
+		cout << "\n\t\t\tCould not open file. Please check that Payment_file.csv isn't currently open.\n";
+	}
+	else {
+		while (getline(getPayData, line)) {
+			lines++;
+			col = 0;
+			stringstream ss(line);
+			while (!ss.eof()) {
+				getline(ss, tempStr, ',');
+				if (lines == 1) {
+					break;
+				}
+
+				if (col == 3) { // tax
+					if (tempStr != "0") {
+						totalTax = totalTax + stof(tempStr);
+					}
+					else { // bulk
+						cout << "\n\tbulk equal 0";
+						totalBulk = totalBulk + 1;
+					}
+				}
+				else if (col == 6) {// total price
+					grossPay = grossPay + stof(tempStr);
+				}
+				col++;
+			}
+		}
+
+		getPayData.close();
+
+		system("cls");
+
+		cout << "\n\t\t\t|---------------------------------------------|";
+		cout << "\n\t\t\t| TOTAL SALES (Weekly coming in later builds) |";
+		cout << "\n\t\t\t|---------------------------------------------|";
+		cout << "\n\t\t\t|                                             ";
+		cout << "\n\t\t\t|Date:                " << date;
+		cout << "\n\t\t\t|Total payed orders:  " << (lines - 1) - totalBulk;
+		cout << "\n\t\t\t|Total bulk orders:   " << totalBulk;    // total bulk orders
+		cout << "\n\t\t\t|";
+		cout << "\n\t\t\t|Gross amount earned: $" << grossPay; // gross earned
+		cout << "\n\t\t\t|Total Tax deducted:  $" << totalTax;          // tax
+		cout << "\n\t\t\t|Net amount earned:   $" << grossPay - totalTax;
+		cout << "\n\t\t\t|---------------------------------------------";
+		
+	}
+	cout << "\n\n\t\t\t";
+	system("pause");
 }
