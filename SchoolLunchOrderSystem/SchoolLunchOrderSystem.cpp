@@ -1,5 +1,5 @@
 //Programmer:       Jakob Frederikson, Jay Anino   
-//Student ID:       270115050 , Your ID Jakob 69696969
+//Student ID:       270115050 , Your ID Jakob 270029667
 //School:           Yoobee College
 //Due Date:         28/06/2021
 //Reference:	    Group Project School Lunch Ordering System
@@ -1417,23 +1417,36 @@ void chooseBulkOrder(vector<string> accDetails) {
 	ofstream bulkOrderFile;
 	ifstream infile;
 	char errorChoice;
+	char confirmOrder;
 	bool isTrue = true;
 	bool accountExists = false;
 
 	do {
 		system("cls");
-		cout << "\n\t\t\tBULK BOOKING DISCOUNTS"
-			<< "\n\t\t\t**********************\n"
-			<< "\n\t\t\t1. GREEN FOOD PASS \t\t 2. BLUE FOOD PASS \t\t 3. RED FOOD PASS"
-			<< "\n\t\t\t   ----------------- \t\t    ---------------- \t\t    ----------------"
-			<< "\n\t\t\t   Pay for 30 days and \t\t    Pay for 15 days and \t    Pay for 7 days and"
-			<< "\n\t\t\t   receive a 15% discount. \t    receive a 10% discount. \t    receive a 5% discount.\n"
-			<< "\n\t\t\t   Without food pass: $150 \t    Without food pass: $75 \t    Without food pass: $35"
-			<< "\n\t\t\t   With food pass: $127.5 \t    With food pass: $67.50 \t    With food pass: $33.25"
-			<< "\n\t\t\t   Save $22.50 \t\t\t    Save $7.50 \t\t\t    Save $1.75\n\n";
+		cout << "\n" << string(6, '\t') << "|----------------------------------------------------------------------------------------------|"
+			<< "\n" << string(6, '\t') << "|                                   BULK BOOKING DISCOUNTS                                     |"
+			<< "\n" << string(6, '\t') << "|----------------------------------------------------------------------------------------------|"
+			<< "\n" << string(6, '\t') << "|    1. GOLD FOOD PASS         |     2. SILVER FOOD PASS      |      3. COPPER FOOD PASS       |"
+			<< "\n" << string(6, '\t') << "|------------------------------|------------------------------|--------------------------------|"
+			<< "\n" << string(6, '\t') << "|    Pay for 30 days and       |     Pay for 15 days and      |      Pay for 7 days and        |"
+			<< "\n" << string(6, '\t') << "|    receive a 15% discount.   |     receive a 10% discount.  |      receive a 5% discount.    |"
+			<< "\n" << string(6, '\t') << "|    Without food pass: $150   |     Without food pass: $75   |      Without food pass: $35    |"
+			<< "\n" << string(6, '\t') << "|    With food pass: $127.5    |     With food pass: $67.50   |      With food pass: $33.25    |"
+			<< "\n" << string(6, '\t') << "|    Save $22.50               |     Save $7.50               |      Save $1.75                |"
+			<< "\n" << string(6, '\t') << "|----------------------------------------------------------------------------------------------|" << "\n\n" << string(7, '\t');
 
-		cout << "\n\t\t\tEnter 1/2/3 for bulk order or 4 to go back: ";
+		cout << "\n" << string(6, '\t') << "Enter a pass number to purchase: ";
 		cin >> choice;
+
+		// Asking user to confirm bulk purchase
+		cout << "\n" << string(6, '\t') << "Confirm bulk purchase? Y/N: ";
+		cin >> confirmOrder;
+
+		if (tolower(confirmOrder) == 'n') {
+			isTrue = false;
+			bulkOrderFile.close();
+			break;
+		}
 
 		switch (choice) {
 		case 1:
@@ -1456,44 +1469,47 @@ void chooseBulkOrder(vector<string> accDetails) {
 		}
 	} while (isTrue);
 
-	if (orderCount > 0) {
-		do {
-			accountExists = checkBulkFile(accDetails);
+	if (bulkOrderFile.good()) {
+		if (orderCount > 0) {
+			do {
+				accountExists = checkBulkFile(accDetails);
 
-			if (accountExists == false) { // if account doesnt exist in file yet
-				bulkOrderFile.open("BulkOrder_file.csv", ios::app);
-				if (bulkOrderFile.good()) {
-					bulkOrderFile << accDetails[0] << "," << orderCount << endl;
-					cout << "\n\t\t\tYour purchase of option " << choice << " was successful! You now have " << orderCount << " days of free meals.";
-					cout << "\n\t\t\t";
-					system("pause");
-					break;
-				}
-				else { // error message
-					cout << "\n\t\t\tError: Could not open bulk order file. Please check if the bulk order file is currently open.";
-					cout << "\n\t\t\tTry again? Y/N: ";
-					cin >> errorChoice;
-					if (tolower(errorChoice) == 'y') {
-						continue;
-					}
-					else {
-						cout << "\n\t\t\tYou canceled your bulk order.";
+				if (accountExists == false) { // if account doesnt exist in file yet
+					bulkOrderFile.open("BulkOrder_file.csv", ios::app);
+					if (bulkOrderFile.good()) {
+						bulkOrderFile << accDetails[0] << "," << orderCount << endl;
+						cout << "\n\t\t\tYour purchase of option " << choice << " was successful! You now have " << orderCount << " days of free meals.";
 						cout << "\n\t\t\t";
 						system("pause");
 						break;
 					}
+					else { // error message
+						cout << "\n\t\t\tError: Could not open bulk order file. Please check if the bulk order file is currently open.";
+						cout << "\n\t\t\tTry again? Y/N: ";
+						cin >> errorChoice;
+						if (tolower(errorChoice) == 'y') {
+							continue;
+						}
+						else {
+							cout << "\n\t\t\tYou canceled your bulk order.";
+							cout << "\n\t\t\t";
+							system("pause");
+							break;
+						}
+					}
 				}
-			}
-			else { // if user already has
-				totalBulkOrderCount = updateBulkOrderCount(accDetails, orderCount);
-				cout << "\n\t\t\tPurchase successful! Your total bulk order count is: " << totalBulkOrderCount;
-				cout << "\n\n\t\t\t";
-				system("pause");
-				break;
-			}
+				else { // if user already has
+					totalBulkOrderCount = updateBulkOrderCount(accDetails, orderCount);
+					cout << "\n\t\t\tPurchase successful! Your total bulk order count is: " << totalBulkOrderCount;
+					cout << "\n\n\t\t\t";
+					system("pause");
+					break;
+				}
 
-		} while (true);
+			} while (true);
+		}
 	}
+	
 	bulkOrderFile.close();
 }
 
