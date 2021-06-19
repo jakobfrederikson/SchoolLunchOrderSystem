@@ -1,8 +1,9 @@
-//Programmer:       Jakob Frederikson, Jay Anino   
-//Student ID:       270115050 , Your ID Jakob 270029667
-//School:           Yoobee College
-//Due Date:         28/06/2021
-//Reference:	    Group Project School Lunch Ordering System
+//Programmer:			Jakob Frederikson, Jay Anino   
+//Student ID:			Jakob's ID: 270029667, Jay's ID: 270115050
+//School:				Yoobee College
+//Due Date:				28/06/2021
+//Project Reference:	Group Project School Lunch Ordering System
+//Project Description: 
 
 #include <iostream>
 #include <string>
@@ -221,7 +222,7 @@ vector<Order>getFoodOrderDetails(vector<Order>, int);
 vector<Order> removeOrder(vector<Order>);
 void printAllOrders(vector<Order> order);
 vector<Order> checkoutOrder(vector<Order> order, vector<string>);
-void printWeeklyOrderReport();
+void printWeeklyOrderReport(char);
 vector<Parent> getAllParentDetails();
 vector<Staff> getAllStaffDetails();
 void printAllParentDetails();
@@ -234,9 +235,13 @@ void updateStaffDetails(string userID);
 vector<BulkPayment> getAllBulkDetails();
 void printSpaces(int, int);
 
+//plus ultra
+vector<Order> getAllUnpaidOrders(string);
+void removeAllUnpaidOrders(string);
+
 int main()
 {
-	createFiles(); 
+	createFiles();
 	return printMenuList();
 }
 
@@ -287,7 +292,7 @@ int printMenuList() {
 
 //Written by Jay
 //This function prints out the details of bulk discounts
-void printBulkDiscounts() {  
+void printBulkDiscounts() {
 	cout << "\n" << string(6, '\t') << "|----------------------------------------------------------------------------------------------|"
 		<< "\n" << string(6, '\t') << "|                                   BULK BOOKING DISCOUNTS                                     |"
 		<< "\n" << string(6, '\t') << "|----------------------------------------------------------------------------------------------|"
@@ -304,7 +309,7 @@ void printBulkDiscounts() {
 
 //Written by Jay
 //This function prints out the details of the school 
-void printContactLocationDetails() {  
+void printContactLocationDetails() {
 	cout << "\n" << string(7, '\t') << "|------------------------------------------------------------|"
 		<< "\n" << string(7, '\t') << "| CONTACT DETAILS                |      OFFICE LOCATION      |"
 		<< "\n" << string(7, '\t') << "|--------------------------------|---------------------------|"
@@ -319,7 +324,7 @@ void printContactLocationDetails() {
 }
 
 void loginRegistrationScreen() { // Code written by Jakob
-	int choice, registerChoice; 
+	int choice, registerChoice;
 
 	do {
 		system("cls");
@@ -574,7 +579,7 @@ void registerStaff() {
 
 //This Function lets the user logged in
 //Code by Jay and Jakob
-void loginScreen() { 
+void loginScreen() {
 	string username, pass, accPass;
 	bool notExist = true;
 	ifstream loginFile;
@@ -1317,7 +1322,7 @@ void makeComplaint(vector<string> accDetails) {
 		default:
 			cout << "\n\t\t\tPlease enter 1, 2 or 3. Try again.\n";
 		}
-	} while (isTrue);	
+	} while (isTrue);
 
 	if (reason != 4) {
 		isTrue = true;
@@ -1403,7 +1408,7 @@ void makeComplaint(vector<string> accDetails) {
 
 		compFile.close();
 	}
-	
+
 	cout << "\n\t\t\t";
 	system("pause");
 }
@@ -1509,7 +1514,7 @@ void chooseBulkOrder(vector<string> accDetails) {
 			} while (true);
 		}
 	}
-	
+
 	bulkOrderFile.close();
 }
 
@@ -1942,7 +1947,7 @@ void createFiles() {
 	if (!orderFile.good()) {
 		ofstream orderFile;
 		orderFile.open("Order_file.csv", ios::out);
-		orderFile << "ORDER_NUM" << "," << "FOREIGN_KEY" << "," << "DATE" << "," << "ITEM_NAME" << "," << "QUANTITY" << "," << "PRICE" << "," << "PAYMENT_STATUS" << endl;
+		orderFile << "ORDER_ID" << "," << "FOREIGN_KEY" << "," << "DATE" << "," << "ITEM_NAME" << "," << "QUANTITY" << "," << "PRICE" << "," << "PAYMENT_STATUS" << "," << "ORDER_NUM" << endl;//plus ultra
 	}
 
 	if (!FoodMenu_file.good()) {
@@ -1964,172 +1969,234 @@ void createFiles() {
 
 //Code by Jay
 //This function lets the user order food
-void orderFood(vector<string> user) {
+void orderFood(vector<string> user) {//plus ultra
 	int orderNum;
-	bool isTrue = true;
-	char choice;
+	bool isTrue = true, isTrue2 = true;
+	char choice = 'n';
 	string orderName;
 	vector<Order> order;
+	vector<Order> unpaidOrders;
 	vector<Order> ord;
 
-	do {
-		system("cls");
-		printWeeklyMenu();
-		cout << "\n\t\t\t\t\t\t\t Date: " << getCurrentDate()
-			<< "\n\t\t\t\t\t\t\t|---------------------------------|"
-			<< "\n\t\t\t\t\t\t\t|           School Name           |"
-			<< "\n\t\t\t\t\t\t\t|---------------------------------|"
-			<< "\n\t\t\t\t\t\t\t|            ORDER FOR            |"
-			<< "\n\t\t\t\t\t\t\t|---------------------------------|";
-		if (user[0].substr(0, 3) == "270") {
-			cout << "\n\t\t\t\t\t\t\t| Student Name:     " << user[6]
-				<< "\n\t\t\t\t\t\t\t| Student Room no.: " << user[7];
-		}
-		else {
-			cout << "\n\t\t\t\t\t\t\t| Staff Name:   " << user[1];
-		}
-		cout << "\n\t\t\t\t\t\t\t|---------------------------------|"
-			<< "\n\t\t\t\t\t\t\t| Press 1 to order meal           |"
-			<< "\n\t\t\t\t\t\t\t| Press 2 to remove order         |"
-			<< "\n\t\t\t\t\t\t\t| Press 3 to print order details  |"
-			<< "\n\t\t\t\t\t\t\t| Press 4 to checkout             |"
-			<< "\n\t\t\t\t\t\t\t| Press 5 to exit                 |"
-			<< "\n\t\t\t\t\t\t\t|---------------------------------|"
-			<< "\n\t\t\t\t\t\t\t| Choose option: ";
-		cin >> orderNum;
-		switch (orderNum) {
-		case 1:
-			do {			
+	system("cls");
+	//gohere
+	unpaidOrders.clear();
+	unpaidOrders = getAllUnpaidOrders(user[0]); //check if user has unpaid orders
+
+	if (unpaidOrders.size() != 0) { //if user has unpaid order prompt user if they want to pay it		
+		printAllOrders(unpaidOrders); //print unpaid orders
+		do {//ask user if they want to keep the saved order or delete it			
+			cout << "\n\t\t\t\t\t\t\t|-----------------------------------------------------------------| "
+				<< "\n\t\t\t\t\t\t\t| In your last session you've saved some orders"
+				<< "\n\t\t\t\t\t\t\t| Would you like to proceed with your saved orders or delete it?"
+				<< "\n\t\t\t\t\t\t\t| Press 'Y' to proceed with saved orders"
+				<< "\n\t\t\t\t\t\t\t| Press 'N' to delete saved orders"
+				<< "\n\t\t\t\t\t\t\t| Choose option: ";
+			cin >> choice;
+
+			if (tolower(choice) == 'y') {
+				order = unpaidOrders;
 				do {
-					cout << "\n\t\t\t\t\t\t\t|--------------------------"
-						<< "\n\t\t\t\t\t\t\t| Enter meal number: ";
-					cin >> orderNum;
-					if (orderNum >= 1 && orderNum <= 6)
+					cout << "\n\t\t\t\t\t\t\t|-------------------------------------------| "
+						<< "\n\t\t\t\t\t\t\t| Would you like to proceed to checkout"
+						<< "\n\t\t\t\t\t\t\t| Press 'Y' to proceed to checkout"
+						<< "\n\t\t\t\t\t\t\t| Press 'N' to add more orders"
+						<< "\n\t\t\t\t\t\t\t| Choose option: ";
+					cin >> choice;
+
+					if (tolower(choice) == 'y') {
+						order = checkoutOrder(order, user);
+						isTrue2 = false;
 						break;
-					else {
-						cout << "\n\t\t\t\t\t\t\t|-------------------------------------------|"
-							<< "\n\t\t\t\t\t\t\t| Invalid meal number, Please try again...  |"
-							<< "\n\t\t\t\t\t\t\t|-------------------------------------------|\n";
 					}
+					else if (tolower(choice) == 'n') {
+						isTrue2 = false;
+						isTrue2 = false;
+						break;
+					}
+					else {
+						cout << "\n\t\t\t\t\t\t\t|-----------------------------------|"
+							<< "\n\t\t\t\t\t\t\t| Invalid Input! Please try again.. |"
+							<< "\n\t\t\t\t\t\t\t|-----------------------------------|";
+					}
+					system("cls");
+					printAllOrders(order);
 				} while (true);
-
-				ord = getFoodOrderDetails(ord, orderNum);
-				cout << ord.size();
-				cout << "\n\t\t\t\t\t\t\t|------------------------------------|"
-					<< "\n\t\t\t\t\t\t\t| Order ID:        " << ord[0].orderNum
-					<< "\n\t\t\t\t\t\t\t| Item Name:       " << ord[0].itemName
-					<< "\n\t\t\t\t\t\t\t| Price:           $" << ord[0].price
-					<< "\n\t\t\t\t\t\t\t|------------------------------------|" << endl;
-				ord.clear(); //clear after showing the order
-
-				cout << "\n\t\t\t\t\t\t\t|--------------------------------------|"
-					<< "\n\t\t\t\t\t\t\t| Do you want to confirm this order?   |"
-					<< "\n\t\t\t\t\t\t\t| Press 'Y' to confirm order           |"
-					<< "\n\t\t\t\t\t\t\t| Press 'N' to change the order        |"
-					<< "\n\t\t\t\t\t\t\t| Press 'Q' to quit from order         |"
-					<< "\n\t\t\t\t\t\t\t|--------------------------------------|"
-					<< "\n\t\t\t\t\t\t\t| Choose option: ";
-				cin >> choice;
-
-				if (tolower(choice) == 'y') {
-					cout << "\n\t\t\t\t\t\t\t|---------------------|"
-						<< "\n\t\t\t\t\t\t\t|   Order confirmed   |"
-						<< "\n\t\t\t\t\t\t\t|---------------------|\n\t\t\t\t\t\t";
-					order = getFoodOrderDetails(order, orderNum);//gohere
-					break;
-				}
-				else if (tolower(choice) == 'n') {
-					cout << "\n\t\t\t\t\t\t\t|---------------------|"
-						<< "\n\t\t\t\t\t\t\t|   Order cancelled   |"
-						<< "\n\t\t\t\t\t\t\t|---------------------|\n";
-				}
-				else if (tolower(choice) == 'q') {
-					cout << "\n\t\t\t\t\t\t\t|-----------------------------------|"
-						<< "\n\t\t\t\t\t\t\t|     Exiting from order menu...    |"
-						<< "\n\t\t\t\t\t\t\t|-----------------------------------|\n\t\t\t\t\t\t";
-					break;
-				}
-				else {
-					cout << "\n\t\t\t\t\t\t\t|-----------------------------------|"
-						<< "\n\t\t\t\t\t\t\t| Invalid Input! Please try again.. |"
-						<< "\n\t\t\t\t\t\t\t|-----------------------------------|";
-				}
-				system("cls");
-				printWeeklyMenu();
-				cout << "\n\t\t\t\t\t\t\t Date: " << getCurrentDate()
-					<< "\n\t\t\t\t\t\t\t|---------------------------------|"
-					<< "\n\t\t\t\t\t\t\t|           School Name           |"
-					<< "\n\t\t\t\t\t\t\t|---------------------------------|"
-					<< "\n\t\t\t\t\t\t\t|            ORDER FOR            |"
-					<< "\n\t\t\t\t\t\t\t|---------------------------------|";
-				if (user[0].substr(0, 3) == "270") {
-					cout << "\n\t\t\t\t\t\t\t| Student Name:     " << user[6]
-						<< "\n\t\t\t\t\t\t\t| Student Room no.: " << user[7];
-				}
-				else {
-					cout << "\n\t\t\t\t\t\t\t| Staff Name:   " << user[1];
-				}
-			} while (true);
-			system("pause");
-			break;
-		case 2:
-			order = removeOrder(order);
-			break;
-		case 3:
+			}
+			else if (tolower(choice) == 'n') {
+				removeAllUnpaidOrders(user[0]);
+				isTrue2 = false;
+			}
+			else {
+				cout << "\n\t\t\t\t\t\t\t|-----------------------------------|"
+					<< "\n\t\t\t\t\t\t\t| Invalid Input! Please try again.. |"
+					<< "\n\t\t\t\t\t\t\t|-----------------------------------|";
+			}
 			system("cls");
 			printAllOrders(order);
-			system("pause");
-			break;
-		case 4:
-			order = checkoutOrder(order, user); 
-			break;
-		case 5:
-			cout << "\n\t\t\t\t\t\t\t|-----------------------------------|"
-				<< "\n\t\t\t\t\t\t\t|     Exiting from order menu...    |"
-				<< "\n\t\t\t\t\t\t\t|-----------------------------------|\n\t\t\t\t\t\t";
-			isTrue = false;
-			system("pause");
-			break;
-		default:
-			cout << "\n\t\t\t\t\t\t\t|-----------------------------------|"
-				<< "\n\t\t\t\t\t\t\t| Invalid Input! Please try again.. |"
-				<< "\n\t\t\t\t\t\t\t|-----------------------------------|";
-			system("pause");
-			break;
-		}
-		system("cls");
-	} while (isTrue);
+		} while (isTrue2);
+	}
+	if (tolower(choice) == 'n') {
+		do {
+			system("cls");
+			printWeeklyMenu();
+			cout << "\n\t\t\t\t\t\t\t Date: " << getCurrentDate()
+				<< "\n\t\t\t\t\t\t\t|---------------------------------|"
+				<< "\n\t\t\t\t\t\t\t|           School Name           |"
+				<< "\n\t\t\t\t\t\t\t|---------------------------------|"
+				<< "\n\t\t\t\t\t\t\t|            ORDER FOR            |"
+				<< "\n\t\t\t\t\t\t\t|---------------------------------|";
+			if (user[0].substr(0, 3) == "270") {
+				cout << "\n\t\t\t\t\t\t\t| Student Name:     " << user[1]
+					<< "\n\t\t\t\t\t\t\t| Student Room no.: " << user[7];
+			}
+			else {
+				cout << "\n\t\t\t\t\t\t\t| Staff Name:   " << user[1];
+			}
+			cout << "\n\t\t\t\t\t\t\t|---------------------------------|"
+				<< "\n\t\t\t\t\t\t\t| Press 1 to order meal           |"
+				<< "\n\t\t\t\t\t\t\t| Press 2 to remove order         |"
+				<< "\n\t\t\t\t\t\t\t| Press 3 to print order details  |"
+				<< "\n\t\t\t\t\t\t\t| Press 4 to checkout             |"
+				<< "\n\t\t\t\t\t\t\t| Press 5 to exit                 |"
+				<< "\n\t\t\t\t\t\t\t|---------------------------------|"
+				<< "\n\t\t\t\t\t\t\t| Choose option: ";
+			cin >> orderNum;
+			switch (orderNum) {
+			case 1:
+				do {
+					do {
+						cout << "\n\t\t\t\t\t\t\t|--------------------------"
+							<< "\n\t\t\t\t\t\t\t| Enter meal number: ";
+						cin >> orderNum;
+						if (orderNum >= 1 && orderNum <= 6)
+							break;
+						else {
+							cout << "\n\t\t\t\t\t\t\t|-------------------------------------------|"
+								<< "\n\t\t\t\t\t\t\t| Invalid meal number, Please try again...  |"
+								<< "\n\t\t\t\t\t\t\t|-------------------------------------------|\n";
+						}
+					} while (true);
+
+					ord = getFoodOrderDetails(ord, orderNum);
+					cout << ord.size();
+					cout << "\n\t\t\t\t\t\t\t|------------------------------------|"
+						<< "\n\t\t\t\t\t\t\t| Order ID:        " << ord[0].orderNum
+						<< "\n\t\t\t\t\t\t\t| Item Name:       " << ord[0].itemName
+						<< "\n\t\t\t\t\t\t\t| Price:           $" << ord[0].price
+						<< "\n\t\t\t\t\t\t\t|------------------------------------|" << endl;
+					ord.clear(); //clear after showing the order
+
+					cout << "\n\t\t\t\t\t\t\t|--------------------------------------|"
+						<< "\n\t\t\t\t\t\t\t| Do you want to confirm this order?   |"
+						<< "\n\t\t\t\t\t\t\t| Press 'Y' to confirm order           |"
+						<< "\n\t\t\t\t\t\t\t| Press 'N' to change the order        |"
+						<< "\n\t\t\t\t\t\t\t| Press 'Q' to quit from order         |"
+						<< "\n\t\t\t\t\t\t\t|--------------------------------------|"
+						<< "\n\t\t\t\t\t\t\t| Choose option: ";
+					cin >> choice;
+
+					if (tolower(choice) == 'y') {
+						cout << "\n\t\t\t\t\t\t\t|---------------------|"
+							<< "\n\t\t\t\t\t\t\t|   Order confirmed   |"
+							<< "\n\t\t\t\t\t\t\t|---------------------|\n\t\t\t\t\t\t";
+						order = getFoodOrderDetails(order, orderNum);
+						break;
+					}
+					else if (tolower(choice) == 'n') {
+						cout << "\n\t\t\t\t\t\t\t|---------------------|"
+							<< "\n\t\t\t\t\t\t\t|   Order cancelled   |"
+							<< "\n\t\t\t\t\t\t\t|---------------------|\n";
+					}
+					else if (tolower(choice) == 'q') {
+						cout << "\n\t\t\t\t\t\t\t|-----------------------------------|"
+							<< "\n\t\t\t\t\t\t\t|     Exiting from order menu...    |"
+							<< "\n\t\t\t\t\t\t\t|-----------------------------------|\n\t\t\t\t\t\t";
+						break;
+					}
+					else {
+						cout << "\n\t\t\t\t\t\t\t|-----------------------------------|"
+							<< "\n\t\t\t\t\t\t\t| Invalid Input! Please try again.. |"
+							<< "\n\t\t\t\t\t\t\t|-----------------------------------|";
+					}
+					system("cls");
+					printWeeklyMenu();
+					cout << "\n\t\t\t\t\t\t\t Date: " << getCurrentDate()
+						<< "\n\t\t\t\t\t\t\t|---------------------------------|"
+						<< "\n\t\t\t\t\t\t\t|           School Name           |"
+						<< "\n\t\t\t\t\t\t\t|---------------------------------|"
+						<< "\n\t\t\t\t\t\t\t|            ORDER FOR            |"
+						<< "\n\t\t\t\t\t\t\t|---------------------------------|";
+					if (user[0].substr(0, 3) == "270") {
+						cout << "\n\t\t\t\t\t\t\t| Student Name:     " << user[6]
+							<< "\n\t\t\t\t\t\t\t| Student Room no.: " << user[7];
+					}
+					else {
+						cout << "\n\t\t\t\t\t\t\t| Staff Name:   " << user[1];
+					}
+				} while (true);
+				system("pause");
+				break;
+			case 2:
+				order = removeOrder(order);
+				break;
+			case 3:
+				system("cls");
+				printAllOrders(order);
+				system("pause");
+				break;
+			case 4:
+				order = checkoutOrder(order, user);
+				break;
+			case 5:
+				cout << "\n\t\t\t\t\t\t\t|-----------------------------------|"
+					<< "\n\t\t\t\t\t\t\t|     Exiting from order menu...    |"
+					<< "\n\t\t\t\t\t\t\t|-----------------------------------|\n\t\t\t\t\t\t";
+				isTrue = false;
+				system("pause");
+				break;
+			default:
+				cout << "\n\t\t\t\t\t\t\t|-----------------------------------|"
+					<< "\n\t\t\t\t\t\t\t| Invalid Input! Please try again.. |"
+					<< "\n\t\t\t\t\t\t\t|-----------------------------------|";
+				system("pause");
+				break;
+			}
+			system("cls");
+		} while (isTrue);
+	}
 }
 
 //Code by Jay
 //This function prints out all of the user order from the menu
-void printAllOrders(vector<Order> order) { 
+void printAllOrders(vector<Order> order) {
 	float total = 0;
 
 	cout << setprecision(3);
 	if (order.size() == 0) {
 		cout << "\n" << string(4, '\t') << "|--------------------|"
 			<< "\n" << string(4, '\t') << "|   No Data Found    |"
-			<< "\n" << string(4, '\t') << "|--------------------|" << "\n";
+			<< "\n" << string(4, '\t') << "|--------------------|\n" << string(4, '\t');
 	}
 
+	cout << "\n" << string(4, '\t');
 	for (int i = 0; i < 100; i++)
 		cout << "-";
-	cout << "\n" << string(5, '\t') << "Order Details\n";
+	cout << "\n" << string(9, '\t') << "Order Details\n" << string(4, '\t');
 	for (int i = 0; i < 100; i++)
 		cout << "-";
-	cout << "\n| ID      | Date \t| Name\t\t\t| Order Quantity |  Price  | Total  \n";
+
+	cout << "\n" << string(4, '\t') << "| Order Number | Date \t\t| Name\t\t\t| Order Quantity |  Price  | Total  \n" << string(4, '\t');
 	for (int i = 0; i < 100; i++)
 		cout << "-";
 	cout << endl;
 
-
 	for (int i = 0; i < order.size(); i++) {
 		total += order[i].price * order[i].quantity;
-		cout << order[i].orderID;
-		printSpaces(order[i].orderID.length(), 12);
+		cout << string(4, '\t') << "  " << order[i].orderNum;
+		printSpaces(to_string(order[i].orderNum).length(), 15);
 		cout << order[i].orderDate;
-		printSpaces(order[i].orderDate.length(), 14);
+		printSpaces(order[i].orderDate.length(), 17);
 		cout << order[i].itemName;
 		printSpaces(order[i].itemName.length(), 30);
 		cout << order[i].quantity;
@@ -2139,7 +2206,7 @@ void printAllOrders(vector<Order> order) {
 		cout << "$" << total;
 		cout << endl;
 	}
-
+	cout << endl;
 	/*cout << setprecision(3);
 	if (order.size() == 0) {
 		cout << "\n\t\t\t|--------------------|"
@@ -2163,7 +2230,7 @@ void printAllOrders(vector<Order> order) {
 
 //Code by Jay
 //This function lets the user remove orders 
-vector<Order> removeOrder(vector<Order> order) { 
+vector<Order> removeOrder(vector<Order> order) {
 	int orderID, vectOrderLoc;
 	bool isTrue, isTrue2, isTrue3;
 	int numChoice;
@@ -2193,7 +2260,56 @@ vector<Order> removeOrder(vector<Order> order) {
 							if (order[i].orderNum == orderID) {
 								isTrue = false;
 								vectOrderLoc = i;
-								break;
+
+								system("cls");
+								do {
+									cout << "\n" << string(7, '\t') << "|------------------------------------------------|"
+										<< "\n" << string(7, '\t') << "| Order ID:       " << order[vectOrderLoc].orderNum
+										<< "\n" << string(7, '\t') << "| Order Date:     " << order[vectOrderLoc].orderDate
+										<< "\n" << string(7, '\t') << "| Item Name:      " << order[vectOrderLoc].itemName
+										<< "\n" << string(7, '\t') << "| Order Quantity: " << order[vectOrderLoc].quantity
+										<< "\n" << string(7, '\t') << "| Price:          " << order[vectOrderLoc].price
+										<< "\n" << string(7, '\t') << "|------------------------------------------------|"
+										<< "\n" << string(7, '\t') << "| Press 1 to subract order quantity              |"
+										<< "\n" << string(7, '\t') << "| Press 2 to remove order completely             |"
+										<< "\n" << string(7, '\t') << "| Press 3 to exit                                |"
+										<< "\n" << string(7, '\t') << "|------------------------------------------------|"
+										<< "\n" << string(7, '\t') << "| Choose Option: ";
+									cin >> numChoice;
+
+									switch (numChoice) {
+									case 1:
+										order[vectOrderLoc].quantity -= 1;
+										if (order[vectOrderLoc].quantity == 0) {
+											cout << "\n" << string(7, '\t') << "|-------------------------|"
+												<< "\n" << string(7, '\t') << "| Order has been removed  |"
+												<< "\n" << string(7, '\t') << "|-------------------------|\n" << string(7, '\t');
+											order.erase(order.begin() + vectOrderLoc);
+											isTrue2 = false;
+											cout << order.size() << endl;
+											system("pause");
+										}
+										break;
+									case 2:
+										order.erase(order.begin() + vectOrderLoc);
+										cout << "\n" << string(7, '\t') << "|-------------------------|"
+											<< "\n" << string(7, '\t') << "| Order has been removed  |"
+											<< "\n" << string(7, '\t') << "|-------------------------|\n" << string(7, '\t');
+										system("pause");
+										isTrue2 = false;
+										break;
+									case 3:
+										isTrue2 = false;
+										break;
+									default:
+										cout << "\n" << string(7, '\t') << "|-----------------------------------|"
+											<< "\n" << string(7, '\t') << "| Invalid Input! Please try again.. |"
+											<< "\n" << string(7, '\t') << "|-----------------------------------|" << string(7, '\t');
+										system("pause");
+										break;
+									}
+								} while (isTrue2);
+
 							}
 						}
 						if (isTrue) {
@@ -2203,55 +2319,6 @@ vector<Order> removeOrder(vector<Order> order) {
 							system("pause");
 						}
 					} while (isTrue);
-
-					system("cls");
-					do {
-						cout << "\n" << string(7, '\t') << "|------------------------------------------------|"
-							<< "\n" << string(7, '\t') << "| Order ID:       " << order[vectOrderLoc].orderNum
-							<< "\n" << string(7, '\t') << "| Order Date:     " << order[vectOrderLoc].orderDate
-							<< "\n" << string(7, '\t') << "| Item Name:      " << order[vectOrderLoc].itemName
-							<< "\n" << string(7, '\t') << "| Order Quantity: " << order[vectOrderLoc].quantity
-							<< "\n" << string(7, '\t') << "| Price:          " << order[vectOrderLoc].price
-							<< "\n" << string(7, '\t') << "|------------------------------------------------|"
-							<< "\n" << string(7, '\t') << "| Press 1 to subract order quantity              |"
-							<< "\n" << string(7, '\t') << "| Press 2 to remove order completely             |"
-							<< "\n" << string(7, '\t') << "| Press 3 to exit                                |"
-							<< "\n" << string(7, '\t') << "|------------------------------------------------|"
-							<< "\n" << string(7, '\t') << "| Choose Option: ";
-						cin >> numChoice;
-
-						switch (numChoice) {
-						case 1:
-							order[vectOrderLoc].quantity -= 1;
-							if (order[vectOrderLoc].quantity == 0) {
-								cout << "\n" << string(7, '\t') << "|-------------------------|"
-									<< "\n" << string(7, '\t') << "| Order has been removed  |"
-									<< "\n" << string(7, '\t') << "|-------------------------|\n" << string(7, '\t');
-								order.erase(order.begin() + vectOrderLoc);
-								isTrue2 = false;
-								cout << order.size() << endl;
-								system("pause");
-							}
-							break;
-						case 2:
-							order.erase(order.begin() + vectOrderLoc);
-							cout << "\n" << string(7, '\t') << "|-------------------------|"
-								<< "\n" << string(7, '\t') << "| Order has been removed  |"
-								<< "\n" << string(7, '\t') << "|-------------------------|\n" << string(7, '\t');
-							system("pause");
-							isTrue2 = false;
-							break;
-						case 3:
-							isTrue2 = false;
-							break;
-						default:
-							cout << "\n" << string(7, '\t') << "|-----------------------------------|"
-								<< "\n" << string(7, '\t') << "| Invalid Input! Please try again.. |"
-								<< "\n" << string(7, '\t') << "|-----------------------------------|" << string(7, '\t');
-							system("pause");
-							break;
-						}
-					} while (isTrue2);
 				}
 				else {
 					cout << "\n" << string(7, '\t') << "|--------------------------------|"
@@ -2327,7 +2394,7 @@ vector<Order> getFoodOrderDetails(vector<Order> order, int orderNum) {
 
 //Code by Jay
 //This function lets the user checkout there order
-vector<Order> checkoutOrder(vector<Order> order, vector<string> user) { 
+vector<Order> checkoutOrder(vector<Order> order, vector<string> user) {
 	float subTotal = 0, gstAmount = 0, discount = 0.00;
 	int numChoice = 0, num = 0, idLoc = 0, bulkNum = 0;
 	bool isTrue, isTrue2, isTrue3, isTrue4, isTrue5, usedFoodPass, hasPaid;
@@ -2367,7 +2434,7 @@ vector<Order> checkoutOrder(vector<Order> order, vector<string> user) {
 				<< "\n" << string(8, '\t') << "|---------------------------------|"
 				<< "\n" << string(8, '\t') << "|            ORDER FOR            |";
 			if (user[0].substr(0, 3) == "270") {
-				cout << "\n" << string(8, '\t') << "| Student Name: " << user[6]
+				cout << "\n" << string(8, '\t') << "| Student Name: " << user[1]
 					<< "\n" << string(8, '\t') << "| Student Room no.: " << user[7];
 			}
 			else {
@@ -2395,11 +2462,11 @@ vector<Order> checkoutOrder(vector<Order> order, vector<string> user) {
 			switch (numChoice) {
 			case 1:
 				do {
-					system("cls");
-					cout << "\n" << string(8, '\t') << "|------------------------|"
-						<< "\n" << string(8, '\t') << "| Press 1 to pay now     |"
-						<< "\n" << string(8, '\t') << "| Press 2 to exit        |"
-						<< "\n" << string(8, '\t') << "|------------------------|"
+					cout << "\n" << string(8, '\t') << "|------------------------------------|"//gohere
+						<< "\n" << string(8, '\t') << "| Press 1 to pay now                  |"
+						<< "\n" << string(8, '\t') << "| Press 2 to save order for later     |"
+						<< "\n" << string(8, '\t') << "| Press 3 to exit                     |"
+						<< "\n" << string(8, '\t') << "|-------------------------------------|"
 						<< "\n" << string(8, '\t') << "| Choose option: ";
 					cin >> numChoice;
 
@@ -2515,7 +2582,7 @@ vector<Order> checkoutOrder(vector<Order> order, vector<string> user) {
 													}
 													else {
 														discount = 5.00 * num;
-														vectBulk[idLoc].orderCount -= num; 
+														vectBulk[idLoc].orderCount -= num;
 														bulkNum = vectBulk[idLoc].orderCount;
 														payment.totalPrice -= discount;
 														usedFoodPass = true;
@@ -2636,6 +2703,7 @@ vector<Order> checkoutOrder(vector<Order> order, vector<string> user) {
 								<< "\n" << string(8, '\t') << "|------------------------------------------|";
 
 							for (int i = 0; i < order.size(); i++) {
+								order[i].paymentStatus = hasPaid;
 								subTotal = order[i].price * order[i].quantity;
 								cout << "\n" << string(8, '\t') << "|------------------------------------------|"
 									<< "\n" << string(8, '\t') << "| Item Name:       " << order[i].itemName
@@ -2667,6 +2735,7 @@ vector<Order> checkoutOrder(vector<Order> order, vector<string> user) {
 								<< "\n" << string(8, '\t') << "|GST Number:       " << payment.GSTNumber
 								<< "\n" << string(8, '\t') << "|------------------------------------------|\n\n\t\t\t";
 
+							removeAllUnpaidOrders(user[1]);//update unpaid to paid status
 							//save order to csv
 							ofstream saveOrder("Order_file.csv", ios::app);
 							do {//generate a unique id for order and check if id is unique
@@ -2676,7 +2745,7 @@ vector<Order> checkoutOrder(vector<Order> order, vector<string> user) {
 							} while (true);
 							ord.foreignKey = user[0];
 							for (int i = 0; i < order.size(); i++) {
-								saveOrder << ord.orderID << ", " << ord.foreignKey << "," << getCurrentDate() << "," << order[i].itemName << "," << order[i].quantity << "," << order[i].price << endl;
+								saveOrder << ord.orderID << ", " << ord.foreignKey << "," << getCurrentDate() << "," << order[i].itemName << "," << order[i].quantity << "," << order[i].price << "," << order[i].paymentStatus << "," << order[i].orderNum << endl;
 							}
 							saveOrder.close();
 
@@ -2710,7 +2779,31 @@ vector<Order> checkoutOrder(vector<Order> order, vector<string> user) {
 						}
 						break;
 					}
-					else if (numChoice == 2)
+					else if (numChoice == 2) {//set order to unpaid and save to csv
+						hasPaid = false;
+						removeAllUnpaidOrders(user[1]);
+						//save order to csv
+						ofstream saveOrder("Order_file.csv", ios::app); //plusultra
+						do {//generate a unique id for order and check if id is unique
+							ord.orderID = generateID(4);
+							if (checkUniqueID(4, ord.orderID))
+								break;
+						} while (true);
+						ord.foreignKey = user[0];
+						for (int i = 0; i < order.size(); i++) {
+							order[i].paymentStatus = hasPaid;
+							saveOrder << ord.orderID << ", " << ord.foreignKey << "," << getCurrentDate() << "," << order[i].itemName << "," << order[i].quantity << "," << order[i].price << "," << order[i].paymentStatus << "," << order[i].orderNum << endl;
+						}
+						saveOrder.close();
+
+						isTrue = false;
+						cout << "\n" << string(8, '\t') << "|---------------------|"
+							<< "\n" << string(8, '\t') << "|     Order Saved     |"
+							<< "\n" << string(8, '\t') << "|-------------------- |\n\t\t\t";
+						system("pause");
+						break;
+					}
+					else if (numChoice == 3)
 						break;
 					else {
 						cout << "\n" << string(8, '\t') << "|-----------------------------------|"
@@ -2718,6 +2811,7 @@ vector<Order> checkoutOrder(vector<Order> order, vector<string> user) {
 							<< "\n" << string(8, '\t') << "|-----------------------------------|\n\t\t\t";
 						system("pause");
 					}
+					system("cls");
 				} while (true);
 				break;
 			case 2:
@@ -2740,15 +2834,73 @@ vector<Order> checkoutOrder(vector<Order> order, vector<string> user) {
 }
 
 //Code by Jay
-//This function gets all the order data from csv and prints it out to user
-void printWeeklyOrderReport() {
-	vector<Parent> parent;
-	vector<Staff> staff;
+//This function is used to print out the orders this can be paid and pending payment
+void printWeeklyOrderReport(char choice) {	//fix
+	vector<Order> order;
+	float total = 0;
 
-	staff = getAllStaffDetails();
-	parent = getAllParentDetails();
+	order = getAllOrderDetails();
+	cout << setprecision(3);
+	if (order.size() == 0) {
+		cout << "\n" << string(4, '\t') << "|--------------------|"
+			<< "\n" << string(4, '\t') << "|   No Data Found    |"
+			<< "\n" << string(4, '\t') << "|--------------------|\n" << string(4, '\t');
+	}
 
-	cout << "\n\t\t\t|---------------------------------------------|"
+	cout << "\n" << string(4, '\t');
+	for (int i = 0; i < 110; i++)
+		cout << "-";
+	cout << "\n" << string(9, '\t') << "Order Details\n" << string(4, '\t');
+	for (int i = 0; i < 110; i++)
+		cout << "-";
+
+	cout << "\n" << string(4, '\t') << "  ID        | Date\t  | Name\t\t\t| Order Quantity |  Price  | Total   | PAYMENT STATUS\n" << string(4, '\t');
+	for (int i = 0; i < 110; i++)
+		cout << "-";
+	cout << endl;
+	if (tolower(choice) == 'y') {
+		for (int i = 0; i < order.size(); i++) {
+			if (order[i].paymentStatus) {
+				total = order[i].price * order[i].quantity;
+				cout << string(4, '\t') << "  " << order[i].orderID;
+				printSpaces(order[i].orderID.length(), 12);
+				cout << order[i].orderDate;
+				printSpaces(order[i].orderDate.length(), 14);//fix
+				cout << order[i].itemName;
+				printSpaces(order[i].itemName.length(), 36);
+				cout << order[i].quantity;
+				printSpaces(to_string(order[i].quantity).length(), 12);
+				cout << "$" << order[i].price;
+				printSpaces(to_string(order[i].price).length(), 15);
+				cout << "$" << total;
+				printSpaces(to_string(total).length(), 17);
+				cout << "PAID\n";
+			}
+		}
+	}
+	else {
+		for (int i = 0; i < order.size(); i++) {
+			if (!order[i].paymentStatus) {
+				total = order[i].price * order[i].quantity;
+				cout << string(4, '\t') << "  " << order[i].orderID;
+				printSpaces(order[i].orderID.length(), 12);
+				cout << order[i].orderDate;
+				printSpaces(order[i].orderDate.length(), 14);
+				cout << order[i].itemName;
+				printSpaces(order[i].itemName.length(), 36);
+				cout << order[i].quantity;
+				printSpaces(to_string(order[i].quantity).length(), 12);
+				cout << "$" << order[i].price;
+				printSpaces(to_string(order[i].price).length(), 15);
+				cout << "$" << total;
+				printSpaces(to_string(total).length(), 17);
+				cout << "PENDING\n";
+			}
+		}
+	}
+	cout << endl;
+
+	/*cout << "\n\t\t\t|---------------------------------------------|"
 		<< "\n\t\t\t|              Parent Order Details           |"
 		<< "\n\t\t\t|---------------------------------------------|";
 	for (int i = 0; i < parent.size(); i++) {
@@ -2776,7 +2928,7 @@ void printWeeklyOrderReport() {
 				<< "\n\t\t\t|-----------------------------------------------\n";
 		}
 	}
-	cout << "\n\t\t\t";
+	cout << "\n\t\t\t";*/
 }
 
 //Code by Jay
@@ -2823,7 +2975,6 @@ void printAllParentDetails() {
 	cout << "\n\t\t\t|--------------------------------------------|"
 		<< "\n\t\t\t|                Parent Details              |"
 		<< "\n\t\t\t|--------------------------------------------|";
-
 	for (int i = 0; i < vectParent.size(); i++) {
 		cout << "\n\t\t\t| Parent ID:             " << vectParent[i].parentID
 			<< "\n\t\t\t| Parent name:           " << vectParent[i].fullName
@@ -2841,7 +2992,7 @@ void printAllParentDetails() {
 }
 
 //This functions prints spaces;
-void printSpaces(int num, int size) { 
+void printSpaces(int num, int size) {
 	for (int i = num; i < size; i++)
 		cout << " ";
 }
@@ -2884,7 +3035,6 @@ void printAllStaffDetails() {
 	cout << "\n\t\t\t|--------------------------------------------|"
 		<< "\n\t\t\t|                Staff Details               |"
 		<< "\n\t\t\t|--------------------------------------------|";
-
 	for (int i = 0; i < vectStaff.size(); i++) {
 		cout << "\n\t\t\t| Staff ID:             " << vectStaff[i].staffID
 			<< "\n\t\t\t| Staff name:           " << vectStaff[i].fullName
@@ -2907,14 +3057,14 @@ vector<Parent> getAllParentDetails() {
 	vector<Order> vectOrder;
 	vector<Payment> vectPayment;
 	vector<Login> vectLogin;
-	vector<Login>* ptrVectLogin; 
+	vector<Login>* ptrVectLogin;
 	vector<string> parentData;
 	Parent parent;
 	string tempStr, line;
 	char storeChar[8];
 	ifstream myfile;
 
-	ptrVectLogin = &vectLogin; 
+	ptrVectLogin = &vectLogin;
 	myfile.open("Parent_file.csv", ios::in);
 
 	while (getline(myfile, line)) {
@@ -2986,8 +3136,8 @@ vector<Staff> getAllStaffDetails() {
 	vector<Payment> vectPayment;
 	vector<Login> vectLogin;
 	vector<string> staffData;
-	vector<Login>* ptrVectLogin; 
-	ptrVectLogin = &vectLogin; 
+	vector<Login>* ptrVectLogin;
+	ptrVectLogin = &vectLogin;
 	Staff staff;
 	string tempStr, line;
 
@@ -3018,7 +3168,7 @@ vector<Staff> getAllStaffDetails() {
 
 	vectOrder = getAllOrderDetails();
 	vectPayment = getAllPaymentDetails();
-	vectLogin = getAllLoginDetails(ptrVectLogin); 
+	vectLogin = getAllLoginDetails(ptrVectLogin);
 
 	//get all order details
 	for (int i = 0; i < vectStaff.size(); i++) {
@@ -3055,7 +3205,7 @@ vector<Staff> getAllStaffDetails() {
 
 //Code by Jay
 //This function gets all order data from csv and stores it in vector
-vector<Order> getAllOrderDetails() {
+vector<Order> getAllOrderDetails() { //plus ultra
 
 	vector<Order> vectOrder;
 	vector<string> orderData;
@@ -3073,13 +3223,15 @@ vector<Order> getAllOrderDetails() {
 			getline(ss, tempStr, ',');
 			orderData.push_back(tempStr);
 		}
-		if (orderData[0] != "ORDER_NUM") {
+		if (orderData[0] != "ORDER_ID") {
 			order.orderID = orderData[0];
 			order.foreignKey = orderData[1];
 			order.orderDate = orderData[2];
 			order.itemName = orderData[3];
 			order.quantity = stoi(orderData[4]);
 			order.price = stof(orderData[5]);
+			order.paymentStatus = stoi(orderData[6]);
+			order.orderNum = stoi(orderData[7]);
 			vectOrder.push_back(order);
 		}
 		orderData.clear();
@@ -3087,6 +3239,66 @@ vector<Order> getAllOrderDetails() {
 	myfile.close();
 
 	return vectOrder;
+}
+
+//Code by Jay
+//This function gets all the unpaid orders of the user and returns it as a vector Order
+vector<Order> getAllUnpaidOrders(string userID) { //plus ultra
+
+	vector<Order> vectOrder;
+	vector<string> orderData;
+	Order order;
+	string tempStr, line;
+	bool isPaid = true;
+
+	ifstream myfile;
+	myfile.open("Order_file.csv", ios::in);
+
+	cout << setprecision(2);
+	while (getline(myfile, line)) {
+		stringstream ss(line);
+		while (!ss.eof()) {
+			getline(ss, tempStr, ',');
+			orderData.push_back(tempStr);
+		}
+		if (orderData.size() != 0) {
+			if (orderData[0] != "ORDER_ID") {
+				isPaid = stoi(orderData[6]);
+				orderData[1].erase(remove(orderData[1].begin(), orderData[1].end(), ' '), orderData[1].end());//remove spaces in the string
+				if (orderData[1] == userID && isPaid == false) {
+					order.orderID = orderData[0];
+					order.foreignKey = orderData[1];
+					order.orderDate = orderData[2];
+					order.itemName = orderData[3];
+					order.quantity = stoi(orderData[4]);
+					order.price = stof(orderData[5]);
+					order.paymentStatus = isPaid;
+					order.orderNum = stoi(orderData[7]);
+					vectOrder.push_back(order);
+				}
+			}
+		}
+		orderData.clear();
+	}
+	myfile.close();
+
+	return vectOrder;
+}
+
+//Code by Jay
+//This function removes the saved order from the user
+void removeAllUnpaidOrders(string userID) { //plus ultra
+	vector<Order> vectOrder;
+	vectOrder = getAllOrderDetails();
+
+	ofstream orderFile("Order_file.csv", ios::out);
+	orderFile << "ORDER_ID" << "," << "FOREIGN_KEY" << "," << "DATE" << "," << "ITEM_NAME" << "," << "QUANTITY" << "," << "PRICE" << "," << "PAYMENT_STATUS" << "," << "ORDER_NUM" << endl;
+	for (int i = 0; i < vectOrder.size(); i++) {
+		if (userID != vectOrder[i].foreignKey && vectOrder[i].paymentStatus != false) {
+			orderFile << vectOrder[i].orderID << ", " << vectOrder[i].foreignKey << "," << getCurrentDate() << "," << vectOrder[i].itemName << "," << vectOrder[i].quantity << "," << vectOrder[i].price << "," << vectOrder[i].paymentStatus << "," << vectOrder[i].orderNum << endl;
+		}
+	}
+	orderFile.close();
 }
 
 //Code by Jay
@@ -3149,7 +3361,7 @@ vector<Login>& getAllLoginDetails(vector<Login>* vectLogin) {
 			login.loginID = loginData[0];
 			login.userForeignID = loginData[1];
 			login.username = loginData[2];
-			login.password = loginData[3]; 
+			login.password = loginData[3];
 			vecRef.push_back(login);
 		}
 		loginData.clear();
@@ -3192,17 +3404,17 @@ vector<BulkPayment> getAllBulkDetails() {
 
 //Code by Jay
 //This function updates the parents details
-void updateParentDetails(string userID) { 
+void updateParentDetails(string userID) {
 	vector<Parent> parent;
 	vector<Login> login;
-	vector<Login>* ptrVectLogin; 
-	ptrVectLogin = &login; 
+	vector<Login>* ptrVectLogin;
+	ptrVectLogin = &login;
 	int choice, userVectLocation = 0, tempContactNo;
 	bool isTrue, isTrue2, isTrue3, isFound = true;
 	string password, verifyPassword, tempData;
 
 	parent = getAllParentDetails();
-	login = getAllLoginDetails(ptrVectLogin); 
+	login = getAllLoginDetails(ptrVectLogin);
 	//get user location in vector
 	for (int i = 0; i < parent.size(); i++) {
 		if (parent[i].parentID == userID) {
@@ -3710,14 +3922,14 @@ void updateParentDetails(string userID) {
 void updateStaffDetails(string userID) {
 	vector<Staff> staff;
 	vector<Login> login;
-	vector<Login>* ptrLogin;  
-	ptrLogin = &login; 
+	vector<Login>* ptrLogin;
+	ptrLogin = &login;
 	int choice, userVectLocation = 0, tempContactNo;
 	bool isTrue, isTrue2, isTrue3, isFound = true;
 	string password, verifyPassword, tempData;
 
 	staff = getAllStaffDetails();
-	login = getAllLoginDetails(ptrLogin); 
+	login = getAllLoginDetails(ptrLogin);
 
 	//get staff location in vector
 	for (int i = 0; i < staff.size(); i++) {
@@ -4150,7 +4362,7 @@ void updateStaffDetails(string userID) {
 
 // Code by Jakob
 // this function shows the different options for the admin once they've logged in.
-void adminScreen() { 
+void adminScreen() {
 	system("cls");
 	int choice;
 	bool isTrue = true;
@@ -4182,15 +4394,15 @@ void adminScreen() {
 			break;
 		case 2:
 			system("cls");
-			printAllOrders(getAllOrderDetails());
+			printWeeklyOrderReport('y');
 			system("pause");
 			break;
 		case 3:
 			printWeeklySales(); // Written by Jakob
 			break;
-		case 4: 
-			cout << "\n\t\t\tPending payment report";
-			cout << "\n\t\t\t";
+		case 4:
+			system("cls");
+			printWeeklyOrderReport('n');
 			system("pause");
 			break;
 		case 5:
@@ -4230,7 +4442,7 @@ void printWeeklyComplaint() {
 	if (weeklyComplaint.size() == 8) {
 		flag = 1;
 	}
-	
+
 	if (flag != 1) {
 		cout << "\n\tID\tNAME\t\t\tDATE\t\tEMAIL\t\t\tREASON\t\t\tA_STATUS\n\n";
 		for (int i = 8; i < weeklyComplaint.size();) {
@@ -4295,7 +4507,7 @@ void printWeeklyComplaint() {
 	else {
 		cout << "\n\t[NO COMPLAINTS HAVE BEEN FOUND]\n\n\t";
 		system("pause");
-	}	
+	}
 }
 
 // Code by Jakob
@@ -4366,7 +4578,7 @@ void printWeeklySales() {
 
 	ifstream getPayData;
 	getPayData.open("Payment_file.csv");
-	
+
 	if (!getPayData.good()) {
 		cout << "\n\t\t\tCould not open file. Please check that Payment_file.csv isn't currently open.\n";
 	}
@@ -4416,7 +4628,7 @@ void printWeeklySales() {
 		cout << "\n\t\t\t|Total Tax deducted:  $" << totalTax;          // tax
 		cout << "\n\t\t\t|Net amount earned:   $" << grossPay - totalTax;
 		cout << "\n\t\t\t|---------------------------------------------";
-		
+
 	}
 	cout << "\n\n\t\t\t";
 	system("pause");
