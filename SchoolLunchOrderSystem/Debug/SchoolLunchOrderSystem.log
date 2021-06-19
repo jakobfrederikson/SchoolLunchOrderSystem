@@ -1,58 +1,69 @@
 ﻿  SchoolLunchOrderSystem.cpp
-C:\Users\Jay\Desktop\CS103 Group Project\SchoolLunchOrderSystem\SchoolLunchOrderSystem\SchoolLunchOrderSystem.cpp(183,13): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
-C:\Users\Jay\Desktop\CS103 Group Project\SchoolLunchOrderSystem\SchoolLunchOrderSystem\SchoolLunchOrderSystem.cpp(876,12): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
-C:\Users\Jay\Desktop\CS103 Group Project\SchoolLunchOrderSystem\SchoolLunchOrderSystem\SchoolLunchOrderSystem.cpp(1011,20): warning C4018: '<': signed/unsigned mismatch
-C:\Users\Jay\Desktop\CS103 Group Project\SchoolLunchOrderSystem\SchoolLunchOrderSystem\SchoolLunchOrderSystem.cpp(1215,6): warning C4101: 'i': unreferenced local variable
-C:\Users\Jay\Desktop\CS103 Group Project\SchoolLunchOrderSystem\SchoolLunchOrderSystem\SchoolLunchOrderSystem.cpp(1285,6): warning C4101: 'complaintID': unreferenced local variable
-C:\Users\Jay\Desktop\CS103 Group Project\SchoolLunchOrderSystem\SchoolLunchOrderSystem\SchoolLunchOrderSystem.cpp(1419,14): warning C4101: 'flag': unreferenced local variable
-C:\Users\Jay\Desktop\CS103 Group Project\SchoolLunchOrderSystem\SchoolLunchOrderSystem\SchoolLunchOrderSystem.cpp(1566,20): warning C4018: '<': signed/unsigned mismatch
-C:\Users\Jay\Desktop\CS103 Group Project\SchoolLunchOrderSystem\SchoolLunchOrderSystem\SchoolLunchOrderSystem.cpp(1577,20): warning C4018: '<': signed/unsigned mismatch
-C:\Users\Jay\Desktop\CS103 Group Project\SchoolLunchOrderSystem\SchoolLunchOrderSystem\SchoolLunchOrderSystem.cpp(1635,26): warning C4101: 'foodNum': unreferenced local variable
-C:\Users\Jay\Desktop\CS103 Group Project\SchoolLunchOrderSystem\SchoolLunchOrderSystem\SchoolLunchOrderSystem.cpp(1852,48): warning C4018: '<': signed/unsigned mismatch
-C:\Users\Jay\Desktop\CS103 Group Project\SchoolLunchOrderSystem\SchoolLunchOrderSystem\SchoolLunchOrderSystem.cpp(1856,53): warning C4018: '<': signed/unsigned mismatch
-C:\Users\Jay\Desktop\CS103 Group Project\SchoolLunchOrderSystem\SchoolLunchOrderSystem\SchoolLunchOrderSystem.cpp(2194,20): warning C4018: '<': signed/unsigned mismatch
-C:\Users\Jay\Desktop\CS103 Group Project\SchoolLunchOrderSystem\SchoolLunchOrderSystem\SchoolLunchOrderSystem.cpp(2259,25): warning C4018: '<': signed/unsigned mismatch
-C:\Users\Jay\Desktop\CS103 Group Project\SchoolLunchOrderSystem\SchoolLunchOrderSystem\SchoolLunchOrderSystem.cpp(2376,20): warning C4018: '<': signed/unsigned mismatch
-C:\Users\Jay\Desktop\CS103 Group Project\SchoolLunchOrderSystem\SchoolLunchOrderSystem\SchoolLunchOrderSystem.cpp(2408,20): warning C4018: '<': signed/unsigned mismatch
-C:\Users\Jay\Desktop\CS103 Group Project\SchoolLunchOrderSystem\SchoolLunchOrderSystem\SchoolLunchOrderSystem.cpp(2416,20): warning C4018: '<': signed/unsigned mismatch
-C:\Users\Jay\Desktop\CS103 Group Project\SchoolLunchOrderSystem\SchoolLunchOrderSystem\SchoolLunchOrderSystem.cpp(2444,22): warning C4018: '<': signed/unsigned mismatch
-C:\Users\Jay\Desktop\CS103 Group Project\SchoolLunchOrderSystem\SchoolLunchOrderSystem\SchoolLunchOrderSystem.cpp(2503,70): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
-C:\Users\Jay\Desktop\CS103 Group Project\SchoolLunchOrderSystem\SchoolLunchOrderSystem\SchoolLunchOrderSystem.cpp(2546,29): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-C:\Users\Jay\Desktop\CS103 Group Project\SchoolLunchOrderSystem\SchoolLunchOrderSystem\SchoolLunchOrderSystem.cpp(2584,31): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-C:\Users\Jay\Desktop\CS103 Group Project\SchoolLunchOrderSystem\SchoolLunchOrderSystem\SchoolLunchOrderSystem.cpp(2705,26): warning C4018: '<': signed/unsigned mismatch
-C:\Users\Jay\Desktop\CS103 Group Project\SchoolLunchOrderSystem\SchoolLunchOrderSystem\SchoolLunchOrderSystem.cpp(2747,26): warning C4018: '<': signed/unsigned mismatch
-C:\Users\Jay\Desktop\CS103 Group Project\SchoolLunchOrderSystem\SchoolLunchOrderSystem\SchoolLunchOrderSystem.cpp(2767,26): warning C4018: '<': signed/unsigned mismatch
-C:\Users\Jay\Desktop\CS103 Group Project\SchoolLunchOrderSystem\SchoolLunchOrderSystem\SchoolLunchOrderSystem.cpp(2793,25): warning C4018: '<': signed/unsigned mismatch
-C:\Users\Jay\Desktop\CS103 Group Project\SchoolLunchOrderSystem\SchoolLunchOrderSystem\SchoolLunchOrderSystem.cpp(2862,21): warning C4018: '<': signed/unsigned mismatch
-C:\Users\Jay\Desktop\CS103 Group Project\SchoolLunchOrderSystem\SchoolLunchOrderSystem\SchoolLunchOrderSystem.cpp(2882,21): warning C4018: '<': signed/unsigned mismatch
-C:\Users\Jay\Desktop\CS103 Group Project\SchoolLunchOrderSystem\SchoolLunchOrderSystem\SchoolLunchOrderSystem.cpp(2952,20): warning C4018: '<': signed/unsigned mismatch
-C:\Users\Jay\Desktop\CS103 Group Project\SchoolLunchOrderSystem\SchoolLunchOrderSystem\SchoolLunchOrderSystem.cpp(3018,20): warning C4018: '<': signed/unsigned mismatch
-C:\Users\Jay\Desktop\CS103 Group Project\SchoolLunchOrderSystem\SchoolLunchOrderSystem\SchoolLunchOrderSystem.cpp(3098,20): warning C4018: '<': signed/unsigned mismatch
-C:\Users\Jay\Desktop\CS103 Group Project\SchoolLunchOrderSystem\SchoolLunchOrderSystem\SchoolLunchOrderSystem.cpp(3099,21): warning C4018: '<': signed/unsigned mismatch
-C:\Users\Jay\Desktop\CS103 Group Project\SchoolLunchOrderSystem\SchoolLunchOrderSystem\SchoolLunchOrderSystem.cpp(3107,20): warning C4018: '<': signed/unsigned mismatch
-C:\Users\Jay\Desktop\CS103 Group Project\SchoolLunchOrderSystem\SchoolLunchOrderSystem\SchoolLunchOrderSystem.cpp(3108,21): warning C4018: '<': signed/unsigned mismatch
-C:\Users\Jay\Desktop\CS103 Group Project\SchoolLunchOrderSystem\SchoolLunchOrderSystem\SchoolLunchOrderSystem.cpp(3116,20): warning C4018: '<': signed/unsigned mismatch
-C:\Users\Jay\Desktop\CS103 Group Project\SchoolLunchOrderSystem\SchoolLunchOrderSystem\SchoolLunchOrderSystem.cpp(3117,21): warning C4018: '<': signed/unsigned mismatch
-C:\Users\Jay\Desktop\CS103 Group Project\SchoolLunchOrderSystem\SchoolLunchOrderSystem\SchoolLunchOrderSystem.cpp(3064,7): warning C4101: 'storeChar': unreferenced local variable
-C:\Users\Jay\Desktop\CS103 Group Project\SchoolLunchOrderSystem\SchoolLunchOrderSystem\SchoolLunchOrderSystem.cpp(3174,20): warning C4018: '<': signed/unsigned mismatch
-C:\Users\Jay\Desktop\CS103 Group Project\SchoolLunchOrderSystem\SchoolLunchOrderSystem\SchoolLunchOrderSystem.cpp(3175,21): warning C4018: '<': signed/unsigned mismatch
-C:\Users\Jay\Desktop\CS103 Group Project\SchoolLunchOrderSystem\SchoolLunchOrderSystem\SchoolLunchOrderSystem.cpp(3183,20): warning C4018: '<': signed/unsigned mismatch
-C:\Users\Jay\Desktop\CS103 Group Project\SchoolLunchOrderSystem\SchoolLunchOrderSystem\SchoolLunchOrderSystem.cpp(3184,21): warning C4018: '<': signed/unsigned mismatch
-C:\Users\Jay\Desktop\CS103 Group Project\SchoolLunchOrderSystem\SchoolLunchOrderSystem\SchoolLunchOrderSystem.cpp(3192,20): warning C4018: '<': signed/unsigned mismatch
-C:\Users\Jay\Desktop\CS103 Group Project\SchoolLunchOrderSystem\SchoolLunchOrderSystem\SchoolLunchOrderSystem.cpp(3193,21): warning C4018: '<': signed/unsigned mismatch
-C:\Users\Jay\Desktop\CS103 Group Project\SchoolLunchOrderSystem\SchoolLunchOrderSystem\SchoolLunchOrderSystem.cpp(3296,20): warning C4018: '<': signed/unsigned mismatch
-C:\Users\Jay\Desktop\CS103 Group Project\SchoolLunchOrderSystem\SchoolLunchOrderSystem\SchoolLunchOrderSystem.cpp(3419,20): warning C4018: '<': signed/unsigned mismatch
-C:\Users\Jay\Desktop\CS103 Group Project\SchoolLunchOrderSystem\SchoolLunchOrderSystem\SchoolLunchOrderSystem.cpp(3803,24): warning C4018: '<': signed/unsigned mismatch
-C:\Users\Jay\Desktop\CS103 Group Project\SchoolLunchOrderSystem\SchoolLunchOrderSystem\SchoolLunchOrderSystem.cpp(3872,28): warning C4018: '<': signed/unsigned mismatch
-C:\Users\Jay\Desktop\CS103 Group Project\SchoolLunchOrderSystem\SchoolLunchOrderSystem\SchoolLunchOrderSystem.cpp(3880,28): warning C4018: '<': signed/unsigned mismatch
-C:\Users\Jay\Desktop\CS103 Group Project\SchoolLunchOrderSystem\SchoolLunchOrderSystem\SchoolLunchOrderSystem.cpp(3413,24): warning C4101: 'isTrue3': unreferenced local variable
-C:\Users\Jay\Desktop\CS103 Group Project\SchoolLunchOrderSystem\SchoolLunchOrderSystem\SchoolLunchOrderSystem.cpp(3935,20): warning C4018: '<': signed/unsigned mismatch
-C:\Users\Jay\Desktop\CS103 Group Project\SchoolLunchOrderSystem\SchoolLunchOrderSystem\SchoolLunchOrderSystem.cpp(4245,24): warning C4018: '<': signed/unsigned mismatch
-C:\Users\Jay\Desktop\CS103 Group Project\SchoolLunchOrderSystem\SchoolLunchOrderSystem\SchoolLunchOrderSystem.cpp(4315,28): warning C4018: '<': signed/unsigned mismatch
-C:\Users\Jay\Desktop\CS103 Group Project\SchoolLunchOrderSystem\SchoolLunchOrderSystem\SchoolLunchOrderSystem.cpp(4323,28): warning C4018: '<': signed/unsigned mismatch
-C:\Users\Jay\Desktop\CS103 Group Project\SchoolLunchOrderSystem\SchoolLunchOrderSystem\SchoolLunchOrderSystem.cpp(3928,24): warning C4101: 'isTrue3': unreferenced local variable
-C:\Users\Jay\Desktop\CS103 Group Project\SchoolLunchOrderSystem\SchoolLunchOrderSystem\SchoolLunchOrderSystem.cpp(4448,21): warning C4018: '<': signed/unsigned mismatch
-C:\Users\Jay\Desktop\CS103 Group Project\SchoolLunchOrderSystem\SchoolLunchOrderSystem\SchoolLunchOrderSystem.cpp(4468,19): warning C4018: '<': signed/unsigned mismatch
-C:\Users\Jay\Desktop\CS103 Group Project\SchoolLunchOrderSystem\SchoolLunchOrderSystem\SchoolLunchOrderSystem.cpp(4557,18): warning C4018: '<': signed/unsigned mismatch
-C:\Users\Jay\Desktop\CS103 Group Project\SchoolLunchOrderSystem\SchoolLunchOrderSystem\SchoolLunchOrderSystem.cpp(1176): warning C4715: 'checkAccount': not all control paths return a value
-  SchoolLunchOrderSystem.vcxproj -> C:\Users\Jay\Desktop\CS103 Group Project\SchoolLunchOrderSystem\SchoolLunchOrderSystem\Debug\SchoolLunchOrderSystem.exe
+C:\Users\Jay\Desktop\CS103PROJECT\SchoolLunchOrderSystem\SchoolLunchOrderSystem\SchoolLunchOrderSystem.cpp(183,13): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+C:\Users\Jay\Desktop\CS103PROJECT\SchoolLunchOrderSystem\SchoolLunchOrderSystem\SchoolLunchOrderSystem.cpp(422,23): warning C4018: '<': signed/unsigned mismatch
+C:\Users\Jay\Desktop\CS103PROJECT\SchoolLunchOrderSystem\SchoolLunchOrderSystem\SchoolLunchOrderSystem.cpp(436,23): warning C4018: '<': signed/unsigned mismatch
+C:\Users\Jay\Desktop\CS103PROJECT\SchoolLunchOrderSystem\SchoolLunchOrderSystem\SchoolLunchOrderSystem.cpp(492,24): warning C4018: '<': signed/unsigned mismatch
+C:\Users\Jay\Desktop\CS103PROJECT\SchoolLunchOrderSystem\SchoolLunchOrderSystem\SchoolLunchOrderSystem.cpp(501,24): warning C4018: '<': signed/unsigned mismatch
+C:\Users\Jay\Desktop\CS103PROJECT\SchoolLunchOrderSystem\SchoolLunchOrderSystem\SchoolLunchOrderSystem.cpp(511,23): warning C4018: '<': signed/unsigned mismatch
+C:\Users\Jay\Desktop\CS103PROJECT\SchoolLunchOrderSystem\SchoolLunchOrderSystem\SchoolLunchOrderSystem.cpp(396,6): warning C4101: 'choice': unreferenced local variable
+C:\Users\Jay\Desktop\CS103PROJECT\SchoolLunchOrderSystem\SchoolLunchOrderSystem\SchoolLunchOrderSystem.cpp(1026,12): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
+C:\Users\Jay\Desktop\CS103PROJECT\SchoolLunchOrderSystem\SchoolLunchOrderSystem\SchoolLunchOrderSystem.cpp(1161,20): warning C4018: '<': signed/unsigned mismatch
+C:\Users\Jay\Desktop\CS103PROJECT\SchoolLunchOrderSystem\SchoolLunchOrderSystem\SchoolLunchOrderSystem.cpp(1365,6): warning C4101: 'i': unreferenced local variable
+C:\Users\Jay\Desktop\CS103PROJECT\SchoolLunchOrderSystem\SchoolLunchOrderSystem\SchoolLunchOrderSystem.cpp(1435,6): warning C4101: 'complaintID': unreferenced local variable
+C:\Users\Jay\Desktop\CS103PROJECT\SchoolLunchOrderSystem\SchoolLunchOrderSystem\SchoolLunchOrderSystem.cpp(1569,14): warning C4101: 'flag': unreferenced local variable
+C:\Users\Jay\Desktop\CS103PROJECT\SchoolLunchOrderSystem\SchoolLunchOrderSystem\SchoolLunchOrderSystem.cpp(1716,20): warning C4018: '<': signed/unsigned mismatch
+C:\Users\Jay\Desktop\CS103PROJECT\SchoolLunchOrderSystem\SchoolLunchOrderSystem\SchoolLunchOrderSystem.cpp(1727,20): warning C4018: '<': signed/unsigned mismatch
+C:\Users\Jay\Desktop\CS103PROJECT\SchoolLunchOrderSystem\SchoolLunchOrderSystem\SchoolLunchOrderSystem.cpp(1785,26): warning C4101: 'foodNum': unreferenced local variable
+C:\Users\Jay\Desktop\CS103PROJECT\SchoolLunchOrderSystem\SchoolLunchOrderSystem\SchoolLunchOrderSystem.cpp(2093,48): warning C4018: '<': signed/unsigned mismatch
+C:\Users\Jay\Desktop\CS103PROJECT\SchoolLunchOrderSystem\SchoolLunchOrderSystem\SchoolLunchOrderSystem.cpp(2097,53): warning C4018: '<': signed/unsigned mismatch
+C:\Users\Jay\Desktop\CS103PROJECT\SchoolLunchOrderSystem\SchoolLunchOrderSystem\SchoolLunchOrderSystem.cpp(2435,20): warning C4018: '<': signed/unsigned mismatch
+C:\Users\Jay\Desktop\CS103PROJECT\SchoolLunchOrderSystem\SchoolLunchOrderSystem\SchoolLunchOrderSystem.cpp(2500,25): warning C4018: '<': signed/unsigned mismatch
+C:\Users\Jay\Desktop\CS103PROJECT\SchoolLunchOrderSystem\SchoolLunchOrderSystem\SchoolLunchOrderSystem.cpp(2617,20): warning C4018: '<': signed/unsigned mismatch
+C:\Users\Jay\Desktop\CS103PROJECT\SchoolLunchOrderSystem\SchoolLunchOrderSystem\SchoolLunchOrderSystem.cpp(2649,20): warning C4018: '<': signed/unsigned mismatch
+C:\Users\Jay\Desktop\CS103PROJECT\SchoolLunchOrderSystem\SchoolLunchOrderSystem\SchoolLunchOrderSystem.cpp(2657,20): warning C4018: '<': signed/unsigned mismatch
+C:\Users\Jay\Desktop\CS103PROJECT\SchoolLunchOrderSystem\SchoolLunchOrderSystem\SchoolLunchOrderSystem.cpp(2685,22): warning C4018: '<': signed/unsigned mismatch
+C:\Users\Jay\Desktop\CS103PROJECT\SchoolLunchOrderSystem\SchoolLunchOrderSystem\SchoolLunchOrderSystem.cpp(2744,70): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+C:\Users\Jay\Desktop\CS103PROJECT\SchoolLunchOrderSystem\SchoolLunchOrderSystem\SchoolLunchOrderSystem.cpp(2787,29): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+C:\Users\Jay\Desktop\CS103PROJECT\SchoolLunchOrderSystem\SchoolLunchOrderSystem\SchoolLunchOrderSystem.cpp(2825,31): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+C:\Users\Jay\Desktop\CS103PROJECT\SchoolLunchOrderSystem\SchoolLunchOrderSystem\SchoolLunchOrderSystem.cpp(2946,26): warning C4018: '<': signed/unsigned mismatch
+C:\Users\Jay\Desktop\CS103PROJECT\SchoolLunchOrderSystem\SchoolLunchOrderSystem\SchoolLunchOrderSystem.cpp(2988,26): warning C4018: '<': signed/unsigned mismatch
+C:\Users\Jay\Desktop\CS103PROJECT\SchoolLunchOrderSystem\SchoolLunchOrderSystem\SchoolLunchOrderSystem.cpp(3008,26): warning C4018: '<': signed/unsigned mismatch
+C:\Users\Jay\Desktop\CS103PROJECT\SchoolLunchOrderSystem\SchoolLunchOrderSystem\SchoolLunchOrderSystem.cpp(3034,25): warning C4018: '<': signed/unsigned mismatch
+C:\Users\Jay\Desktop\CS103PROJECT\SchoolLunchOrderSystem\SchoolLunchOrderSystem\SchoolLunchOrderSystem.cpp(3103,21): warning C4018: '<': signed/unsigned mismatch
+C:\Users\Jay\Desktop\CS103PROJECT\SchoolLunchOrderSystem\SchoolLunchOrderSystem\SchoolLunchOrderSystem.cpp(3123,21): warning C4018: '<': signed/unsigned mismatch
+C:\Users\Jay\Desktop\CS103PROJECT\SchoolLunchOrderSystem\SchoolLunchOrderSystem\SchoolLunchOrderSystem.cpp(3194,21): warning C4018: '<': signed/unsigned mismatch
+C:\Users\Jay\Desktop\CS103PROJECT\SchoolLunchOrderSystem\SchoolLunchOrderSystem\SchoolLunchOrderSystem.cpp(3223,21): warning C4018: '<': signed/unsigned mismatch
+C:\Users\Jay\Desktop\CS103PROJECT\SchoolLunchOrderSystem\SchoolLunchOrderSystem\SchoolLunchOrderSystem.cpp(3252,21): warning C4018: '<': signed/unsigned mismatch
+C:\Users\Jay\Desktop\CS103PROJECT\SchoolLunchOrderSystem\SchoolLunchOrderSystem\SchoolLunchOrderSystem.cpp(3325,21): warning C4018: '<': signed/unsigned mismatch
+C:\Users\Jay\Desktop\CS103PROJECT\SchoolLunchOrderSystem\SchoolLunchOrderSystem\SchoolLunchOrderSystem.cpp(3350,21): warning C4018: '<': signed/unsigned mismatch
+C:\Users\Jay\Desktop\CS103PROJECT\SchoolLunchOrderSystem\SchoolLunchOrderSystem\SchoolLunchOrderSystem.cpp(3375,21): warning C4018: '<': signed/unsigned mismatch
+C:\Users\Jay\Desktop\CS103PROJECT\SchoolLunchOrderSystem\SchoolLunchOrderSystem\SchoolLunchOrderSystem.cpp(3462,20): warning C4018: '<': signed/unsigned mismatch
+C:\Users\Jay\Desktop\CS103PROJECT\SchoolLunchOrderSystem\SchoolLunchOrderSystem\SchoolLunchOrderSystem.cpp(3463,21): warning C4018: '<': signed/unsigned mismatch
+C:\Users\Jay\Desktop\CS103PROJECT\SchoolLunchOrderSystem\SchoolLunchOrderSystem\SchoolLunchOrderSystem.cpp(3471,20): warning C4018: '<': signed/unsigned mismatch
+C:\Users\Jay\Desktop\CS103PROJECT\SchoolLunchOrderSystem\SchoolLunchOrderSystem\SchoolLunchOrderSystem.cpp(3472,21): warning C4018: '<': signed/unsigned mismatch
+C:\Users\Jay\Desktop\CS103PROJECT\SchoolLunchOrderSystem\SchoolLunchOrderSystem\SchoolLunchOrderSystem.cpp(3480,20): warning C4018: '<': signed/unsigned mismatch
+C:\Users\Jay\Desktop\CS103PROJECT\SchoolLunchOrderSystem\SchoolLunchOrderSystem\SchoolLunchOrderSystem.cpp(3481,21): warning C4018: '<': signed/unsigned mismatch
+C:\Users\Jay\Desktop\CS103PROJECT\SchoolLunchOrderSystem\SchoolLunchOrderSystem\SchoolLunchOrderSystem.cpp(3427,7): warning C4101: 'storeChar': unreferenced local variable
+C:\Users\Jay\Desktop\CS103PROJECT\SchoolLunchOrderSystem\SchoolLunchOrderSystem\SchoolLunchOrderSystem.cpp(3539,20): warning C4018: '<': signed/unsigned mismatch
+C:\Users\Jay\Desktop\CS103PROJECT\SchoolLunchOrderSystem\SchoolLunchOrderSystem\SchoolLunchOrderSystem.cpp(3540,21): warning C4018: '<': signed/unsigned mismatch
+C:\Users\Jay\Desktop\CS103PROJECT\SchoolLunchOrderSystem\SchoolLunchOrderSystem\SchoolLunchOrderSystem.cpp(3548,20): warning C4018: '<': signed/unsigned mismatch
+C:\Users\Jay\Desktop\CS103PROJECT\SchoolLunchOrderSystem\SchoolLunchOrderSystem\SchoolLunchOrderSystem.cpp(3549,21): warning C4018: '<': signed/unsigned mismatch
+C:\Users\Jay\Desktop\CS103PROJECT\SchoolLunchOrderSystem\SchoolLunchOrderSystem\SchoolLunchOrderSystem.cpp(3557,20): warning C4018: '<': signed/unsigned mismatch
+C:\Users\Jay\Desktop\CS103PROJECT\SchoolLunchOrderSystem\SchoolLunchOrderSystem\SchoolLunchOrderSystem.cpp(3558,21): warning C4018: '<': signed/unsigned mismatch
+C:\Users\Jay\Desktop\CS103PROJECT\SchoolLunchOrderSystem\SchoolLunchOrderSystem\SchoolLunchOrderSystem.cpp(3661,20): warning C4018: '<': signed/unsigned mismatch
+C:\Users\Jay\Desktop\CS103PROJECT\SchoolLunchOrderSystem\SchoolLunchOrderSystem\SchoolLunchOrderSystem.cpp(3785,20): warning C4018: '<': signed/unsigned mismatch
+C:\Users\Jay\Desktop\CS103PROJECT\SchoolLunchOrderSystem\SchoolLunchOrderSystem\SchoolLunchOrderSystem.cpp(4220,24): warning C4018: '<': signed/unsigned mismatch
+C:\Users\Jay\Desktop\CS103PROJECT\SchoolLunchOrderSystem\SchoolLunchOrderSystem\SchoolLunchOrderSystem.cpp(4289,28): warning C4018: '<': signed/unsigned mismatch
+C:\Users\Jay\Desktop\CS103PROJECT\SchoolLunchOrderSystem\SchoolLunchOrderSystem\SchoolLunchOrderSystem.cpp(4297,28): warning C4018: '<': signed/unsigned mismatch
+C:\Users\Jay\Desktop\CS103PROJECT\SchoolLunchOrderSystem\SchoolLunchOrderSystem\SchoolLunchOrderSystem.cpp(3778,24): warning C4101: 'isTrue3': unreferenced local variable
+C:\Users\Jay\Desktop\CS103PROJECT\SchoolLunchOrderSystem\SchoolLunchOrderSystem\SchoolLunchOrderSystem.cpp(4353,20): warning C4018: '<': signed/unsigned mismatch
+C:\Users\Jay\Desktop\CS103PROJECT\SchoolLunchOrderSystem\SchoolLunchOrderSystem\SchoolLunchOrderSystem.cpp(4714,24): warning C4018: '<': signed/unsigned mismatch
+C:\Users\Jay\Desktop\CS103PROJECT\SchoolLunchOrderSystem\SchoolLunchOrderSystem\SchoolLunchOrderSystem.cpp(4784,28): warning C4018: '<': signed/unsigned mismatch
+C:\Users\Jay\Desktop\CS103PROJECT\SchoolLunchOrderSystem\SchoolLunchOrderSystem\SchoolLunchOrderSystem.cpp(4792,28): warning C4018: '<': signed/unsigned mismatch
+C:\Users\Jay\Desktop\CS103PROJECT\SchoolLunchOrderSystem\SchoolLunchOrderSystem\SchoolLunchOrderSystem.cpp(4345,24): warning C4101: 'isTrue3': unreferenced local variable
+C:\Users\Jay\Desktop\CS103PROJECT\SchoolLunchOrderSystem\SchoolLunchOrderSystem\SchoolLunchOrderSystem.cpp(4977,21): warning C4018: '<': signed/unsigned mismatch
+C:\Users\Jay\Desktop\CS103PROJECT\SchoolLunchOrderSystem\SchoolLunchOrderSystem\SchoolLunchOrderSystem.cpp(4997,19): warning C4018: '<': signed/unsigned mismatch
+C:\Users\Jay\Desktop\CS103PROJECT\SchoolLunchOrderSystem\SchoolLunchOrderSystem\SchoolLunchOrderSystem.cpp(5086,18): warning C4018: '<': signed/unsigned mismatch
+C:\Users\Jay\Desktop\CS103PROJECT\SchoolLunchOrderSystem\SchoolLunchOrderSystem\SchoolLunchOrderSystem.cpp(1326): warning C4715: 'checkAccount': not all control paths return a value
+  LINK : C:\Users\Jay\Desktop\CS103PROJECT\SchoolLunchOrderSystem\SchoolLunchOrderSystem\Debug\SchoolLunchOrderSystem.exe not found or not built by the last incremental link; performing full link
+  SchoolLunchOrderSystem.vcxproj -> C:\Users\Jay\Desktop\CS103PROJECT\SchoolLunchOrderSystem\SchoolLunchOrderSystem\Debug\SchoolLunchOrderSystem.exe

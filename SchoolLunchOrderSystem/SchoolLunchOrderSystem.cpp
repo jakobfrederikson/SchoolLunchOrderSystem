@@ -3,7 +3,7 @@
 //School:				Yoobee College
 //Due Date:				28/06/2021
 //Project Reference:	Group Project School Lunch Ordering System
-//Project Description: 
+//Project Description:  N/A
 
 #include <iostream>
 #include <string>
@@ -225,19 +225,21 @@ vector<Order> checkoutOrder(vector<Order> order, vector<string>);
 void printWeeklyOrderReport(char);
 vector<Parent> getAllParentDetails();
 vector<Staff> getAllStaffDetails();
-void printAllParentDetails();
-void printAllStaffDetails();
+void printAllParentDetails(char);
+void printAllStaffDetails(char);
 vector<Order>getAllOrderDetails();
 vector<Payment>getAllPaymentDetails();
 vector<Login>& getAllLoginDetails(vector<Login>*);
-void updateParentDetails(string);
-void updateStaffDetails(string userID);
+void updateParentDetails(string, string);
+void updateStaffDetails(string, string);
 vector<BulkPayment> getAllBulkDetails();
 void printSpaces(int, int);
 
 //plus ultra
 vector<Order> getAllUnpaidOrders(string);
 void removeAllUnpaidOrders(string);
+void forgotPassword();//plusv2
+string printUpdateDetailsMenu();//plusv2
 
 int main()
 {
@@ -333,7 +335,8 @@ void loginRegistrationScreen() { // Code written by Jakob
 			<< "\n" << string(7, '\t') << "|----------------------------|"
 			<< "\n" << string(7, '\t') << "|1. Login                    |"
 			<< "\n" << string(7, '\t') << "|2. Register                 |"
-			<< "\n" << string(7, '\t') << "|3. Back                     |"
+			<< "\n" << string(7, '\t') << "|3. Forgot Password          |" //plusv2
+			<< "\n" << string(7, '\t') << "|4. Back                     |"
 			<< "\n" << string(7, '\t') << "|                            |"
 			<< "\n" << string(7, '\t') << "|Enter choice                |: ";
 		cin >> choice;
@@ -369,13 +372,156 @@ void loginRegistrationScreen() { // Code written by Jakob
 				cout << "\n" << string(7, '\t') << "Please enter a number relevant to the given menu.\n";
 			}
 		}
-		else if (choice == 3) {
+		else if (choice == 3) { //plusv2
+			forgotPassword();
+			break;
+		}
+		else if (choice == 4) { //plusv2
 			break;
 		}
 		else {
 			cout << "\n" << string(7, '\t') << "Please enter a number relevant to the given menu.\n";
 		}
 	} while (true);
+}
+
+//Code by Jay
+//This function lets the user change there password if they have forgotten it
+void forgotPassword() { //plusv2
+	vector<Parent> parent;
+	vector<Staff> staff;
+	vector<Login> login;
+	vector<Login>* ptrVectLogin;
+	ptrVectLogin = &login;
+	int choice, userVectLocation = 0;
+	bool isTrue, isFound = false;
+	string password, verifyPassword, userID;
+
+	staff = getAllStaffDetails();
+	parent = getAllParentDetails();
+	login = getAllLoginDetails(ptrVectLogin);
+
+	do {
+		system("cls");
+		cout << "\n" << string(8, '\t') << "|---------------------------------|"
+			<< "\n" << string(8, '\t') << "|          Forgot Password        |"
+			<< "\n" << string(8, '\t') << "|---------------------------------|"
+			<< "\n" << string(8, '\t') << "|--------------------------------------------|"
+			<< "\n" << string(8, '\t') << "| Type: quit@ to exit from password          |"
+			<< "\n" << string(8, '\t') << "|--------------------------------------------|"
+			<< "\n" << string(8, '\t') << "| Enter your ID: ";
+		cin >> userID;
+		cin.ignore();
+
+		if (userID == "quit@")
+			break;
+		else {
+			//get user location in vector
+			//check if id is parent
+			if (userID.substr(0, 3) == "270") {
+				for (int i = 0; i < parent.size(); i++) {
+					if (parent[i].parentID == userID) {
+						isFound = true;
+						userVectLocation = i;
+					}
+					else {
+						cout << "\n" << string(8, '\t') << "Invalid User ID. Please Try Again..\n" << "\n" << string(8, '\t');
+						isFound = false;
+						system("pause");
+					}
+				}
+			}
+			//check if id is staff
+			else {
+				for (int i = 0; i < staff.size(); i++) {
+					if (staff[i].staffID == userID) {
+						isFound = true;
+						userVectLocation = i;
+						break;
+					}
+					else {
+						cout << "\n" << string(8, '\t') << "Invalid User ID. Please Try Again..\n" << "\n" << string(8, '\t');
+						isFound = false;
+						system("pause");
+					}
+				}
+			}
+		}
+	} while (!isFound);
+
+	if (isFound) {
+		isTrue = true;
+		do {
+			do {
+				cout << "" << string(8, '\t') << "|-------------------------------------------------------------------|"
+					<< "\n" << string(8, '\t') << "| Use 8 or more characters with a mix of letters, numbers & symbols |"
+					<< "\n" << string(8, '\t') << "|-------------------------------------------------------------------|"
+					<< "\n" << string(8, '\t') << "|Enter New Password" << setw(17) << "|: ";
+				getline(cin, password);
+
+				if (checkPassword(password))
+					break;
+				else {
+					cout << "\n" << string(8, '\t') << "Invalid password, Please try again\n" << "\n" << string(8, '\t');
+					system("pause");
+				}
+				system("cls");
+			} while (true);
+
+			//verify password
+			do {
+				cout << "" << string(8, '\t') << "|Enter Verify Password" << setw(10) << "|: ";
+				getline(cin, verifyPassword);
+
+				if (verifyPassword == "") {
+					cout << "\n" << string(8, '\t') << "Password did not match, Please try again\n" << "\n" << string(8, '\t');
+					system("pause");;
+				}
+				else
+					break;
+			} while (true);
+
+			if (password != verifyPassword) {
+				cout << "\n" << string(8, '\t') << "Password did not match please try again...\n" << "\n" << string(8, '\t');
+				system("pause");
+			}
+			else {
+				//parent password change
+				if (userID.substr(0, 3) == "270") {
+					parent[userVectLocation].login.password = password;
+					for (int i = 0; i < login.size(); i++) {
+						if (parent[userVectLocation].login.userForeignID == login[i].userForeignID) {
+							login[i].password = parent[userVectLocation].login.password;
+						}
+					}
+				}
+				//staff paswword change
+				else {
+					staff[userVectLocation].login.password = password;
+					for (int i = 0; i < login.size(); i++) {
+						if (staff[userVectLocation].login.userForeignID == login[i].userForeignID) {
+							login[i].password = staff[userVectLocation].login.password;
+						}
+					}
+				}
+
+				ofstream loginFile("Login_file.csv", ios::out);
+				//ADD HEADERS TO CSV
+				loginFile << "PRIMARY_KEY" << "," << "FOREIGN_KEY" << "," << "USERNAME" << "," << "PASSWORD" << endl;
+				for (int i = 0; i < login.size(); i++) {
+					loginFile << login[i].loginID << "," << login[i].userForeignID << "," << login[i].username << "," << login[i].password << endl;
+				}
+				loginFile.close();
+
+				cout << "\n" << string(8, '\t') << "|--------------------------------------------|"
+					<< "\n" << string(8, '\t') << "|   Password has been successfully changed   |"
+					<< "\n" << string(8, '\t') << "|--------------------------------------------|" << "\n" << string(8, '\t');
+				isTrue = false;
+				system("pause");
+			}
+			system("cls");
+		} while (isTrue);
+	}
 }
 
 // Code written by Jakob
@@ -543,9 +689,11 @@ void registerStaff() {
 				} while (true);
 
 				// Writing Staff details to the staff file
+				//activate account
+				staffRegister.accountStatus = true;
 				ofstream staffFile("Staff_file.csv", ios::app);
 				staffFile << staffRegister.staffID << "," << staffRegister.fullName << "," << staffRegister.gender << "," << staffRegister.dob << "," << staffRegister.countNum << ","
-					<< staffRegister.email << "," << staffRegister.visaCardNo << "," << staffRegister.visaCardExpiry << endl;
+					<< staffRegister.email << "," << staffRegister.visaCardNo << "," << staffRegister.visaCardExpiry << "," << staffRegister.accountStatus << endl;
 				staffFile.close();
 
 				// Writing the staff login details to the login file
@@ -832,9 +980,11 @@ void registerParent() {
 				} while (true);
 
 				ofstream parentFile("Parent_file.csv", ios::app);
+				//activate account
+				parentRegister.accountStatus = true;
 				parentFile << parentRegister.parentID << "," << parentRegister.fullName << "," << parentRegister.gender << "," << parentRegister.dob << "," << parentRegister.countNum << ","
 					<< parentRegister.email << "," << parentRegister.childFullName << "," << parentRegister.childRoomNum << "," << parentRegister.visaCardNo << ","
-					<< parentRegister.visaCardExpiry << endl;
+					<< parentRegister.visaCardExpiry << "," << parentRegister.accountStatus << endl;
 				parentFile.close();
 
 				ofstream loginFile("Login_file.csv", ios::app);
@@ -1259,9 +1409,9 @@ void printMainMenu(vector<string> accDetails) {
 			break;
 		case 4:
 			if (accDetails[0].substr(0, 3) == "270")
-				updateParentDetails(accDetails[0]);
+				updateParentDetails(accDetails[0], "user");
 			else
-				updateStaffDetails(accDetails[0]);
+				updateStaffDetails(accDetails[0], "user");
 			break;
 		case 5:
 			SetConsoleTextAttribute(h, 7);
@@ -1631,16 +1781,17 @@ void createFoodMenuList() {
 
 // Code by Jay
 //This function updates the food menu list
-void updateMenuList() {
+void updateMenuList() { //plusv2
 	int choice = 0, id = 0, foodNum, col = 0, nxt = 0;
 	float foodPrice;
 	string isVegan, isGlutten, foodName, foodDescription, foodDietary;
 	FoodMenuList fml[6];
 	string foodDetails[10][3];
 	string(*ptrFD)[10][3] = &foodDetails;
+	bool isTrue;
 
 	getFoodMenuList(ptrFD);
-
+	system("cls");
 	for (int i = 0; i < 6; i++) {
 		fml[i].foodNum = stoi(foodDetails[0 + nxt][col]);
 		fml[i].foodName = foodDetails[1 + nxt][col];
@@ -1654,113 +1805,205 @@ void updateMenuList() {
 		}
 	}
 
-	cout << "\n\t\t\tPress 1 to change Menu 1"
-		<< "\n\t\t\tPress 2 to change Menu 2"
-		<< "\n\t\t\tPress 3 to change Menu 3"
-		<< "\n\t\t\tPress 4 to change Menu 4"
-		<< "\n\t\t\tPress 5 to change Menu 5"
-		<< "\n\t\t\tPress 6 to change Menu 6"
-		<< "\n\t\t\tChoose which menu you want to change: ";
-	cin >> id;
-	cin.ignore();
+	do {
+		isTrue = true;
+		printWeeklyMenu();
+		cout << "\n" << string(6, '\t') << "|------------------------------------------------|"
+			<< "\n" << string(6, '\t') << "|                 Update Food Menu               |"
+			<< "\n" << string(6, '\t') << "|------------------------------------------------|"
+			<< "\n" << string(6, '\t') << "| Press 1 to change Menu 1                       |"
+			<< "\n" << string(6, '\t') << "| Press 2 to change Menu 2                       |"
+			<< "\n" << string(6, '\t') << "| Press 3 to change Menu 3                       |"
+			<< "\n" << string(6, '\t') << "| Press 4 to change Menu 4                       |"
+			<< "\n" << string(6, '\t') << "| Press 5 to change Menu 5                       |"
+			<< "\n" << string(6, '\t') << "| Press 6 to change Menu 6                       |"
+			<< "\n" << string(6, '\t') << "| Press 7 to exit                                |"
+			<< "\n" << string(6, '\t') << "|------------------------------------------------|"
+			<< "\n" << string(6, '\t') << "| Choose which menu you want to change: ";
+		cin >> id;
+		cin.ignore();
+		if (id >= 1 && id <= 6) {
+			isTrue = false;
+		}
+		else if (id == 7) {
+			id = 0;
+			isTrue = false;
+		}
+		else {
+			cout << "\n" << string(8, '\t') << "|-----------------------------------|"
+				<< "\n" << string(8, '\t') << "| Invalid Input! Please try again.. |"
+				<< "\n" << string(8, '\t') << "|-----------------------------------|\n\t\t\t";
+			system("pause");
+		}
+		system("cls");
+	} while (isTrue);
 
-	cout << "\n\t\t\tPress 1 to change food name"
-		<< "\n\t\t\tPress 2 to change food description"
-		<< "\n\t\t\tPress 3 to change food dietary option"
-		<< "\n\t\t\tPress 4 to change food price"
-		<< "\n\t\t\tPress 5 to exit."
-		<< "\n\t\t\tChoose which food detail to change: ";
-	cin >> choice;
-	cin.ignore();
+	if (id != 0) {
+		do {
+			isTrue = true;
+			cout << "\n" << string(6, '\t') << "|------------------------------------------------|"
+				<< "\n" << string(6, '\t') << "|                 Update Food Menu               |"
+				<< "\n" << string(6, '\t') << "|------------------------------------------------|"
+				<< "\n" << string(6, '\t') << "| Current Food Name:           " << fml[id].foodName
+				<< "\n" << string(6, '\t') << "| Current Food Description:    " << fml[id].foodDescription
+				<< "\n" << string(6, '\t') << "| Current Food Dietary Option: " << fml[id].foodDietary
+				<< "\n" << string(6, '\t') << "| Current Food Price:          " << fml[id].foodPrice
+				<< "\n\n" << string(6, '\t') << "|------------------------------------------------|"
+				<< "\n" << string(6, '\t') << "|                 Update Food Menu               |"
+				<< "\n" << string(6, '\t') << "|------------------------------------------------|"
+				<< "\n" << string(6, '\t') << "| Press 1 to change food name                    |"
+				<< "\n" << string(6, '\t') << "| Press 2 to change food description             |"
+				<< "\n" << string(6, '\t') << "| Press 3 to change food dietary option          |"
+				<< "\n" << string(6, '\t') << "| Press 4 to change food price                   |"
+				<< "\n" << string(6, '\t') << "| Press 5 to exit.                               |"
+				<< "\n" << string(6, '\t') << "|------------------------------------------------|"
+				<< "\n" << string(6, '\t') << "|Choose which food detail to change: ";
+			cin >> choice;
+			cin.ignore();
 
-	id -= 1;
-	switch (choice) {
-	case 1:
-		do {
-			do {
-				cout << "\n\t\t\tEnter food name: ";
-				getline(cin, foodName);
-				if (foodName != " ")
+			id -= 1;
+			switch (choice) {
+			case 1:
+				do {
+					do {
+						cout << "\n" << string(6, '\t') << "|----------------------------------------------------"
+							<< "\n" << string(6, '\t') << "| Current Food name: " << fml[id].foodName
+							<< "\n" << string(6, '\t') << "| Enter food name: ";
+						getline(cin, foodName);
+						if (foodName != "" && foodName != " ")
+							break;
+						else {
+							cout << "\n" << string(6, '\t') << "Invalid input, Please enter food name.." << "\n" << string(6, '\t');
+							system("pause");
+						}
+						system("cls");
+					} while (true);
+					fml[id].foodName = foodName;
+					cout << "\n" << string(6, '\t') << "|------------------------------------------------|"
+						<< "\n" << string(6, '\t') << "|             Food Menu has been updated         |"
+						<< "\n" << string(6, '\t') << "|------------------------------------------------|" << "\n" << string(8, '\t');
+					system("pause");
+					isTrue = false;
 					break;
-				else
-					cout << "\n\t\t\tInvalid input, Please enter food name..";
-			} while (true);
-			fml[id].foodName = foodName;
-			break;
-		} while (true);
-		break;
-	case 2:
-		do {
-			do {
-				cout << "\n\t\t\tEnter food Description: ";
-				getline(cin, foodName);
-				if (foodName != " ")
+				} while (true);
+				break;
+			case 2:
+				do {
+					do {
+						cout << "\n" << string(6, '\t') << "|----------------------------------------------------"
+							<< "\n" << string(6, '\t') << "| Current food description: " << fml[id].foodDescription
+							<< "\n" << string(6, '\t') << "| Enter food description: ";
+						getline(cin, foodName);
+						if (foodName != "" && foodName != " ")
+							break;
+						else {
+							cout << "\n" << string(6, '\t') << "Invalid input, Please enter food name.." << "\n" << string(6, '\t');
+							system("pause");
+						}
+						system("cls");
+					} while (true);
+					fml[id].foodDescription = foodDescription;
+					cout << "\n" << string(6, '\t') << "|------------------------------------------------|"
+						<< "\n" << string(6, '\t') << "|             Food Menu has been updated         |"
+						<< "\n" << string(6, '\t') << "|------------------------------------------------|" << "\n" << string(8, '\t');
+					system("pause");
+					isTrue = false;
 					break;
-				else
-					cout << "\n\t\t\tInvalid input, Please enter food description..";
-			} while (true);
-			fml[id].foodDescription = foodDescription;
-			break;
-		} while (true);
-		break;
+				} while (true);
+				break;
 
-	case 3:
-		do {
-			do {
-				cout << "\n\t\t\tPress Y if food is vegan: "
-					<< "\n\t\t\tPress N if food is not vegan: "
-					<< "\n\t\t\tPlease enter your option: ";
-				getline(cin, isVegan);
-				if (isVegan != " " || isVegan.length() == 1)
+			case 3:
+				do {
+					do {
+						cout << "\n" << string(6, '\t') << "|-------------------------------------|"
+							<< "\n" << string(6, '\t') << "| Current Dietary option: " << fml[id].foodDietary
+							<< "\n" << string(6, '\t') << "| Press Y if food is vegan            "
+							<< "\n" << string(6, '\t') << "| Press N if food is not vegan        "
+							<< "\n" << string(6, '\t') << "|-------------------------------------|"
+							<< "\n" << string(6, '\t') << "| Please enter your option: ";
+						getline(cin, isVegan);
+						if (isVegan != " " || isVegan.length() == 1)
+							break;
+						else {
+							cout << "\n" << string(6, '\t') << "Invalid input, Please enter food name.." << "\n" << string(6, '\t');
+							system("pause");
+						}
+						system("cls");
+					} while (true);
+					do {
+						cout << "\n" << string(6, '\t') << "|-------------------------------------|"
+							<< "\n" << string(6, '\t') << "| Current Dietary option: " << fml[id].foodDietary
+							<< "\n" << string(6, '\t') << "| Press Y if food is Glutten free     "
+							<< "\n" << string(6, '\t') << "| Press N if food is not Glutten free "
+							<< "\n" << string(6, '\t') << "|-------------------------------------|"
+							<< "\n" << string(6, '\t') << "| Please enter your option: ";
+						getline(cin, isGlutten);
+						if (isGlutten != " " || isGlutten.length() == 1)
+							break;
+						else {
+							cout << "\n" << string(6, '\t') << "Invalid input, Please enter food name.." << "\n" << string(6, '\t');
+							system("pause");
+						}
+						system("cls");
+					} while (true);
+					if (tolower(isVegan[0]) == 'y')
+						isVegan = "Yes";
+					else
+						isVegan = "No";
+					if (tolower(isGlutten[0]) == 'y')
+						isGlutten = "Yes";
+					else
+						isGlutten = "No";
+					fml[id].foodDietary = "Vegan: " + isVegan + " Gluten: " + isGlutten;
 					break;
-				else
-					cout << "\n\t\t\tInvalid input, Please enter food dietary..";
-			} while (true);
-			do {
-				cout << "\n\t\t\tPress Y if food is Glutten free: "
-					<< "\n\t\t\tPress N if food is not Glutten free: "
-					<< "\n\t\t\tPlease enter your option: ";
-				getline(cin, isGlutten);
-				if (isGlutten != " " || isGlutten.length() == 1)
+				} while (true);
+				cout << "\n" << string(6, '\t') << "|------------------------------------------------|"
+					<< "\n" << string(6, '\t') << "|             Food Menu has been updated         |"
+					<< "\n" << string(6, '\t') << "|------------------------------------------------|" << "\n" << string(8, '\t');
+				system("pause");
+				isTrue = false;
+				break;
+			case 4:
+				do {
+					do {
+						cout << "\n" << string(6, '\t') << "|-------------------------------------|"
+							<< "\n" << string(6, '\t') << "| Current Food price: " << fml[id].foodPrice
+							<< "\n" << string(6, '\t') << "| Enter food Price: ";
+						cin >> foodPrice;
+						cin.ignore();
+						if (foodPrice != 0)
+							break;
+						else {
+							cout << "\n" << string(6, '\t') << "Invalid input, Please enter food name.." << "\n" << string(6, '\t');
+							system("pause");
+						}
+						system("cls");
+					} while (true);
+					fml[id].foodPrice = foodPrice;
 					break;
-				else
-					cout << "\n\t\t\tInvalid input, Please enter food dietary..";
-			} while (true);
-			if (tolower(isVegan[0]) == 'y')
-				isVegan = "Yes";
-			else
-				isVegan = "No";
-			if (tolower(isGlutten[0]) == 'y')
-				isGlutten = "Yes";
-			else
-				isGlutten = "No";
-			fml[id].foodDietary = "Vegan: " + isVegan + " Gluten: " + isGlutten;
-			break;
-		} while (true);
-		break;
-	case 4:
-		do {
-			do {
-				cout << "\n\t\t\tEnter food Price: ";
-				cin >> foodPrice;
-				cin.ignore();
-				if (foodPrice != 0)
-					break;
-				else
-					cout << "\n\t\t\tInvalid input, Please enter food price..";
-			} while (true);
-			fml[id].foodPrice = foodPrice;
-			break;
-		} while (true);
-		break;
-	case 5:
-		cout << "\n\t\t\tUser has not been updated...";
-		system("pause");
-		break;
-	default:
-		cout << "\n\t\t\tInvalid Input.. Please try again...";
-		break;
+				} while (true);
+				cout << "\n" << string(6, '\t') << "|------------------------------------------------|"
+					<< "\n" << string(6, '\t') << "|             Food Menu has been updated         |"
+					<< "\n" << string(6, '\t') << "|------------------------------------------------|" << "\n" << string(8, '\t');
+				system("pause");
+				isTrue = false;
+				break;
+			case 5:
+				cout << "\n\t\t\tUser has not been updated...";
+				system("pause");
+				isTrue = false;
+				break;
+			default:
+				cout << "\n" << string(8, '\t') << "|-----------------------------------|"
+					<< "\n" << string(8, '\t') << "| Invalid Input! Please try again.. |"
+					<< "\n" << string(8, '\t') << "|-----------------------------------|" << "\n" << string(8, '\t');
+				system("pause");
+				break;
+			}
+			system("cls");
+		} while (isTrue);
 	}
+
 	ofstream updateFoodMenu("FoodMenu_File.csv", ios::out);
 	for (int i = 0; i < 6; i++) {
 		updateFoodMenu << fml[i].foodNum << "," << fml[i].foodName << ","
@@ -1768,8 +2011,6 @@ void updateMenuList() {
 			<< "$" + to_string(fml[i].foodPrice) << endl;
 	}
 	updateFoodMenu.close();
-
-	cout << "\n\t\t\t*****Food Menu has been updated*****\n";
 }
 
 //Code by Jay
@@ -1924,7 +2165,7 @@ void createFiles() {
 		ofstream parentFile;
 		parentFile.open("Parent_file.csv", ios::out);
 		parentFile << "LOGIN_ID" << "," << "NAME" << "," << "GENDER" << "," << "D.O.B" << "," << "CONTACT_NUM" << "," << "EMAIL"
-			<< "," << "CHILD_NAME" << "," << "ROOM_NUM" << "," << "VISA_NUM" << "," << "VISA_EXPIRY" << endl;
+			<< "," << "CHILD_NAME" << "," << "ROOM_NUM" << "," << "VISA_NUM" << "," << "VISA_EXPIRY" << "," << "ACC_STATUS" << endl;
 		parentFile.close();
 	}
 
@@ -1932,7 +2173,7 @@ void createFiles() {
 		ofstream staffFile;
 		staffFile.open("Staff_file.csv", ios::out);
 		staffFile << "LOGIN_ID" << "," << "NAME" << "," << "GENDER" << "," << "D.O.B" << "," << "CONTACT_NUM" << "," << "EMAIL"
-			<< "," << "VISA_NUM" << "," << "VISA_EXPIRY" << endl;
+			<< "," << "VISA_NUM" << "," << "VISA_EXPIRY" << "," << "ACC_STATUS" << endl;
 		staffFile.close();
 	}
 
@@ -2933,42 +3174,108 @@ void printWeeklyOrderReport(char choice) {	//fix
 
 //Code by Jay
 //This function prints all of the parents details
-void printAllParentDetails() {
+void printAllParentDetails(char choice) {
 	vector<Parent> vectParent;
 	int lastpos = 0;
 
 	vectParent = getAllParentDetails();
-	for (int i = 0; i < 300; i++)
+	for (int i = 0; i < 190; i++)
 		cout << "-";
 	cout << "\n" << string(10, '\t') << "Parent Details\n";
 
-	for (int i = 0; i < 170; i++)
+	for (int i = 0; i < 190; i++)
 		cout << "-";
-	cout << "\n| ID      | Name \t\t| Gender   | DOB \t| Contact No. \t| Email\t\t      | Child Name\t    | Class No. | Visa card no \t\t| Visa Expiry date\n";
-	for (int i = 0; i < 170; i++)
+	cout << "\n| ID      | Name \t\t| Gender   | DOB \t| Contact No. \t| Email\t\t      | Child Name\t    | Class No. | Visa card no \t| Visa Expiry date   | Account Status\n";//might
+	for (int i = 0; i < 190; i++)
 		cout << "-";
 	cout << endl;
 
-	for (int i = 0; i < vectParent.size(); i++) {
-		cout << vectParent[i].parentID;
-		cout << "   " << vectParent[i].fullName;
-		printSpaces(vectParent[i].parentID.length(), 20);
-		cout << vectParent[i].gender;
-		printSpaces(vectParent[i].gender.length(), 11);
-		cout << vectParent[i].dob;
-		printSpaces(vectParent[i].dob.length(), 13);
-		cout << vectParent[i].countNum;
-		printSpaces(to_string(vectParent[i].countNum).length(), 16);
-		cout << vectParent[i].email;
-		printSpaces(vectParent[i].email.length(), 22);
-		cout << vectParent[i].childFullName;
-		printSpaces(vectParent[i].childFullName.length(), 22);
-		cout << vectParent[i].childRoomNum;
-		printSpaces(vectParent[i].childRoomNum.length(), 12);
-		cout << vectParent[i].visaCardNo;
-		printSpaces(vectParent[i].visaCardNo.length(), 16);
-		cout << vectParent[i].visaCardExpiry << endl;
+	if (tolower(choice) == 'y') {//if y then print all active users
+		for (int i = 0; i < vectParent.size(); i++) {
+			if (vectParent[i].accountStatus) {
+				cout << vectParent[i].parentID;
+				cout << "   " << vectParent[i].fullName;
+				printSpaces(vectParent[i].parentID.length(), 21);
+				cout << vectParent[i].gender;
+				printSpaces(vectParent[i].gender.length(), 11);
+				cout << vectParent[i].dob;
+				printSpaces(vectParent[i].dob.length(), 13);
+				cout << vectParent[i].countNum;
+				printSpaces(to_string(vectParent[i].countNum).length(), 16);
+				cout << vectParent[i].email;
+				printSpaces(vectParent[i].email.length(), 22);
+				cout << vectParent[i].childFullName;
+				printSpaces(vectParent[i].childFullName.length(), 22);
+				cout << vectParent[i].childRoomNum;
+				printSpaces(vectParent[i].childRoomNum.length(), 12);
+				cout << vectParent[i].visaCardNo;
+				printSpaces(vectParent[i].visaCardNo.length(), 16);
+				cout << vectParent[i].visaCardExpiry;
+				printSpaces(vectParent[i].visaCardExpiry.length(), 21);
+				if (vectParent[i].accountStatus)
+					cout << "ACTIVE\n";
+				else
+					cout << "INACTIVE\n";
+			}
+		}
 	}
+	else if (tolower(choice) == 'n') {//if n then print all inactive users
+		for (int i = 0; i < vectParent.size(); i++) {
+			if (!vectParent[i].accountStatus) {
+				cout << vectParent[i].parentID;
+				cout << "   " << vectParent[i].fullName;
+				printSpaces(vectParent[i].parentID.length(), 21);
+				cout << vectParent[i].gender;
+				printSpaces(vectParent[i].gender.length(), 11);
+				cout << vectParent[i].dob;
+				printSpaces(vectParent[i].dob.length(), 13);
+				cout << vectParent[i].countNum;
+				printSpaces(to_string(vectParent[i].countNum).length(), 16);
+				cout << vectParent[i].email;
+				printSpaces(vectParent[i].email.length(), 22);
+				cout << vectParent[i].childFullName;
+				printSpaces(vectParent[i].childFullName.length(), 22);
+				cout << vectParent[i].childRoomNum;
+				printSpaces(vectParent[i].childRoomNum.length(), 12);
+				cout << vectParent[i].visaCardNo;
+				printSpaces(vectParent[i].visaCardNo.length(), 16);
+				cout << vectParent[i].visaCardExpiry;
+				printSpaces(vectParent[i].visaCardExpiry.length(), 21);
+				if (vectParent[i].accountStatus)
+					cout << "ACTIVE\n";
+				else
+					cout << "INACTIVE\n";
+			}
+		}
+	}
+	else {//else print all users
+		for (int i = 0; i < vectParent.size(); i++) {
+			cout << vectParent[i].parentID;
+			cout << "   " << vectParent[i].fullName;
+			printSpaces(vectParent[i].parentID.length(), 21);
+			cout << vectParent[i].gender;
+			printSpaces(vectParent[i].gender.length(), 11);
+			cout << vectParent[i].dob;
+			printSpaces(vectParent[i].dob.length(), 13);
+			cout << vectParent[i].countNum;
+			printSpaces(to_string(vectParent[i].countNum).length(), 16);
+			cout << vectParent[i].email;
+			printSpaces(vectParent[i].email.length(), 22);
+			cout << vectParent[i].childFullName;
+			printSpaces(vectParent[i].childFullName.length(), 22);
+			cout << vectParent[i].childRoomNum;
+			printSpaces(vectParent[i].childRoomNum.length(), 12);
+			cout << vectParent[i].visaCardNo;
+			printSpaces(vectParent[i].visaCardNo.length(), 16);
+			cout << vectParent[i].visaCardExpiry;
+			printSpaces(vectParent[i].visaCardExpiry.length(), 21);
+			if (vectParent[i].accountStatus)
+				cout << "ACTIVE\n";
+			else
+				cout << "INACTIVE\n";
+		}
+	}
+
 	cout << "\n\t\t\t";
 
 	/*vectParent = getAllParentDetails();
@@ -2999,37 +3306,93 @@ void printSpaces(int num, int size) {
 
 //Code by Jay
 //This function prints all of the staffs details
-void printAllStaffDetails() {
+void printAllStaffDetails(char choice) {//might
 	vector<Staff> vectStaff;
 
 	vectStaff = getAllStaffDetails();
 	int lastpos = 0;
-	for (int i = 0; i < 150; i++)
+	for (int i = 0; i < 160; i++)
 		cout << "-";
 	cout << "\n" << string(9, '\t') << " Staff Details\n";
 
-	for (int i = 0; i < 150; i++)
+	for (int i = 0; i < 160; i++)
 		cout << "-";
-	cout << "\n| ID      | Name     \t\t| Gender   | DOB \t| Contact No. \t| Email\t\t\t| Visa card no\t\t  | Visa Expiry date\n";
-	for (int i = 0; i < 150; i++)
+	cout << "\n| ID      | Name     \t\t| Gender   | DOB \t| Contact No. \t| Email\t\t\t| Visa card no\t\t  | Visa Expiry date  | Account Status\n";
+	for (int i = 0; i < 160; i++)
 		cout << "-";
 	cout << endl;
-
-	for (int i = 0; i < vectStaff.size(); i++) {
-		cout << vectStaff[i].staffID;
-		cout << "   " << vectStaff[i].fullName;
-		printSpaces(vectStaff[i].fullName.length(), 23);
-		cout << vectStaff[i].gender;
-		printSpaces(vectStaff[i].gender.length(), 11);
-		cout << vectStaff[i].dob;
-		printSpaces(vectStaff[i].dob.length(), 13);
-		cout << vectStaff[i].countNum;
-		printSpaces(to_string(vectStaff[i].countNum).length(), 16);
-		cout << vectStaff[i].email;
-		printSpaces(vectStaff[i].email.length(), 24);
-		cout << vectStaff[i].visaCardNo;
-		printSpaces(vectStaff[i].visaCardNo.length(), 26);
-		cout << vectStaff[i].visaCardExpiry << endl;
+	if (tolower(choice) == 'y') {
+		for (int i = 0; i < vectStaff.size(); i++) {
+			if (vectStaff[i].accountStatus) {//print all active users
+				cout << vectStaff[i].staffID;
+				cout << "   " << vectStaff[i].fullName;
+				printSpaces(vectStaff[i].fullName.length(), 23);
+				cout << vectStaff[i].gender;
+				printSpaces(vectStaff[i].gender.length(), 11);
+				cout << vectStaff[i].dob;
+				printSpaces(vectStaff[i].dob.length(), 13);
+				cout << vectStaff[i].countNum;
+				printSpaces(to_string(vectStaff[i].countNum).length(), 16);
+				cout << vectStaff[i].email;
+				printSpaces(vectStaff[i].email.length(), 24);
+				cout << vectStaff[i].visaCardNo;
+				printSpaces(vectStaff[i].visaCardNo.length(), 25);
+				cout << vectStaff[i].visaCardExpiry;
+				printSpaces(vectStaff[i].visaCardExpiry.length(), 20);
+				if (vectStaff[i].accountStatus)
+					cout << "ACTIVE\n";
+				else
+					cout << "INACTIVE\n";
+			}
+		}
+	}
+	else if (tolower(choice) == 'n') {
+		for (int i = 0; i < vectStaff.size(); i++) {
+			if (!vectStaff[i].accountStatus) {//print all inactive users
+				cout << vectStaff[i].staffID;
+				cout << "   " << vectStaff[i].fullName;
+				printSpaces(vectStaff[i].fullName.length(), 23);
+				cout << vectStaff[i].gender;
+				printSpaces(vectStaff[i].gender.length(), 11);
+				cout << vectStaff[i].dob;
+				printSpaces(vectStaff[i].dob.length(), 13);
+				cout << vectStaff[i].countNum;
+				printSpaces(to_string(vectStaff[i].countNum).length(), 16);
+				cout << vectStaff[i].email;
+				printSpaces(vectStaff[i].email.length(), 24);
+				cout << vectStaff[i].visaCardNo;
+				printSpaces(vectStaff[i].visaCardNo.length(), 26);
+				cout << vectStaff[i].visaCardExpiry;
+				printSpaces(vectStaff[i].visaCardExpiry.length(), 20);
+				if (vectStaff[i].accountStatus)
+					cout << "ACTIVE\n";
+				else
+					cout << "INACTIVE\n";
+			}
+		}
+	}
+	else {//print all users
+		for (int i = 0; i < vectStaff.size(); i++) {
+			cout << vectStaff[i].staffID;
+			cout << "   " << vectStaff[i].fullName;
+			printSpaces(vectStaff[i].fullName.length(), 23);
+			cout << vectStaff[i].gender;
+			printSpaces(vectStaff[i].gender.length(), 11);
+			cout << vectStaff[i].dob;
+			printSpaces(vectStaff[i].dob.length(), 13);
+			cout << vectStaff[i].countNum;
+			printSpaces(to_string(vectStaff[i].countNum).length(), 16);
+			cout << vectStaff[i].email;
+			printSpaces(vectStaff[i].email.length(), 24);
+			cout << vectStaff[i].visaCardNo;
+			printSpaces(vectStaff[i].visaCardNo.length(), 26);
+			cout << vectStaff[i].visaCardExpiry;
+			printSpaces(vectStaff[i].visaCardExpiry.length(), 20);
+			if (vectStaff[i].accountStatus)
+				cout << "ACTIVE\n";
+			else
+				cout << "INACTIVE\n";
+		}
 	}
 	/*vectStaff = getAllStaffDetails();
 	cout << "\n\t\t\t|--------------------------------------------|"
@@ -3085,6 +3448,7 @@ vector<Parent> getAllParentDetails() {
 			parent.childRoomNum = parentData[7];
 			parent.visaCardNo = parentData[8];
 			parent.visaCardExpiry = parentData[9];
+			parent.accountStatus = stoi(parentData[10]);
 			vectParent.push_back(parent);
 		}
 		parentData.clear();
@@ -3160,6 +3524,7 @@ vector<Staff> getAllStaffDetails() {
 			staff.email = staffData[5];
 			staff.visaCardNo = staffData[6];
 			staff.visaCardExpiry = staffData[7];
+			staff.accountStatus = stoi(staffData[8]);
 			vectStaff.push_back(staff);
 		}
 		staffData.clear();
@@ -3404,7 +3769,7 @@ vector<BulkPayment> getAllBulkDetails() {
 
 //Code by Jay
 //This function updates the parents details
-void updateParentDetails(string userID) {
+void updateParentDetails(string userID, string user) {
 	vector<Parent> parent;
 	vector<Login> login;
 	vector<Login>* ptrVectLogin;
@@ -3412,6 +3777,7 @@ void updateParentDetails(string userID) {
 	int choice, userVectLocation = 0, tempContactNo;
 	bool isTrue, isTrue2, isTrue3, isFound = true;
 	string password, verifyPassword, tempData;
+	char accStatus;
 
 	parent = getAllParentDetails();
 	login = getAllLoginDetails(ptrVectLogin);
@@ -3443,20 +3809,22 @@ void updateParentDetails(string userID) {
 				isTrue = true;
 				do {
 					system("cls");
-					cout << "\n" << string(8, '\t') << "|--------------------------------------------|"
-						<< "\n" << string(8, '\t') << "|            UPDATE PARENT DETAILS           |"
-						<< "\n" << string(8, '\t') << "|--------------------------------------------|"
-						<< "\n" << string(8, '\t') << "| Press 1 to update Parent Name              |"
-						<< "\n" << string(8, '\t') << "| Press 2 to update Parent Gender            |"
-						<< "\n" << string(8, '\t') << "| Press 3 to update Parent Date of Birth     |"
-						<< "\n" << string(8, '\t') << "| Press 4 to update Parent Contact Number    |"
-						<< "\n" << string(8, '\t') << "| Press 5 to update Parent Email             |"
-						<< "\n" << string(8, '\t') << "| Press 6 to update Parent Child's Name      |"
-						<< "\n" << string(8, '\t') << "| Press 7 to update Parent Child's Room No.  |"
-						<< "\n" << string(8, '\t') << "| Press 8 to update Parent Visa Card No.     |"
-						<< "\n" << string(8, '\t') << "| Press 9 to update Parent Visa Expiry Date  |"
-						<< "\n" << string(8, '\t') << "| Press 0 to exit                            |"
-						<< "\n" << string(8, '\t') << "|--------------------------------------------|"
+					cout << "\n" << string(8, '\t') << "|---------------------------------------------|"
+						<< "\n" << string(8, '\t') << "|            UPDATE PARENT DETAILS            |"
+						<< "\n" << string(8, '\t') << "|---------------------------------------------|"
+						<< "\n" << string(8, '\t') << "| Press 1 to update Parent Name               |"
+						<< "\n" << string(8, '\t') << "| Press 2 to update Parent Gender             |"
+						<< "\n" << string(8, '\t') << "| Press 3 to update Parent Date of Birth      |"
+						<< "\n" << string(8, '\t') << "| Press 4 to update Parent Contact Number     |"
+						<< "\n" << string(8, '\t') << "| Press 5 to update Parent Email              |"
+						<< "\n" << string(8, '\t') << "| Press 6 to update Parent Child's Name       |"
+						<< "\n" << string(8, '\t') << "| Press 7 to update Parent Child's Room No.   |"
+						<< "\n" << string(8, '\t') << "| Press 8 to update Parent Visa Card No.      |"
+						<< "\n" << string(8, '\t') << "| Press 9 to update Parent Visa Expiry Date   |";
+					if (user == "admin")
+						cout << "\n" << string(8, '\t') << "| Press 10 to Activate/DeActivate Account     |";
+					cout << "\n" << string(8, '\t') << "| Press 0 to exit                             |"
+						<< "\n" << string(8, '\t') << "|---------------------------------------------|"
 						<< "\n" << string(8, '\t') << "| Choose option: ";
 					cin >> choice;
 					cin.ignore();
@@ -3788,22 +4156,71 @@ void updateParentDetails(string userID) {
 							}
 						} while (true);
 						break;
+					case 10:
+						if (user == "admin") {
+							cout << "\n" << string(8, '\t') << "| Current User Status: " << parent[userVectLocation].accountStatus;
+							do {
+								cout << "\n" << string(8, '\t') << "|--------------------------------------------|" //deku
+									<< "\n" << string(8, '\t') << "| Press Y to Activate User Account           |"
+									<< "\n" << string(8, '\t') << "| Press N to De-Activate User Account        |"
+									<< "\n" << string(8, '\t') << "|--------------------------------------------|"
+									<< "\n" << string(8, '\t') << "| Choose option: ";
+								cin >> accStatus;
+								if (tolower(accStatus) != 'y' && tolower(accStatus) != 'n')
+									cout << "\n" << string(8, '\t') << "Invalid input... Try Again...\n";
+								else {
+									{
+										cout << "\n" << string(8, '\t') << "|-----------------------------|"
+											<< "\n" << string(8, '\t') << "| Press 1 to Confirm           |"
+											<< "\n" << string(8, '\t') << "| Press 2 to Re-enter          |"
+											<< "\n" << string(8, '\t') << "| Press 3 to exit              |"
+											<< "\n" << string(8, '\t') << "|------------------------------|"
+											<< "\n" << string(8, '\t') << "| Choose option: ";
+										cin >> choice;
+										if (choice == 1) {
+											cout << "\n" << string(8, '\t') << "|---------------------------------------------|"
+												<< "\n" << string(8, '\t') << "|     USER ACCOUNT STATUS HAS BEEN UPDATED    |"
+												<< "\n" << string(8, '\t') << "|---------------------------------------------|\n" << string(8, '\t');
+											if (tolower(accStatus) == 'y')//activate account
+												parent[userVectLocation].accountStatus = true;
+											else if (tolower(accStatus) == 'n')//deactivate account
+												parent[userVectLocation].accountStatus = false;
+											system("pause");
+											break;
+										}
+										else if (choice == 2) {
+											cout << "\n" << string(8, '\t') << "|---------------------------------------------|";
+										}
+										else if (choice == 3) {
+											break;
+										}
+										else
+											cout << "\n" << string(8, '\t') << "Invalid Input.. Please Try Again..\n";
+									}
+								}
+							} while (true);
+						}
+						else {
+							cout << "\n" << string(8, '\t') << "Invalid input, Please try again\n" << string(8, '\t');
+							system("pause");
+						}
+						break;
 					case 0:
 						isTrue = false;
 						break;
 					default:
-						cout << "\n" << string(8, '\t') << "Invalid input, Please try again\n" << string(8, '\t') << "";
+						cout << "\n" << string(8, '\t') << "Invalid input, Please try again\n" << string(8, '\t');
 						system("pause");
 						break;
 					}
 					ofstream parentFile("Parent_file.csv", ios::out);
 					//ADD HEADERS TO CSV
 					parentFile << "LOGIN_ID" << "," << "NAME" << "," << "GENDER" << "," << "D.O.B" << "," << "CONTACT_NUM" << "," << "EMAIL"
-						<< "," << "CHILD_NAME" << "," << "ROOM_NUM" << "," << "VISA_NUM" << "," << "VISA_EXPIRY" << endl;
+						<< "," << "CHILD_NAME" << "," << "ROOM_NUM" << "," << "VISA_NUM" << "," << "VISA_EXPIRY" << "," << "ACC_STATUS" << endl;
 					for (int i = 0; i < parent.size(); i++) {
 						parentFile << parent[i].parentID << "," << parent[i].fullName << "," << parent[i].gender << "," << parent[i].dob << "," << parent[i].countNum << ","
 							<< parent[i].email << "," << parent[i].childFullName << "," << parent[i].childRoomNum << "," << parent[i].visaCardNo << ","
-							<< parent[i].visaCardExpiry << endl;
+							<< parent[i].visaCardExpiry << "," << parent[i].accountStatus << endl;
 					}
 					parentFile.close();
 				} while (isTrue);
@@ -3919,7 +4336,7 @@ void updateParentDetails(string userID) {
 
 //Code by Jay
 //This function is used to update Staff details
-void updateStaffDetails(string userID) {
+void updateStaffDetails(string userID, string user) {
 	vector<Staff> staff;
 	vector<Login> login;
 	vector<Login>* ptrLogin;
@@ -3927,6 +4344,7 @@ void updateStaffDetails(string userID) {
 	int choice, userVectLocation = 0, tempContactNo;
 	bool isTrue, isTrue2, isTrue3, isFound = true;
 	string password, verifyPassword, tempData;
+	char accStatus;
 
 	staff = getAllStaffDetails();
 	login = getAllLoginDetails(ptrLogin);
@@ -3968,8 +4386,10 @@ void updateStaffDetails(string userID) {
 						<< "\n" << string(8, '\t') << "| Press 4 to update Staff Contact Number     |"
 						<< "\n" << string(8, '\t') << "| Press 5 to update Staff Email              |"
 						<< "\n" << string(8, '\t') << "| Press 6 to update Staff Visa Card No.      |"
-						<< "\n" << string(8, '\t') << "| Press 7 to update Staff Visa Expiry Date   |"
-						<< "\n" << string(8, '\t') << "| Press 0 to exit                            |"
+						<< "\n" << string(8, '\t') << "| Press 7 to update Staff Visa Expiry Date   |";
+					if (user == "admin")
+						cout << "\n" << string(8, '\t') << "| Press 8 to Activate/DeActivate Account     |";
+					cout << "\n" << string(8, '\t') << "| Press 0 to exit                            |"
 						<< "\n" << string(8, '\t') << "t|--------------------------------------------|"
 						<< "\n" << string(8, '\t') << "| Choose option: ";
 					cin >> choice;
@@ -4230,6 +4650,55 @@ void updateStaffDetails(string userID) {
 							}
 						} while (true);
 						break;
+					case 8:
+						if (user == "admin") {
+							cout << "\n" << string(8, '\t') << "| Current User Status: " << staff[userVectLocation].accountStatus;
+							do {
+								cout << "\n" << string(8, '\t') << "|--------------------------------------------|" //deku
+									<< "\n" << string(8, '\t') << "| Press Y to Activate User Account           |"
+									<< "\n" << string(8, '\t') << "| Press N to De-Activate User Account        |"
+									<< "\n" << string(8, '\t') << "|--------------------------------------------|"
+									<< "\n" << string(8, '\t') << "| Choose option: ";
+								cin >> accStatus;
+								if (tolower(accStatus) != 'y' && tolower(accStatus) != 'n')
+									cout << "\n" << string(8, '\t') << "Invalid input... Try Again...\n";
+								else {
+									{
+										cout << "\n" << string(8, '\t') << "|-----------------------------|"
+											<< "\n" << string(8, '\t') << "| Press 1 to Confirm           |"
+											<< "\n" << string(8, '\t') << "| Press 2 to Re-enter          |"
+											<< "\n" << string(8, '\t') << "| Press 3 to exit              |"
+											<< "\n" << string(8, '\t') << "|------------------------------|"
+											<< "\n" << string(8, '\t') << "| Choose option: ";
+										cin >> choice;
+										if (choice == 1) {
+											cout << "\n" << string(8, '\t') << "|---------------------------------------------|"
+												<< "\n" << string(8, '\t') << "|     USER ACCOUNT STATUS HAS BEEN UPDATED    |"
+												<< "\n" << string(8, '\t') << "|---------------------------------------------|\n" << string(8, '\t') << "";
+											if (tolower(accStatus) == 'y')//activate account
+												staff[userVectLocation].accountStatus = true;
+											else if (tolower(accStatus) == 'n')//deactivate account
+												staff[userVectLocation].accountStatus = false;
+											system("pause");
+											break;
+										}
+										else if (choice == 2) {
+											cout << "\n" << string(8, '\t') << "|---------------------------------------------|";
+										}
+										else if (choice == 3) {
+											break;
+										}
+										else
+											cout << "\n" << string(8, '\t') << "Invalid Input.. Please Try Again..\n";
+									}
+								}
+							} while (true);
+						}
+						else {
+							cout << "\n" << string(8, '\t') << "Invalid input, Please try again\n" << string(8, '\t') << "";
+							system("pause");
+						}
+						break;
 					case 0:
 						isTrue = false;
 						break;
@@ -4241,10 +4710,10 @@ void updateStaffDetails(string userID) {
 					ofstream staffFile("Staff_file.csv", ios::out);
 					//ADD HEADERS TO CSV
 					staffFile << "LOGIN_ID" << "," << "NAME" << "," << "GENDER" << "," << "D.O.B" << "," << "CONTACT_NUM" << "," << "EMAIL"
-						<< "," << "VISA_NUM" << "," << "VISA_EXPIRY" << endl;
+						<< "," << "VISA_NUM" << "," << "VISA_EXPIRY" << "," << "ACC_STATUS" << endl;
 					for (int i = 0; i < staff.size(); i++) {
 						staffFile << staff[i].staffID << "," << staff[i].fullName << "," << staff[i].gender << "," << staff[i].dob << "," << staff[i].countNum << ","
-							<< staff[i].email << "," << staff[i].visaCardNo << "," << staff[i].visaCardExpiry << endl;
+							<< staff[i].email << "," << staff[i].visaCardNo << "," << staff[i].visaCardExpiry << "," << staff[i].accountStatus << endl;
 					}
 					staffFile.close();
 				} while (isTrue);
@@ -4365,6 +4834,7 @@ void updateStaffDetails(string userID) {
 void adminScreen() {
 	system("cls");
 	int choice;
+	char choice2;
 	bool isTrue = true;
 	HANDLE h = GetStdHandle(STD_OUTPUT_HANDLE);
 	SetConsoleTextAttribute(h, 10);
@@ -4381,7 +4851,9 @@ void adminScreen() {
 		cout << "\n" << string(8, '\t') << "|5. Weekly Complaint        |";
 		cout << "\n" << string(8, '\t') << "|6. Show all Parent         |";
 		cout << "\n" << string(8, '\t') << "|7. Show all Staff          |";
-		cout << "\n" << string(8, '\t') << "|8. Exit                    |";
+		cout << "\n" << string(8, '\t') << "|8. Update Parent Details   |";//plusv2
+		cout << "\n" << string(8, '\t') << "|9. Update Staff Deatils    |";//plusv2
+		cout << "\n" << string(8, '\t') << "|0. Exit                    |";//plusv2
 		cout << "\n" << string(8, '\t') << "|---------------------------|";
 		cout << "\n" << string(8, '\t') << " Enter option: ";
 		cin >> choice;
@@ -4410,20 +4882,77 @@ void adminScreen() {
 			break;
 		case 6:
 			system("cls");
-			printAllParentDetails();
+			do {
+				cout << "\n" << string(8, '\t') << "|-------------------------------------------------------|"
+					<< "\n" << string(8, '\t') << "|               Print All Parent Details                |"
+					<< "\n" << string(8, '\t') << "|-------------------------------------------------------|"
+					<< "\n" << string(8, '\t') << "| Press Y to print all active users                     |"
+					<< "\n" << string(8, '\t') << "| Press N to print all inactive users                     |"
+					<< "\n" << string(8, '\t') << "| Choose option: ";
+				cin >> choice2;
+
+				if (tolower(choice2) != 'y' && tolower(choice2) != 'n') {
+					cout << "\n" << string(8, '\t') << "Invalid Input.. Please Try Again.." << "\n" << string(8, '\t');
+					system("pause");
+				}
+				else
+					break;
+			} while (true);
+			printAllParentDetails(choice2);
 			system("pause");
 			break;
 		case 7:
 			system("cls");
-			printAllStaffDetails();
+			do {
+				cout << "\n" << string(8, '\t') << "|-------------------------------------------------------|"
+					<< "\n" << string(8, '\t') << "|                Print All Staff Details                |"
+					<< "\n" << string(8, '\t') << "|-------------------------------------------------------|"
+					<< "\n" << string(8, '\t') << "| Press Y to print all active users                     |"
+					<< "\n" << string(8, '\t') << "| Press N to print all inactive users                     |"
+					<< "\n" << string(8, '\t') << "| Choose option: ";
+				cin >> choice2;
+
+				if (tolower(choice2) != 'y' && tolower(choice2) != 'n') {
+					cout << "\n" << string(8, '\t') << "Invalid Input.. Please Try Again.." << "\n" << string(8, '\t');
+					system("pause");
+				}
+				else
+					break;
+			} while (true);
+			printAllStaffDetails(choice2);
 			system("pause");
 			break;
-		case 8:
+		case 8://plusv2
+			system("cls");
+			printAllParentDetails('a');
+			updateParentDetails(printUpdateDetailsMenu(), "admin");
+			break;
+		case 9://plusv2
+			system("cls");
+			printAllStaffDetails('a');
+			updateStaffDetails(printUpdateDetailsMenu(), "admin");
+			break;
+		case 0://plusv2
 			SetConsoleTextAttribute(h, 7);
 			isTrue = false;
 			break;
 		}
 	} while (isTrue);
+}
+
+//Code by Jay
+//This function is for the admin this will ask the admin to enter the id of the user to start editing the user details
+string printUpdateDetailsMenu() {//plusv2
+	string userID;
+
+	cout << "\n" << string(8, '\t') << "|-------------------------------------------------------|"
+		<< "\n" << string(8, '\t') << "|                    Update User Details                |"
+		<< "\n" << string(8, '\t') << "|-------------------------------------------------------|"
+		<< "\n" << string(8, '\t') << "| To Update User Detiails Please Provide The USER ID    |"
+		<< "\n" << string(8, '\t') << "| Enter USER ID: ";
+	cin >> userID;
+
+	return userID;
 }
 
 // Code by Jakob

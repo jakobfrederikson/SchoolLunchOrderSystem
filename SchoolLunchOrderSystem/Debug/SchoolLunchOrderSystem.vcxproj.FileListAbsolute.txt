@@ -11,3 +11,5 @@ C:\Users\Jay\Desktop\Group Project CS103\SchoolLunchOrderSystem\SchoolLunchOrder
 C:\Users\Jay\Desktop\Group Project CS103\SchoolLunchOrderSystem\SchoolLunchOrderSystem\Debug\SchoolLunchOrderSystem.pdb
 C:\Users\Jay\Desktop\Group Project C103\SchoolLunchOrderSystem\SchoolLunchOrderSystem\Debug\SchoolLunchOrderSystem.exe
 C:\Users\Jay\Desktop\Group Project C103\SchoolLunchOrderSystem\SchoolLunchOrderSystem\Debug\SchoolLunchOrderSystem.pdb
+C:\Users\Jay\Desktop\CS103PROJECT\SchoolLunchOrderSystem\SchoolLunchOrderSystem\Debug\SchoolLunchOrderSystem.exe
+C:\Users\Jay\Desktop\CS103PROJECT\SchoolLunchOrderSystem\SchoolLunchOrderSystem\Debug\SchoolLunchOrderSystem.pdb
