@@ -243,6 +243,7 @@ string printUpdateDetailsMenu();//plusv2
 
 int main()
 {
+	ShowWindow(GetConsoleWindow(), SW_MAXIMIZE); // set console window to full screen
 	createFiles();
 	return printMenuList();
 }
@@ -1376,7 +1377,7 @@ void printMainMenu(vector<string> accDetails) {
 		flag = 2;
 		userAccount = "staff";
 		userAccount2 = "Staff";
-		SetConsoleTextAttribute(h, 9);
+		SetConsoleTextAttribute(h, 14);
 	}
 
 	do {
@@ -1530,10 +1531,11 @@ void makeComplaint(vector<string> accDetails) {
 			if (tolower(choice) == 'y') {
 				compFile.open("Complaint_file.csv", ios::app);
 				if (compFile.is_open() == true) {
+					// accDetails[0] = User ID
 					// accDetails[1] = Person Name
 					// accDetails[4] = Contact Number
 					// accDetails[5] = Email
-					compFile << complaint.complaintID << "," << accDetails[1] << "," << date << "," << complaint.reason << ","
+					compFile << complaint.complaintID << "," << accDetails[0] << "," << accDetails[1] << "," << date << "," << complaint.reason << ","
 						<< complaint.complaintDescription << "," << accDetails[4] << "," << accDetails[5] << "," << complaint.actionStatus << endl;
 					break;
 				}
@@ -2180,8 +2182,8 @@ void createFiles() {
 	if (!compFile.good()) {
 		ofstream compFile;
 		compFile.open("Complaint_file.csv", ios::out);
-		compFile << "COMP_ID" << "," << "NAME" << "," << "DATE" << "," << "REASON" << "," << "DESC." << "," << "CONTACT NUM"
-			<< "," << "EMAIL" << "," << "ACTION STATUS" << endl;
+		compFile << "COMP_ID" << "," << "USER_ID" << "," << "NAME" << "," << "DATE" << "," << "REASON" << "," << "DESC." << "," << "CONTACT NUM"
+			<< "," << "EMAIL" << "," << "ACTION_STATUS" << endl;
 	}
 
 	// order file, dont add child name or classroom number
@@ -2227,21 +2229,22 @@ void orderFood(vector<string> user) {//plus ultra
 	if (unpaidOrders.size() != 0) { //if user has unpaid order prompt user if they want to pay it		
 		printAllOrders(unpaidOrders); //print unpaid orders
 		do {//ask user if they want to keep the saved order or delete it			
-			cout << "\n\t\t\t\t\t\t\t|-----------------------------------------------------------------| "
-				<< "\n\t\t\t\t\t\t\t| In your last session you've saved some orders"
+			cout << "\n\t\t\t\t\t\t\t|-----------------------------------------------------------------------| "
+				<< "\n\t\t\t\t\t\t\t| You have a saved order from a previous session!"
 				<< "\n\t\t\t\t\t\t\t| Would you like to proceed with your saved orders or delete it?"
+				<< "\n\t\t\t\t\t\t\t| (You can add more to your order if you choose to proceed)"
 				<< "\n\t\t\t\t\t\t\t| Press 'Y' to proceed with saved orders"
 				<< "\n\t\t\t\t\t\t\t| Press 'N' to delete saved orders"
 				<< "\n\t\t\t\t\t\t\t| Choose option: ";
 			cin >> choice;
-
+			
 			if (tolower(choice) == 'y') {
 				order = unpaidOrders;
 				do {
-					cout << "\n\t\t\t\t\t\t\t|-------------------------------------------| "
-						<< "\n\t\t\t\t\t\t\t| Would you like to proceed to checkout"
+					cout << "\n\t\t\t\t\t\t\t|-----------------------------------------------------------------| "
+						<< "\n\t\t\t\t\t\t\t| Would you like to proceed to checkout with your current order?"
 						<< "\n\t\t\t\t\t\t\t| Press 'Y' to proceed to checkout"
-						<< "\n\t\t\t\t\t\t\t| Press 'N' to add more orders"
+						<< "\n\t\t\t\t\t\t\t| Press 'N' to add more items"
 						<< "\n\t\t\t\t\t\t\t| Choose option: ";
 					cin >> choice;
 
@@ -2683,7 +2686,7 @@ vector<Order> checkoutOrder(vector<Order> order, vector<string> user) {
 			}
 			cout << "\n" << string(8, '\t') << "-----------------------------------";
 			for (int i = 0; i < order.size(); i++) {
-				cout << "\n" << string(8, '\t') << "| Order Date:    " << order[i].orderDate
+				cout << "\n" << string(8, '\t') << "| Order Date:     " << order[i].orderDate
 					<< "\n" << string(8, '\t') << "| Item Name:      " << order[i].itemName
 					<< "\n" << string(8, '\t') << "| Order Quantity: " << order[i].quantity
 					<< "\n" << string(8, '\t') << "| Price:          $" << order[i].price
@@ -4962,81 +4965,118 @@ void printWeeklyComplaint() {
 	vector<string> weeklyComplaint;
 	int id;
 	int flag = 0;
+	bool isTrue = true;
 
 	system("cls");
 	weeklyComplaint = getWeeklyComplaint();
 
 	// check week
 
+
 	if (weeklyComplaint.size() == 8) {
 		flag = 1;
 	}
-
-	if (flag != 1) {
-		cout << "\n\tID\tNAME\t\t\tDATE\t\tEMAIL\t\t\tREASON\t\t\tA_STATUS\n\n";
-		for (int i = 8; i < weeklyComplaint.size();) {
-			cout << "\t" << weeklyComplaint[i] << ".\t" << weeklyComplaint[i + 1] << "\t" << weeklyComplaint[i + 2] << "\t" << weeklyComplaint[i + 6] << "\t\t" << weeklyComplaint[i + 3] << "\t\t" << weeklyComplaint[i + 7] << endl;
-			i = i + 8;
-		}
-
-		cout << "\n\t|-------------------------------------------------|";
-		cout << "\n\t| Enter the complaint ID to change action status. |";
-		cout << "\n\t|       Enter 0 to return to previous menu.       |";
-		cout << "\n\t|-------------------------------------------------|";
-		cout << "\n\t| Enter choice: ";
-		cin >> id;
-
-		do {
-			if (id == 0) {
-				cout << "\n\t";
-				system("pause");
-				break;
-			}
-			else {
-				// starting from 8 to skip the file headers
-				for (i = 8; i < weeklyComplaint.size();) {
-					if (stoi(weeklyComplaint[i]) == id) {
-						char choice;
-						cout << "\n\tComplaint ID: " << weeklyComplaint[i];
-						cout << "\n\tName: " << weeklyComplaint[i + 1];
-						cout << "\n\tDate of complaint: " << weeklyComplaint[i + 2];
-						cout << "\n\tItem ordered: " << weeklyComplaint[i + 3];
-						cout << "\n\tComplaint description: " << weeklyComplaint[i + 4];
-						if (stoi(weeklyComplaint[i + 7]) == 0) { // If action status = 0
-							cout << "\n\n\tMark complaint as responded? y/n: ";
-							cin >> choice;
-							if (tolower(choice) == 'y') {
-								weeklyComplaint[i + 7] = "1";
-								changeActionStatus(weeklyComplaint);
-								break;
-							}
-							else {
-								break;
-							}
-						}
-						else { // if actions status = 1
-							cout << "\n\n\tUnmark complaint as responded? y/n: ";
-							cin >> choice;
-							if (tolower(choice) == 'y') {
-								weeklyComplaint[i + 7] = "0";
-								changeActionStatus(weeklyComplaint);
-								break;
-							}
-							else {
-								break;
-							}
-						}
-					}
-					i = i + 8;
+	do {
+		system("cls");
+		if (flag != 1) {
+			for (int i = 0; i < weeklyComplaint.size();) {
+				if (i == 0) {
+					cout << "\n";
+					cout << "\t" << weeklyComplaint[i];
+					printSpaces(weeklyComplaint[i].size(), 10);
 				}
+				else {
+					cout << "\t" << weeklyComplaint[i] << ".";
+					printSpaces(weeklyComplaint[i].size(), 9);
+				}
+
+				cout << weeklyComplaint[i + 1];
+				printSpaces(weeklyComplaint[i + 1].size(), 11);
+				cout << weeklyComplaint[i + 2];
+				printSpaces(weeklyComplaint[i + 2].size(), 20);
+				cout << weeklyComplaint[i + 3];
+				printSpaces(weeklyComplaint[i + 3].size(), 12);
+				cout << weeklyComplaint[i + 7];
+				printSpaces(weeklyComplaint[i + 7].size(), 26);
+				cout << weeklyComplaint[i + 4];
+				printSpaces(weeklyComplaint[i + 4].size(), 14);
+				cout << weeklyComplaint[i + 8];
+
+				if (i == 0) {
+					cout << "\n\n";
+				}
+				else {
+					cout << "\n";
+				}
+				i = i + 9;
 			}
-			break;
-		} while (true);
-	}
-	else {
-		cout << "\n\t[NO COMPLAINTS HAVE BEEN FOUND]\n\n\t";
-		system("pause");
-	}
+
+			cout << "\n\t|---------------------------------------------------|";
+			cout << "\n\t| Enter a complaint ID to change its action status. |";
+			cout << "\n\t| Enter 0 to return to previous menu.               |";
+			cout << "\n\t|---------------------------------------------------|";
+			cout << "\n\t| Enter choice: ";
+			cin >> id;
+
+			cout << "\n\n";
+			do {
+				if (id == 0) { // exit weekly complaint
+					isTrue = false;
+					break;
+				}
+				else {
+					system("cls");
+					// starting from 8 to skip the file headers
+					for (i = 9; i < weeklyComplaint.size();) {
+						if (stoi(weeklyComplaint[i]) == id) {
+							char choice;
+							cout << "\n\tComplaint ID:          " << weeklyComplaint[i];
+							cout << "\n\tName:                  " << weeklyComplaint[i + 2];
+							cout << "\n\tDate of complaint:     " << weeklyComplaint[i + 3];
+							cout << "\n\tReason:                " << weeklyComplaint[i + 4];
+							cout << "\n\tComplaint description: " << weeklyComplaint[i + 5];
+							if (stoi(weeklyComplaint[i + 8]) == 0) { // If action status = 0
+								cout << "\n\n\tMark complaint as resolved? y/n: ";
+								cin >> choice;
+								if (tolower(choice) == 'y') {
+									weeklyComplaint[i + 8] = "1";
+									changeActionStatus(weeklyComplaint);
+									cout << "\n\tThe complaints action status has been changed from \"0\" to \"1\".";
+									cout << "\n\n\t";
+									system("pause");
+									break;
+								}
+								else {
+									break;
+								}
+							}
+							else { // if actions status = 1
+								cout << "\n\n\tComplaint has already been marked as resolved. Revert changes? y/n: ";
+								cin >> choice;
+								if (tolower(choice) == 'y') {
+									weeklyComplaint[i + 8] = "0";
+									changeActionStatus(weeklyComplaint);
+									cout << "\n\n\tThe complaints action status has been changed from \"1\" to \"0\".";
+									cout << "\n\n\t";
+									system("pause");
+									break;
+								}
+								else {
+									break;
+								}
+							}
+						}
+						i = i + 9;
+					}
+				}
+				break;
+			} while (true);
+		}
+		else {
+			cout << "\n\t[NO COMPLAINTS HAVE BEEN FOUND]\n\n\t";
+			system("pause");
+		}
+	} while (isTrue);
 }
 
 // Code by Jakob
@@ -5084,12 +5124,11 @@ void changeActionStatus(vector<string> weeklyComplaint) {
 		}
 		else {
 			for (i = 0; i < weeklyComplaint.size();) {
-				changeFile << weeklyComplaint[i] << "," << weeklyComplaint[i + 1] << "," << weeklyComplaint[i + 2] << "," << weeklyComplaint[i + 3] <<
-					"," << weeklyComplaint[i + 4] << "," << weeklyComplaint[i + 5] << "," << weeklyComplaint[i + 6] << "," << weeklyComplaint[i + 7] << endl;
-				i = i + 8;
+				changeFile << weeklyComplaint[i] << "," << weeklyComplaint[i + 1] << "," << weeklyComplaint[i + 2] << "," << weeklyComplaint[i + 3] 
+					<< "," << weeklyComplaint[i + 4] << "," << weeklyComplaint[i + 5] << "," << weeklyComplaint[i + 6] << "," << weeklyComplaint[i + 7] 
+					<< "," << weeklyComplaint[i + 8] << endl;
+				i = i + 9;
 			}
-			cout << "\n\n\t";
-			system("pause");
 		}
 		changeFile.close();
 		break;
