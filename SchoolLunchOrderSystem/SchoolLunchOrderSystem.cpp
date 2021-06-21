@@ -184,6 +184,7 @@ struct FoodMenuList {
 	}
 };
 
+void programDescription();
 void loadingScreen();
 int printMenuList();
 void printBulkDiscounts();
@@ -245,35 +246,71 @@ int main()
 {
 	ShowWindow(GetConsoleWindow(), SW_MAXIMIZE); // set console window to full screen
 	//loadingScreen();
+	//programDescription();
 	createFiles();
 	return printMenuList();
 }
 
 void loadingScreen() {
 	string line, tempstr;
-	char ch;
-	ifstream hello;
-	int i = 0;
+	ifstream txtFile;
 
 	system("Color 0A");
-	hello.open("loadingScreen.txt", ios::in);
-	while (getline(hello, line)) {
+	txtFile.open("loadingScreen.txt", ios::in);
+	while (getline(txtFile, line)) {
 		stringstream ss(line);
 		while (!ss.eof()) {
 			getline(ss, tempstr);
 			cout << "\t\t\t\t\t\t" << tempstr;
-			Sleep(130);
+			Sleep(150);
 		}
 		cout << endl;
 	}
-	hello.close();
+	txtFile.close();
 
-	cout << "\n\t\t\t\t\t\t\t\t\t\t\t\tA program by Jay Anino and Jakob Frederikson.";
-	cout << "\n\t\t\t\t\t\t\t\t\t\t\t\tClass: Bachelor of Software Engineering";
+	// Project Details
+	cout << "\n\t\t\t\t\t\t\t\t\t\t\t\tProgrammers: Jay Anino and Jakob Frederikson";
+	cout << "\n\t\t\t\t\t\t\t\t\t\t\t\tClass: Bachelor of Software Engineering, first year";
+	cout << "\n\t\t\t\t\t\t\t\t\t\t\t\tPaper: CS103";
+	cout << "\n\t\t\t\t\t\t\t\t\t\t\t\tSchool: Yoobee College";
 	cout << "\n\t\t\t\t\t\t\t\t\t\t\t\t© Copyright 2021, all rights reserved.";
 	cout << endl;
-
 	cout << "\n\t\t\t\t\t\t\t\t\t\t\t\t";
+	system("pause");
+}
+
+// Written by Jakob
+// This function explains the reasoning behind the program.
+void programDescription() {
+	string line, tempstr;
+	ifstream txtFile;
+
+	system("cls");
+	txtFile.open("programDescription.txt", ios::in);
+	while (getline(txtFile, line)) {
+		stringstream ss(line);
+		while (!ss.eof()) {
+			getline(ss, tempstr);
+			cout << "\t\t\t\t\t\t\t\t" << tempstr;
+			Sleep(150);
+		}
+		cout << endl;
+	}
+	txtFile.close();
+
+	// Project Description
+	cout << "\n\t\t\t\t\t\t\t\tThis program was written for the Bachelor of Software Engineering CS103 paper at Yoobee College.";
+
+	cout << "\n\n\t\t\t\t\t\t\t\tWe were tasked with creating a school lunch ordering system that allows users to create their own";
+	cout << "\n\t\t\t\t\t\t\t\taccount, view the schools menu, and order food. Users are also able to file complaints and update";
+	cout << "\n\t\t\t\t\t\t\t\ttheir own account if they wish. An admin side also exists for viewing reports (view complaints, view";
+	cout << "\n\t\t\t\t\t\t\t\ttotal pay, view all members etc).";
+	cout << "\n\t\t\t\t\t\t\t\tA huge thank you to everyone who tested the program. You're feedback is incredibly valuable.";
+	cout << "\n\t\t\t\t\t\t\t\tAs for the programming language, it was written entirely in C++.";
+
+	cout << "\n\n\t\t\t\t\t\t\t\tThe following is not a complete build and errors may occur. We thank you for trying out our program!";
+
+	cout << "\n\n\t\t\t\t\t\t\t\t";
 	system("pause");
 }
 
@@ -301,6 +338,8 @@ int printMenuList() {
 		case 1:
 			system("cls");
 			printWeeklyMenu();
+			cout << "\n\n\t\tInterested in the menu? Sign up to be able to order!";
+			cout << "\n\t\t";
 			system("pause");
 			break;
 		case 2:
@@ -639,7 +678,7 @@ void registerStaff() {
 
 		do {
 			cout << "\t\t\t|Enter Visa Card Expiry Date       |"
-				<< "\n\t\t\t|DD/MM/YYYY                        |: ";
+				<< "\n\t\t\t|MM/YY                             |: ";
 			getline(cin, staffRegister.visaCardExpiry);
 			if (staffRegister.visaCardExpiry == "")
 				cout << "\n\t\t\tInvalid input, please Enter your visa card expiry date.\n";
@@ -704,7 +743,7 @@ void registerStaff() {
 		do {
 			cout << "\n\t\t\t|-----------------------------------|"
 				<< "\n\t\t\t|  Press Y to confirm Registration  |"
-				<< "\n\t\t\t|  Press N to choose other option   |"
+				<< "\n\t\t\t|  Press N to choose other options  |"
 				<< "\n\t\t\t|-----------------------------------|"
 				<< "\n\t\t\t|Please enter your option: ";
 			cin >> choice;
@@ -936,7 +975,7 @@ void registerParent() {
 
 		do {
 			cout << "\t\t\t|Enter Visa Card Expiry Date       | "
-				<< "\n\t\t\t|DD/MM/YYYY" << setw(27) << "|: ";
+				<< "\n\t\t\t|MM/YY" << setw(32) << "|: ";
 			getline(cin, parentRegister.visaCardExpiry);
 			if (parentRegister.visaCardExpiry == "")
 				cout << "\n\t\t\tInvalid input, Please Enter your Visa Card Expiry Date\n";
@@ -999,7 +1038,7 @@ void registerParent() {
 		do {
 			cout << "\n\t\t\t|-----------------------------------|"
 				<< "\n\t\t\t|  Press Y to confirm Registration  |"
-				<< "\n\t\t\t|  Press N to choose other option   |"
+				<< "\n\t\t\t|  Press N to choose other options  |"
 				<< "\n\t\t\t|-----------------------------------|"
 				<< "\n\t\t\t|Please enter your option: ";
 			cin >> choice;
@@ -1823,13 +1862,13 @@ string getCurrentDate() {
 void createFoodMenuList() {
 	string foodDetails[][3] = { {"1.","2.","3."},
 								{"Beef Noodles", "Chicken Burger", "Fruit Salad"},
-								{"Noodles cooked with beautiful sexy beef.", "Grilled chicken with lettuce and ketchup that will make the ladies want you.","Fruit Salad with Orange Pineapple Kiwi Melon and apple pen"},
+								{"Noodles cooked with luxruious beef.", "Grilled chicken with lettuce and ketchup that will make the ladies want you!","Fruit Salad with orange pineapple kiwi melon and apple."},
 								{"Vegan:No Gluten:No","Vegan:No Gluten:Yes","Vegan:Yes Gluten:Yes"},
 								{"$5.00","$5.00","$5.00"},
 								{"4.","5.","6."},
 								{"Eggs Benedict", "Egg Fried Rice", "French Toast Wee Wee"},
-								{"Pouched egg with bacon muffin and hollandaise sauce with a springkle of love", "Rice Egg and MSG just how Uncle Roger likes","Just toast and diabetes Wee Wee"},
-								{"Vegan: No Gluten:Yes","Vegan:No Gluten:No","Vegan:YES Gluten:Yes"},
+								{"Poached egg with bacon and hollandaise sauce on a muffin with a sprinkle of love.", "Rice egg and MSG just how Uncle Roger likes.","Just toast and diabetes. Oui oui!"},
+								{"Vegan:No Gluten:Yes","Vegan:No Gluten:No","Vegan:Yes Gluten:Yes"},
 								{"$5.00","$5.00","$5.00"} };
 
 	//creating food menu file
@@ -2300,11 +2339,11 @@ void orderFood(vector<string> user) {
 		do {//ask user if they want to keep the saved order or delete it			
 			cout << "\n\t\t\t\t\t\t\t|-----------------------------------------------------------------------| "
 				<< "\n\t\t\t\t\t\t\t| You have a saved order from a previous session!"
-				<< "\n\t\t\t\t\t\t\t| Would you like to proceed with your saved orders or delete it?"
-				<< "\n\t\t\t\t\t\t\t| (You can add more to your order if you choose to proceed)"
+				<< "\n\t\t\t\t\t\t\t| Would you like to proceed with your saved order(s) or delete them?"
+				<< "\n\t\t\t\t\t\t\t| (You can add more to your order if you choose to proceed!)"
 				<< "\n\t\t\t\t\t\t\t| Press 'Y' to proceed with saved orders"
 				<< "\n\t\t\t\t\t\t\t| Press 'N' to delete saved orders"
-				<< "\n\t\t\t\t\t\t\t| Choose option: ";
+				<< "\n\t\t\t\t\t\t\t| Enter option: ";
 			cin >> choice;
 
 			if (tolower(choice) == 'y') {
@@ -2314,7 +2353,7 @@ void orderFood(vector<string> user) {
 						<< "\n\t\t\t\t\t\t\t| Would you like to proceed to checkout with your current order?"
 						<< "\n\t\t\t\t\t\t\t| Press 'Y' to proceed to checkout"
 						<< "\n\t\t\t\t\t\t\t| Press 'N' to add more items"
-						<< "\n\t\t\t\t\t\t\t| Choose option: ";
+						<< "\n\t\t\t\t\t\t\t| Enter option: ";
 					cin >> choice;
 
 					if (tolower(choice) == 'y') {
@@ -2329,7 +2368,7 @@ void orderFood(vector<string> user) {
 					}
 					else {
 						cout << "\n\t\t\t\t\t\t\t|-----------------------------------|"
-							<< "\n\t\t\t\t\t\t\t| Invalid Input! Please try again.. |"
+							<< "\n\t\t\t\t\t\t\t| Invalid Input! Please try again. |"
 							<< "\n\t\t\t\t\t\t\t|-----------------------------------|";
 					}
 					system("cls");
@@ -2342,7 +2381,7 @@ void orderFood(vector<string> user) {
 			}
 			else {
 				cout << "\n\t\t\t\t\t\t\t|-----------------------------------|"
-					<< "\n\t\t\t\t\t\t\t| Invalid Input! Please try again.. |"
+					<< "\n\t\t\t\t\t\t\t| Invalid Input! Please try again. |"
 					<< "\n\t\t\t\t\t\t\t|-----------------------------------|";
 			}
 			system("cls");
@@ -2373,7 +2412,7 @@ void orderFood(vector<string> user) {
 				<< "\n\t\t\t\t\t\t\t| Press 4 to checkout             |"
 				<< "\n\t\t\t\t\t\t\t| Press 5 to exit                 |"
 				<< "\n\t\t\t\t\t\t\t|---------------------------------|"
-				<< "\n\t\t\t\t\t\t\t| Choose option: ";
+				<< "\n\t\t\t\t\t\t\t| Enter option: ";
 			cin >> orderNum;
 			switch (orderNum) {
 			case 1:
@@ -2406,7 +2445,7 @@ void orderFood(vector<string> user) {
 						<< "\n\t\t\t\t\t\t\t| Press 'N' to change the order        |"
 						<< "\n\t\t\t\t\t\t\t| Press 'Q' to quit from order         |"
 						<< "\n\t\t\t\t\t\t\t|--------------------------------------|"
-						<< "\n\t\t\t\t\t\t\t| Choose option: ";
+						<< "\n\t\t\t\t\t\t\t| Enter option: ";
 					cin >> choice;
 
 					if (tolower(choice) == 'y') {
@@ -2557,7 +2596,7 @@ vector<Order> removeOrder(vector<Order> order) {
 				<< "\n" << string(7, '\t') << "| Press 1 to remove orders  |"
 				<< "\n" << string(7, '\t') << "| Press 2 to quit           |"
 				<< "\n" << string(7, '\t') << "|---------------------------|"
-				<< "\n" << string(7, '\t') << "| Choose Option: ";
+				<< "\n" << string(7, '\t') << "| Enter Option: ";
 			cin >> numChoice;
 
 			switch (numChoice) {
@@ -2587,7 +2626,7 @@ vector<Order> removeOrder(vector<Order> order) {
 										<< "\n" << string(7, '\t') << "| Press 2 to remove order completely             |"
 										<< "\n" << string(7, '\t') << "| Press 3 to exit                                |"
 										<< "\n" << string(7, '\t') << "|------------------------------------------------|"
-										<< "\n" << string(7, '\t') << "| Choose Option: ";
+										<< "\n" << string(7, '\t') << "| Enter Option: ";
 									cin >> numChoice;
 
 									switch (numChoice) {
@@ -2769,7 +2808,7 @@ vector<Order> checkoutOrder(vector<Order> order, vector<string> user) {
 				<< "\n" << string(8, '\t') << "| Press 1 to proceed to checkout  |"
 				<< "\n" << string(8, '\t') << "| Press 2 to exit                 |"
 				<< "\n" << string(8, '\t') << "|---------------------------------|"
-				<< "\n" << string(8, '\t') << "| Choose option: ";
+				<< "\n" << string(8, '\t') << "| Enter option: ";
 			cin >> numChoice;
 
 			switch (numChoice) {
@@ -2780,7 +2819,7 @@ vector<Order> checkoutOrder(vector<Order> order, vector<string> user) {
 						<< "\n" << string(8, '\t') << "| Press 2 to save order for later     |"
 						<< "\n" << string(8, '\t') << "| Press 3 to exit                     |"
 						<< "\n" << string(8, '\t') << "|-------------------------------------|"
-						<< "\n" << string(8, '\t') << "| Choose option: ";
+						<< "\n" << string(8, '\t') << "| Enter option: ";
 					cin >> numChoice;
 
 					if (numChoice == 1) {
@@ -2792,7 +2831,7 @@ vector<Order> checkoutOrder(vector<Order> order, vector<string> user) {
 									<< "\n" << string(8, '\t') << "| Press 1 to use food pass                                    |"
 									<< "\n" << string(8, '\t') << "| Press 2 to proceed without using food pass                  |"
 									<< "\n" << string(8, '\t') << "|-------------------------------------------------------------|"
-									<< "\n" << string(8, '\t') << "| Choose option: ";
+									<< "\n" << string(8, '\t') << "| Enter option: ";
 								cin >> numChoice;
 								if (numChoice == 1) {
 									do {
@@ -2801,7 +2840,7 @@ vector<Order> checkoutOrder(vector<Order> order, vector<string> user) {
 											<< "\n" << string(8, '\t') << "| Press N to enter amount of food pass you wish to use  |"
 											<< "\n" << string(8, '\t') << "| Press Q to go back                                    |"
 											<< "\n" << string(8, '\t') << "|-------------------------------------------------------|"
-											<< "\n" << string(8, '\t') << "| Choose option: ";
+											<< "\n" << string(8, '\t') << "| Enter option: ";
 										cin >> choice;
 
 										if (tolower(choice) == 'y') {//pay in full
@@ -2810,7 +2849,7 @@ vector<Order> checkoutOrder(vector<Order> order, vector<string> user) {
 													<< "\n" << string(8, '\t') << "| Press Y to confirm Payment    |"
 													<< "\n" << string(8, '\t') << "| Press N to go back            |"
 													<< "\n" << string(8, '\t') << "|-------------------------------|"
-													<< "\n" << string(8, '\t') << "| Choose option: ";
+													<< "\n" << string(8, '\t') << "| Enter option: ";
 												cin >> choice;
 												if (tolower(choice) == 'y') {//if they paid full
 													vectBulk[idLoc].orderCount = vectBulk[idLoc].orderCount - (payment.totalPrice / 5);//decrement bulkpayment
@@ -2839,7 +2878,7 @@ vector<Order> checkoutOrder(vector<Order> order, vector<string> user) {
 											do {
 												do {
 													cout << "\n" << string(8, '\t') << "|-------------------------------------------------------------|"
-														<< "\n" << string(8, '\t') << "| Please enter the amount of food pass you wish to use: ";
+														<< "\n" << string(8, '\t') << "| Please enter the amount of food passes you wish to use: ";
 													cin >> num;
 
 													if (num > payment.totalPrice / 5 || num == 0) { // check if amount entered doesn't exceed the amount needed to pay
@@ -2854,7 +2893,7 @@ vector<Order> checkoutOrder(vector<Order> order, vector<string> user) {
 													<< "\n" << string(8, '\t') << "| Press Y to confirm Payment    |"
 													<< "\n" << string(8, '\t') << "| Press N to go back            |"
 													<< "\n" << string(8, '\t') << "|-------------------------------|"
-													<< "\n" << string(8, '\t') << "| Choose option: ";
+													<< "\n" << string(8, '\t') << "| Enter option: ";
 												cin >> choice;
 												discount = 5.00 * num;
 												if (tolower(choice) == 'y') {
@@ -2864,10 +2903,10 @@ vector<Order> checkoutOrder(vector<Order> order, vector<string> user) {
 																<< "\n" << string(7, '\t') << "| You opted to pay for all using Bulk Payment   |"
 																<< "\n" << string(7, '\t') << "| Do you wish to proceed with this payment?     |"
 																<< "\n" << string(7, '\t') << "|-------------------------------------------------------------------------------------------|"
-																<< "\n" << string(7, '\t') << "| Press 1 to proceed payment ***WARNING THERE IS NO GOING BACK AT THIS POINT THIS POINT***  |"
+																<< "\n" << string(7, '\t') << "| Press 1 to proceed payment ***WARNING! THERE IS NO GOING BACK BEYOND POINT THIS POINT***  |"
 																<< "\n" << string(7, '\t') << "| Press 2 to exit from payment                                                              |"
 																<< "\n" << string(7, '\t') << "|-------------------------------------------------------------------------------------------|"
-																<< "\n" << string(7, '\t') << "| Choose option: ";
+																<< "\n" << string(7, '\t') << "| Enter option: ";
 															cin >> numChoice;
 
 															if (numChoice == 1) {
@@ -2951,7 +2990,7 @@ vector<Order> checkoutOrder(vector<Order> order, vector<string> user) {
 									<< "\n" << string(8, '\t') << "| Press 3 Mastercard                       |"
 									<< "\n" << string(8, '\t') << "| Press 4 to exit                          |"
 									<< "\n" << string(8, '\t') << "|------------------------------------------|"
-									<< "\n" << string(8, '\t') << "| Choose option: ";
+									<< "\n" << string(8, '\t') << "| Enter option: ";
 								cin >> numChoice;
 
 								switch (numChoice) {
@@ -3882,7 +3921,7 @@ void updateParentDetails(string userID, string user) {
 				<< "\n" << string(8, '\t') << "| Press 2 to change password                 |"
 				<< "\n" << string(8, '\t') << "| Press 3 to exit                            |"
 				<< "\n" << string(8, '\t') << "|--------------------------------------------|"
-				<< "\n" << string(8, '\t') << "| Choose option: ";
+				<< "\n" << string(8, '\t') << "| Enter option: ";
 			cin >> choice;
 			if (choice == 1) {
 				isTrue = true;
@@ -3904,7 +3943,7 @@ void updateParentDetails(string userID, string user) {
 						cout << "\n" << string(8, '\t') << "| Press 10 to Activate/DeActivate Account     |";
 					cout << "\n" << string(8, '\t') << "| Press 0 to exit                             |"
 						<< "\n" << string(8, '\t') << "|---------------------------------------------|"
-						<< "\n" << string(8, '\t') << "| Choose option: ";
+						<< "\n" << string(8, '\t') << "| Enter option: ";
 					cin >> choice;
 					cin.ignore();
 
@@ -3925,7 +3964,7 @@ void updateParentDetails(string userID, string user) {
 									<< "\n" << string(8, '\t') << "| Press 2 to Re-enter Name                   |"
 									<< "\n" << string(8, '\t') << "| Press 3 to exit                            |"
 									<< "\n" << string(8, '\t') << "|--------------------------------------------|"
-									<< "\n" << string(8, '\t') << "| Choose option: ";
+									<< "\n" << string(8, '\t') << "| Enter option: ";
 								cin >> choice;
 								cin.ignore();
 								if (choice == 1) {
@@ -3961,7 +4000,7 @@ void updateParentDetails(string userID, string user) {
 									<< "\n" << string(8, '\t') << "| Press 2 to Re-enter Gender                 |"
 									<< "\n" << string(8, '\t') << "| Press 3 to exit                            |"
 									<< "\n" << string(8, '\t') << "|--------------------------------------------|"
-									<< "\n" << string(8, '\t') << "| Choose option: ";
+									<< "\n" << string(8, '\t') << "| Enter option: ";
 								cin >> choice;
 								if (choice == 1) {
 									cout << "\n" << string(8, '\t') << "|---------------------------------------------|"
@@ -3995,7 +4034,7 @@ void updateParentDetails(string userID, string user) {
 									<< "\n" << string(8, '\t') << "| Press 2 to Re-enter Date of Birth          |"
 									<< "\n" << string(8, '\t') << "| Press 3 to exit                            |"
 									<< "\n" << string(8, '\t') << "|--------------------------------------------|"
-									<< "\n" << string(8, '\t') << "| Choose option: ";
+									<< "\n" << string(8, '\t') << "| Enter option: ";
 								cin >> choice;
 								if (choice == 1) {
 									cout << "\n" << string(8, '\t') << "|---------------------------------------------|"
@@ -4029,7 +4068,7 @@ void updateParentDetails(string userID, string user) {
 									<< "\n" << string(8, '\t') << "| Press 2 to Re-enter Contact No             |"
 									<< "\n" << string(8, '\t') << "| Press 3 to exit                            |"
 									<< "\n" << string(8, '\t') << "|--------------------------------------------|"
-									<< "\n" << string(8, '\t') << "| Choose option: ";
+									<< "\n" << string(8, '\t') << "| Enter option: ";
 								cin >> choice;
 								if (choice == 1) {
 									cout << "\n" << string(8, '\t') << "|---------------------------------------------|"
@@ -4065,7 +4104,7 @@ void updateParentDetails(string userID, string user) {
 										<< "\n" << string(8, '\t') << "| Press 2 to Re-enter Email                  |"
 										<< "\n" << string(8, '\t') << "| Press 3 to exit                            |"
 										<< "\n" << string(8, '\t') << "|--------------------------------------------|"
-										<< "\n" << string(8, '\t') << "| Choose option: ";
+										<< "\n" << string(8, '\t') << "| Enter option: ";
 									cin >> choice;
 									if (choice == 1) {
 										cout << "\n" << string(8, '\t') << "|---------------------------------------------|"
@@ -4102,7 +4141,7 @@ void updateParentDetails(string userID, string user) {
 										<< "\n" << string(8, '\t') << "| Press 2 to Re-enter Child's name           |"
 										<< "\n" << string(8, '\t') << "| Press 3 to exit                            |"
 										<< "\n" << string(8, '\t') << "|--------------------------------------------|"
-										<< "\n" << string(8, '\t') << "| Choose option: ";
+										<< "\n" << string(8, '\t') << "| Enter option: ";
 									cin >> choice;
 									if (choice == 1) {
 										cout << "\n" << string(8, '\t') << "|---------------------------------------------|"
@@ -4138,7 +4177,7 @@ void updateParentDetails(string userID, string user) {
 										<< "\n" << string(8, '\t') << "| Press 2 to Re-enter Child's Room Number    |"
 										<< "\n" << string(8, '\t') << "| Press 3 to exit                            |"
 										<< "\n" << string(8, '\t') << "|--------------------------------------------|"
-										<< "\n" << string(8, '\t') << "| Choose option: ";
+										<< "\n" << string(8, '\t') << "| Enter option: ";
 									cin >> choice;
 									if (choice == 1) {
 										cout << "\n" << string(8, '\t') << "|---------------------------------------------|"
@@ -4174,7 +4213,7 @@ void updateParentDetails(string userID, string user) {
 										<< "\n" << string(8, '\t') << "| Press 2 to Re-enter Visa Card Number       |"
 										<< "\n" << string(8, '\t') << "| Press 3 to exit                            |"
 										<< "\n" << string(8, '\t') << "|--------------------------------------------|"
-										<< "\n" << string(8, '\t') << "| Choose option: ";
+										<< "\n" << string(8, '\t') << "| Enter option: ";
 									cin >> choice;
 									if (choice == 1) {
 										cout << "\n" << string(8, '\t') << "|---------------------------------------------|"
@@ -4210,7 +4249,7 @@ void updateParentDetails(string userID, string user) {
 										<< "\n" << string(8, '\t') << "| Press 2 to Re-enter Visa Card Expiry Date  |"
 										<< "\n" << string(8, '\t') << "| Press 3 to exit                            |"
 										<< "\n" << string(8, '\t') << "|--------------------------------------------|"
-										<< "\n" << string(8, '\t') << "| Choose option: ";
+										<< "\n" << string(8, '\t') << "| Enter option: ";
 									cin >> choice;
 									if (choice == 1) {
 										cout << "\n" << string(8, '\t') << "|---------------------------------------------|"
@@ -4241,7 +4280,7 @@ void updateParentDetails(string userID, string user) {
 									<< "\n" << string(8, '\t') << "| Press Y to Activate User Account           |"
 									<< "\n" << string(8, '\t') << "| Press N to De-Activate User Account        |"
 									<< "\n" << string(8, '\t') << "|--------------------------------------------|"
-									<< "\n" << string(8, '\t') << "| Choose option: ";
+									<< "\n" << string(8, '\t') << "| Enter option: ";
 								cin >> accStatus;
 								if (tolower(accStatus) != 'y' && tolower(accStatus) != 'n')
 									cout << "\n" << string(8, '\t') << "Invalid input... Try Again...\n";
@@ -4252,7 +4291,7 @@ void updateParentDetails(string userID, string user) {
 											<< "\n" << string(8, '\t') << "| Press 2 to Re-enter          |"
 											<< "\n" << string(8, '\t') << "| Press 3 to exit              |"
 											<< "\n" << string(8, '\t') << "|------------------------------|"
-											<< "\n" << string(8, '\t') << "| Choose option: ";
+											<< "\n" << string(8, '\t') << "| Enter option: ";
 										cin >> choice;
 										if (choice == 1) {
 											cout << "\n" << string(8, '\t') << "|---------------------------------------------|"
@@ -4309,7 +4348,7 @@ void updateParentDetails(string userID, string user) {
 						<< "\n" << string(8, '\t') << "| Press 1 to Change Password                 |"
 						<< "\n" << string(8, '\t') << "| Press 2 to exit                            |"
 						<< "\n" << string(8, '\t') << "|--------------------------------------------|"
-						<< "\n" << string(8, '\t') << "| Choose option: ";
+						<< "\n" << string(8, '\t') << "| Enter option: ";
 					cin >> choice;
 					cin.ignore();
 					if (choice == 1) {
@@ -4460,7 +4499,7 @@ void updateStaffDetails(string userID, string user) {
 				<< "\n" << string(8, '\t') << "| Press 2 to change password                 |"
 				<< "\n" << string(8, '\t') << "| Press 3 to exit                            |"
 				<< "\n" << string(8, '\t') << "|--------------------------------------------|"
-				<< "\n" << string(8, '\t') << "| Choose option: ";
+				<< "\n" << string(8, '\t') << "| Enter option: ";
 			cin >> choice;
 			if (choice == 1) {
 				isTrue = true;
@@ -4480,7 +4519,7 @@ void updateStaffDetails(string userID, string user) {
 						cout << "\n" << string(8, '\t') << "| Press 8 to Activate/DeActivate Account     |";
 					cout << "\n" << string(8, '\t') << "| Press 0 to exit                            |"
 						<< "\n" << string(8, '\t') << "t|--------------------------------------------|"
-						<< "\n" << string(8, '\t') << "| Choose option: ";
+						<< "\n" << string(8, '\t') << "| Enter option: ";
 					cin >> choice;
 					cin.ignore();
 
@@ -4501,7 +4540,7 @@ void updateStaffDetails(string userID, string user) {
 									<< "\n" << string(8, '\t') << "| Press 2 to Re-enter Name                   |"
 									<< "\n" << string(8, '\t') << "| Press 3 to exit                            |"
 									<< "\n" << string(8, '\t') << "|--------------------------------------------|"
-									<< "\n" << string(8, '\t') << "| Choose option: ";
+									<< "\n" << string(8, '\t') << "| Enter option: ";
 								cin >> choice;
 								cin.ignore();
 								if (choice == 1) {
@@ -4537,7 +4576,7 @@ void updateStaffDetails(string userID, string user) {
 									<< "\n" << string(8, '\t') << "| Press 2 to Re-enter Gender                 |"
 									<< "\n" << string(8, '\t') << "| Press 3 to exit                            |"
 									<< "\n" << string(8, '\t') << "|--------------------------------------------|"
-									<< "\n" << string(8, '\t') << "| Choose option: ";
+									<< "\n" << string(8, '\t') << "| Enter option: ";
 								cin >> choice;
 								if (choice == 1) {
 									cout << "\n" << string(8, '\t') << "|---------------------------------------------|"
@@ -4571,7 +4610,7 @@ void updateStaffDetails(string userID, string user) {
 									<< "\n" << string(8, '\t') << "| Press 2 to Re-enter Date of Birth          |"
 									<< "\n" << string(8, '\t') << "| Press 3 to exit                            |"
 									<< "\n" << string(8, '\t') << "|--------------------------------------------|"
-									<< "\n" << string(8, '\t') << "| Choose option: ";
+									<< "\n" << string(8, '\t') << "| Enter option: ";
 								cin >> choice;
 								if (choice == 1) {
 									cout << "\n" << string(8, '\t') << "|---------------------------------------------|"
@@ -4605,7 +4644,7 @@ void updateStaffDetails(string userID, string user) {
 									<< "\n" << string(8, '\t') << "| Press 2 to Re-enter Contact No             |"
 									<< "\n" << string(8, '\t') << "| Press 3 to exit                            |"
 									<< "\n" << string(8, '\t') << "|--------------------------------------------|"
-									<< "\n" << string(8, '\t') << "| Choose option: ";
+									<< "\n" << string(8, '\t') << "| Enter option: ";
 								cin >> choice;
 								if (choice == 1) {
 									cout << "\n" << string(8, '\t') << "|---------------------------------------------|"
@@ -4641,7 +4680,7 @@ void updateStaffDetails(string userID, string user) {
 										<< "\n" << string(8, '\t') << "| Press 2 to Re-enter Email                  |"
 										<< "\n" << string(8, '\t') << "| Press 3 to exit                            |"
 										<< "\n" << string(8, '\t') << "|--------------------------------------------|"
-										<< "\n" << string(8, '\t') << "| Choose option: ";
+										<< "\n" << string(8, '\t') << "| Enter option: ";
 									cin >> choice;
 									if (choice == 1) {
 										cout << "\n" << string(8, '\t') << "|---------------------------------------------|"
@@ -4678,7 +4717,7 @@ void updateStaffDetails(string userID, string user) {
 										<< "\n" << string(8, '\t') << "| Press 2 to Re-enter Visa Card Number       |"
 										<< "\n" << string(8, '\t') << "| Press 3 to exit                            |"
 										<< "\n" << string(8, '\t') << "|--------------------------------------------|"
-										<< "\n" << string(8, '\t') << "| Choose option: ";
+										<< "\n" << string(8, '\t') << "| Enter option: ";
 									cin >> choice;
 									if (choice == 1) {
 										cout << "\n" << string(8, '\t') << "|---------------------------------------------|"
@@ -4714,7 +4753,7 @@ void updateStaffDetails(string userID, string user) {
 										<< "\n" << string(8, '\t') << "| Press 2 to Re-enter Visa Card Expiry Date  |"
 										<< "\n" << string(8, '\t') << "| Press 3 to exit                            |"
 										<< "\n" << string(8, '\t') << "|--------------------------------------------|"
-										<< "\n" << string(8, '\t') << "| Choose option: ";
+										<< "\n" << string(8, '\t') << "| Enter option: ";
 									cin >> choice;
 									if (choice == 1) {
 										cout << "\n" << string(8, '\t') << "|---------------------------------------------|"
@@ -4745,7 +4784,7 @@ void updateStaffDetails(string userID, string user) {
 									<< "\n" << string(8, '\t') << "| Press Y to Activate User Account           |"
 									<< "\n" << string(8, '\t') << "| Press N to De-Activate User Account        |"
 									<< "\n" << string(8, '\t') << "|--------------------------------------------|"
-									<< "\n" << string(8, '\t') << "| Choose option: ";
+									<< "\n" << string(8, '\t') << "| Enter option: ";
 								cin >> accStatus;
 								if (tolower(accStatus) != 'y' && tolower(accStatus) != 'n')
 									cout << "\n" << string(8, '\t') << "Invalid input... Try Again...\n";
@@ -4756,7 +4795,7 @@ void updateStaffDetails(string userID, string user) {
 											<< "\n" << string(8, '\t') << "| Press 2 to Re-enter          |"
 											<< "\n" << string(8, '\t') << "| Press 3 to exit              |"
 											<< "\n" << string(8, '\t') << "|------------------------------|"
-											<< "\n" << string(8, '\t') << "| Choose option: ";
+											<< "\n" << string(8, '\t') << "| Enter option: ";
 										cin >> choice;
 										if (choice == 1) {
 											cout << "\n" << string(8, '\t') << "|---------------------------------------------|"
@@ -4812,7 +4851,7 @@ void updateStaffDetails(string userID, string user) {
 						<< "\n" << string(8, '\t') << "| Press 1 to Change Password                 |"
 						<< "\n" << string(8, '\t') << "| Press 2 to exit                            |"
 						<< "\n" << string(8, '\t') << "|--------------------------------------------|"
-						<< "\n" << string(8, '\t') << "| Choose option: ";
+						<< "\n" << string(8, '\t') << "| Enter option: ";
 					cin >> choice;
 					cin.ignore();
 					if (choice == 1) {
@@ -4980,7 +5019,7 @@ void adminScreen() {
 					<< "\n" << string(8, '\t') << "|-------------------------------------------------------|"
 					<< "\n" << string(8, '\t') << "| Press Y to print all active users                     |"
 					<< "\n" << string(8, '\t') << "| Press N to print all inactive users                     |"
-					<< "\n" << string(8, '\t') << "| Choose option: ";
+					<< "\n" << string(8, '\t') << "| Enter option: ";
 				cin >> choice2;
 
 				if (tolower(choice2) != 'y' && tolower(choice2) != 'n') {
@@ -5001,7 +5040,7 @@ void adminScreen() {
 					<< "\n" << string(8, '\t') << "|-------------------------------------------------------|"
 					<< "\n" << string(8, '\t') << "| Press Y to print all active users                     |"
 					<< "\n" << string(8, '\t') << "| Press N to print all inactive users                     |"
-					<< "\n" << string(8, '\t') << "| Choose option: ";
+					<< "\n" << string(8, '\t') << "| Enter option: ";
 				cin >> choice2;
 
 				if (tolower(choice2) != 'y' && tolower(choice2) != 'n') {
@@ -5223,6 +5262,7 @@ void changeActionStatus(vector<string> weeklyComplaint) {
 
 // Code by Jakob
 // This function outputs the number of total orders, date and total amount received.
+// This function does not currently include how much a bulk order has contributed to the total sales.
 void printWeeklySales() {
 	int lines = 0;
 	int col;
@@ -5318,6 +5358,7 @@ void updateWeeklyComplaint(string userID, string name, string contactNum, string
 		if (flag == 1) {
 			isTrue = true;
 			do {
+				// Gather entire file into a vector (vector<string> fileData)
 				complaintFile.open("Complaint_file.csv", ios::in);
 				while (getline(complaintFile, line)) {
 					stringstream ss(line);
@@ -5328,6 +5369,7 @@ void updateWeeklyComplaint(string userID, string name, string contactNum, string
 				}
 				complaintFile.close();
 
+				// Find where username is stored to update the details
 				for (i = 0; i < fileData.size(); i++) {
 					if (fileData[i] == userID) {
 						if (name != "+=-") {
@@ -5342,11 +5384,7 @@ void updateWeeklyComplaint(string userID, string name, string contactNum, string
 					}
 				}
 
-				for (i = 0; i < fileData.size(); i++) {
-					cout << fileData[i] << "\n";
-				}
-				cout << "\n\t";
-
+				// Write updated data to complaint file
 				ofstream writeFile("Complaint_file.csv", ios::out);
 				if (!writeFile.good()) {
 					cout << "\n\t\t\tError: Could not update complaint file with new data. Please check it is not currently open.";
@@ -5364,7 +5402,7 @@ void updateWeeklyComplaint(string userID, string name, string contactNum, string
 		}
 	}
 	else {
-		cout << "\n\t\tDIDN'T OPEN FILE";
+		cout << "\n\t\tCould not open file, please check that the complaint file is not currently open!";
 		system("pause");
 	}
 }
