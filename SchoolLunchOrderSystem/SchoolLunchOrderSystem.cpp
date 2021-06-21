@@ -184,6 +184,7 @@ struct FoodMenuList {
 	}
 };
 
+void loadingScreen();
 int printMenuList();
 void printBulkDiscounts();
 void printContactLocationDetails();
@@ -238,12 +239,42 @@ vector<Order> getAllUnpaidOrders(string);
 void removeAllUnpaidOrders(string);
 void forgotPassword();
 string printUpdateDetailsMenu();
+void updateWeeklyComplaint(string, string, string, string);
 
 int main()
 {
 	ShowWindow(GetConsoleWindow(), SW_MAXIMIZE); // set console window to full screen
+	//loadingScreen();
 	createFiles();
 	return printMenuList();
+}
+
+void loadingScreen() {
+	string line, tempstr;
+	char ch;
+	ifstream hello;
+	int i = 0;
+
+	system("Color 0A");
+	hello.open("loadingScreen.txt", ios::in);
+	while (getline(hello, line)) {
+		stringstream ss(line);
+		while (!ss.eof()) {
+			getline(ss, tempstr);
+			cout << "\t\t\t\t\t\t" << tempstr;
+			Sleep(130);
+		}
+		cout << endl;
+	}
+	hello.close();
+
+	cout << "\n\t\t\t\t\t\t\t\t\t\t\t\tA program by Jay Anino and Jakob Frederikson.";
+	cout << "\n\t\t\t\t\t\t\t\t\t\t\t\tClass: Bachelor of Software Engineering";
+	cout << "\n\t\t\t\t\t\t\t\t\t\t\t\t© Copyright 2021, all rights reserved.";
+	cout << endl;
+
+	cout << "\n\t\t\t\t\t\t\t\t\t\t\t\t";
+	system("pause");
 }
 
 // Code written by Jay and Jakob
@@ -253,6 +284,7 @@ int printMenuList() {
 
 	do {
 		system("cls");
+		system("Color 0F");
 		cout << "\n" << string(7, '\t') << "|-----------------------------------------|"
 			<< "\n" << string(7, '\t') << "|         SCHOOL LUNCH ORDER SYSTEM       |"
 			<< "\n" << string(7, '\t') << "|-----------------------------------------|"
@@ -534,42 +566,49 @@ void registerStaff() {
 	do { // Taking input for staff details
 		cin.ignore();
 		system("cls");
-		cout << "\n\t\t\t|----------------------------|"
-			<< "\n\t\t\t|     Staff REGISTRATION     |"
-			<< "\n\t\t\t|----------------------------|";
+		cout << "\n\t\t\t|----------------------------------|"
+			<< "\n\t\t\t|        Staff REGISTRATION        |"
+			<< "\n\t\t\t|----------------------------------|";
 		do {
-			cout << "\n\t\t\t|Enter Full name" << setw(16) << "|: ";
+			cout << "\n\t\t\t|Enter Full name" << setw(22) << "|: ";
 			getline(cin, staffRegister.fullName);
-			if (staffRegister.fullName == "")
+			if (staffRegister.fullName.length() < 4 || staffRegister.fullName.length() > 22) {
+				cout << "\n\t\t\tName was less than 4 characters or greater than 22 characters. Please try again.\n";
+			} else if (staffRegister.fullName == "")
 				cout << "\n\t\t\tInvalid input, please Enter your name.\n";
 			else
 				break;
 		} while (true);
 
 		do {
-			cout << "\t\t\t|Enter Gender" << setw(19) << "|: ";
+			cout << "\t\t\t|Enter Gender" << setw(23) << "|";
+			cout << "\n\t\t\t|E.g: Non-binary, Male, Female etc.|: ";
 			getline(cin, staffRegister.gender);
 			if (staffRegister.gender == "")
 				cout << "\n\t\t\tInvalid input, please Enter your gender.\n";
+			else if (staffRegister.gender.length() < 2 || staffRegister.gender.length() > 13)
+				cout << "\n\t\t\tYou entered less than 2 characters or more than 13 characters. Please try again.\n";
 			else
 				break;
 		} while (true);
 
 		do {
-			cout << "\t\t\t|Enter Date of birth         |"
-				<< "\n\t\t\t|DD/MM/YYYY                  |: " << setw(12);
+			cout << "\t\t\t|Enter Date of birth               |"
+				<< "\n\t\t\t|DD/MM/YYYY                        |: " << setw(18);
 			getline(cin, staffRegister.dob);
 			if (staffRegister.dob == "")
 				cout << "\n\t\t\tInvalid input, please Enter your date of birth.\n";
+			else if (staffRegister.dob.length() > 10 || staffRegister.dob.length() < 10)
+				cout << "\n\t\t\tYou entered less than 10 characters or more than 10 characters. Please try again.\n";
 			else
 				break;
 		} while (true);
 
 		do {
-			cout << "\t\t\t|Enter Contact Number" << setw(11) << "|: ";
+			cout << "\t\t\t|Enter Contact Number" << setw(17) << "|: ";
 			getline(cin, staffRegister.contactNum);
-			cin.ignore();
-			if (staffRegister.contactNum.length() < 9 || staffRegister.contactNum.length() > 10) {
+			//cin.ignore();
+			if (staffRegister.contactNum.length() < 9 || staffRegister.contactNum.length() > 12) {
 				cout << "\n\t\t\tInvalid input, please enter your contact number.\n";
 			}
 			else {
@@ -579,16 +618,18 @@ void registerStaff() {
 
 
 		do {
-			cout << "\t\t\t|Enter Email Address" << setw(12) << "|: ";
+			cout << "\t\t\t|Enter Email Address" << setw(18) << "|: ";
 			getline(cin, staffRegister.email);
 			if (staffRegister.email == "")
 				cout << "\n\t\t\tInvalid input, please Enter your email address.\n";
+			else if (staffRegister.email.length() < 4 || staffRegister.email.length() > 40)
+				cout << "\n\t\t\tInvalid input, please try again.\n";
 			else
 				break;
 		} while (true);
 
 		do {
-			cout << "\t\t\t|Enter Visa Card Number" << setw(9) << "|: ";
+			cout << "\t\t\t|Enter Visa Card Number" << setw(15) << "|: ";
 			getline(cin, staffRegister.visaCardNo);
 			if (staffRegister.visaCardNo == "")
 				cout << "\n\t\t\tInvalid input, please Enter your visa card number.\n";
@@ -597,8 +638,8 @@ void registerStaff() {
 		} while (true);
 
 		do {
-			cout << "\t\t\t|Enter Visa Card Expiry Date |"
-				<< "\n\t\t\t|DD/MM/YYYY                  |: ";
+			cout << "\t\t\t|Enter Visa Card Expiry Date       |"
+				<< "\n\t\t\t|DD/MM/YYYY                        |: ";
 			getline(cin, staffRegister.visaCardExpiry);
 			if (staffRegister.visaCardExpiry == "")
 				cout << "\n\t\t\tInvalid input, please Enter your visa card expiry date.\n";
@@ -808,58 +849,66 @@ void registerParent() {
 	system("cls");
 	do {
 		cin.ignore();
-		cout << "\n\t\t\t|----------------------------|"
-			<< "\n\t\t\t|     Parent REGISTRATION    |"
-			<< "\n\t\t\t|----------------------------|";
+		cout << "\n\t\t\t|----------------------------------|"
+			<< "\n\t\t\t|        Parent REGISTRATION       |"
+			<< "\n\t\t\t|----------------------------------|";
 		do {
-			cout << "\n\t\t\t|Enter Full name" << setw(16) << "|: ";
+			cout << "\n\t\t\t|Enter Full name" << setw(22) << "|: ";
 			getline(cin, parentRegister.fullName);
 			if (parentRegister.fullName == "")
-				cout << "\n\t\t\tInvalid input, Please Enter your name\n";
+				cout << "\n\t\t\tInvalid input, please try again.\n";
+			else if (parentRegister.fullName.length() < 3 || parentRegister.fullName.length() > 22)
+				cout << "\n\t\t\tInvalid input, please try again.\n";
 			else
 				break;
 		} while (true);
 
 		do {
-			cout << "\t\t\t|Enter Gender" << setw(19) << "|: ";
+			cout << "\t\t\t|Enter Gender" << setw(23) << "|";
+			cout << "\n\t\t\t|E.g. Non-binary, Male, Female etc.|: ";
 			getline(cin, parentRegister.gender);
 			if (parentRegister.gender == "")
-				cout << "\n\t\t\tInvalid input, Please Enter your gender\n";
+				cout << "\n\t\t\tInvalid input, please try again.\n";
+			else if (parentRegister.gender.length() < 2 || parentRegister.gender.length() > 13)
+				cout << "\n\t\t\tInvalid input, please try again.\n";
 			else
 				break;
 		} while (true);
 
 		do {
-			cout << "\t\t\t|Enter Date of birth" << setw(11) << "| "
-				<< "\n\t\t\t|DD/MM/YYYY" << setw(21) << "|: ";
+			cout << "\t\t\t|Enter Date of birth" << setw(17) << "| "
+				<< "\n\t\t\t|DD/MM/YYYY" << setw(27) << "|: ";
 			getline(cin, parentRegister.dob);
 			if (parentRegister.dob == "")
-				cout << "\n\t\t\tInvalid input, Please Enter your Date of birth\n";
+				cout << "\n\t\t\tInvalid input, please enter your date of birth\n";
+			else if (parentRegister.dob.length() < 10 || parentRegister.dob.length() > 10)
+				cout << "\n\t\t\tInvalid input, please try again.\n";
 			else
 				break;
 		} while (true);
 
 		do {
-			cout << "\t\t\t|Enter Contact Number" << setw(11) << "|: ";
+			cout << "\t\t\t|Enter Contact Number" << setw(17) << "|: ";
 			getline(cin, parentRegister.contactNum);
-
-			if (parentRegister.contactNum.length() < 9 || parentRegister.contactNum.length() > 10)
+			if (parentRegister.contactNum.length() < 9 || parentRegister.contactNum.length() > 12)
 				cout << "\n\t\t\tInvalid input, Please Enter your contact number.\n";
 			else
 				break;
 		} while (true);
 
 		do {
-			cout << "\t\t\t|Enter Email Address" << setw(12) << "|: ";
+			cout << "\t\t\t|Enter Email Address" << setw(18) << "|: ";
 			getline(cin, parentRegister.email);
 			if (parentRegister.email == "")
 				cout << "\n\t\t\tInvalid input, Please Enter your Email Address\n";
+			else if (parentRegister.email.length() < 3 || parentRegister.email.length() > 40)
+				cout << "\n\t\t\tInvalid input, please try again.\n";
 			else
 				break;
 		} while (true);
 
 		do {
-			cout << "\t\t\t|Enter Child's name" << setw(13) << "|: ";
+			cout << "\t\t\t|Enter Child's name" << setw(19) << "|: ";
 			getline(cin, parentRegister.childFullName);
 			if (parentRegister.childFullName == "")
 				cout << "\n\t\t\tInvalid input, Please Enter your Child's name\n";
@@ -868,7 +917,7 @@ void registerParent() {
 		} while (true);
 
 		do {
-			cout << "\t\t\t|Enter Child's Room Number" << setw(6) << "|: ";
+			cout << "\t\t\t|Enter Child's Room Number" << setw(12) << "|: ";
 			getline(cin, parentRegister.childRoomNum);
 			if (parentRegister.childRoomNum == "")
 				cout << "\n\t\t\tInvalid input, Please Enter your Child's Room Number\n";
@@ -877,7 +926,7 @@ void registerParent() {
 		} while (true);
 
 		do {
-			cout << "\t\t\t|Enter Visa Card Number" << setw(9) << "|: ";
+			cout << "\t\t\t|Enter Visa Card Number" << setw(15) << "|: ";
 			getline(cin, parentRegister.visaCardNo);
 			if (parentRegister.visaCardNo == "")
 				cout << "\n\t\t\tInvalid input, Please Enter your Visa Card Number\n";
@@ -886,8 +935,8 @@ void registerParent() {
 		} while (true);
 
 		do {
-			cout << "\t\t\t|Enter Visa Card Expiry Date | "
-				<< "\n\t\t\t|DD/MM/YYYY" << setw(21) << "|: ";
+			cout << "\t\t\t|Enter Visa Card Expiry Date       | "
+				<< "\n\t\t\t|DD/MM/YYYY" << setw(27) << "|: ";
 			getline(cin, parentRegister.visaCardExpiry);
 			if (parentRegister.visaCardExpiry == "")
 				cout << "\n\t\t\tInvalid input, Please Enter your Visa Card Expiry Date\n";
@@ -3802,6 +3851,11 @@ void updateParentDetails(string userID, string user) {
 	string password, verifyPassword, tempData;
 	char accStatus;
 
+	// Code by Jakob
+	string name = "+=-";
+	string contactNum = "+=-";
+	string email = "+=-";
+
 	parent = getAllParentDetails();
 	login = getAllLoginDetails(ptrVectLogin);
 	//get user location in vector
@@ -3878,7 +3932,8 @@ void updateParentDetails(string userID, string user) {
 									cout << "\n" << string(8, '\t') << "|---------------------------------------------|"
 										<< "\n" << string(8, '\t') << "|            NAME HAS BEEN UPDATED            |"
 										<< "\n" << string(8, '\t') << "|---------------------------------------------|\n" << string(8, '\t') << "";
-									parent[userVectLocation].fullName = tempData;
+									parent[userVectLocation].fullName = tempData;									
+									name = tempData; // Code by Jakob
 									system("pause");
 									break;
 								}
@@ -3933,7 +3988,7 @@ void updateParentDetails(string userID, string user) {
 							cout << "\n" << string(8, '\t') << "| Enter Date of birth" << setw(12) << "|: ";
 							getline(cin, tempData);
 							if (tempData == "")
-								cout << "\n" << string(8, '\t') << "Invalid input, Please Enter your Date of birth\n";
+								cout << "\n" << string(8, '\t') << "Invalid input, please enter your date of birth.\n";
 							else {
 								cout << "\n" << string(8, '\t') << "|--------------------------------------------|"
 									<< "\n" << string(8, '\t') << "| Press 1 to Confirm Date of Birth           |"
@@ -3981,6 +4036,7 @@ void updateParentDetails(string userID, string user) {
 										<< "\n" << string(8, '\t') << "|        CONTACT NO. HAS BEEN UPDATED         |"
 										<< "\n" << string(8, '\t') << "|---------------------------------------------|\n" << string(8, '\t') << "";
 									parent[userVectLocation].contactNum = tempData;
+									contactNum = tempData; // Code by Jakob
 									system("pause");
 									break;
 								}
@@ -4016,6 +4072,7 @@ void updateParentDetails(string userID, string user) {
 											<< "\n" << string(8, '\t') << "|            EMAIL HAS BEEN UPDATED           |"
 											<< "\n" << string(8, '\t') << "|---------------------------------------------|\n\t\t\t";
 										parent[userVectLocation].email = tempData;
+										email = tempData; // Code by Jakob
 										system("pause");
 										break;
 									}
@@ -4233,7 +4290,7 @@ void updateParentDetails(string userID, string user) {
 						system("pause");
 						break;
 					}
-					ofstream parentFile("Parent_file.csv", ios::out);
+					ofstream parentFile("Parent_file.csv", ios::out);					
 					//ADD HEADERS TO CSV
 					parentFile << "LOGIN_ID" << "," << "NAME" << "," << "GENDER" << "," << "D.O.B" << "," << "CONTACT_NUM" << "," << "EMAIL"
 						<< "," << "CHILD_NAME" << "," << "ROOM_NUM" << "," << "VISA_NUM" << "," << "VISA_EXPIRY" << "," << "ACC_STATUS" << endl;
@@ -4352,6 +4409,11 @@ void updateParentDetails(string userID, string user) {
 			<< "\n" << string(8, '\t') << "|--------------------------------------------|\n" << string(8, '\t') << "";
 		system("pause");
 	}
+
+	// Code by Jakob
+	if (name != "+=-" || contactNum != "+=-" || email != "+=-") {
+		updateWeeklyComplaint(userID, name, contactNum, email);
+	}
 }
 
 //Code by Jay
@@ -4365,6 +4427,11 @@ void updateStaffDetails(string userID, string user) {
 	bool isTrue, isTrue2, isTrue3, isFound = true;
 	string password, verifyPassword, tempData;
 	char accStatus;
+
+	// Code by Jakob
+	string name = "+=-";
+	string contactNum = "+=-";
+	string email = "+=-";
 
 	staff = getAllStaffDetails();
 	login = getAllLoginDetails(ptrLogin);
@@ -4442,6 +4509,7 @@ void updateStaffDetails(string userID, string user) {
 										<< "\n" << string(8, '\t') << "|            NAME HAS BEEN UPDATED            |"
 										<< "\n" << string(8, '\t') << "|---------------------------------------------|\n" << string(8, '\t') << "";
 									staff[userVectLocation].fullName = tempData;
+									name = tempData; // Code by Jakob
 									system("pause");
 									break;
 								}
@@ -4544,6 +4612,7 @@ void updateStaffDetails(string userID, string user) {
 										<< "\n" << string(8, '\t') << "|        CONTACT NO. HAS BEEN UPDATED         |"
 										<< "\n" << string(8, '\t') << "|---------------------------------------------|\n" << string(8, '\t') << "";
 									staff[userVectLocation].contactNum = tempData;
+									contactNum = tempData; // Code by Jakob
 									system("pause");
 									break;
 								}
@@ -4579,6 +4648,7 @@ void updateStaffDetails(string userID, string user) {
 											<< "\n" << string(8, '\t') << "|            EMAIL HAS BEEN UPDATED           |"
 											<< "\n" << string(8, '\t') << "|---------------------------------------------|\n" << string(8, '\t') << "";
 										staff[userVectLocation].email = tempData;
+										email = tempData; // Code by Jakob
 										system("pause");
 										break;
 									}
@@ -4844,6 +4914,11 @@ void updateStaffDetails(string userID, string user) {
 			<< "\n" << string(8, '\t') << "|--------------------------------------------|\n" << string(8, '\t');
 		system("pause");
 	}
+
+	// Code by Jakob
+	if (name != "+=-" || contactNum != "+=-" || email != "+=-") {
+		updateWeeklyComplaint(userID, name, contactNum, email);
+	}
 }
 
 // Code by Jakob
@@ -4984,9 +5059,6 @@ void printWeeklyComplaint() {
 	system("cls");
 	weeklyComplaint = getWeeklyComplaint();
 
-	// check week
-
-
 	if (weeklyComplaint.size() == 8) {
 		flag = 1;
 	}
@@ -5007,11 +5079,11 @@ void printWeeklyComplaint() {
 				cout << weeklyComplaint[i + 1];
 				printSpaces(weeklyComplaint[i + 1].size(), 11);
 				cout << weeklyComplaint[i + 2];
-				printSpaces(weeklyComplaint[i + 2].size(), 20);
+				printSpaces(weeklyComplaint[i + 2].size(), 22);
 				cout << weeklyComplaint[i + 3];
 				printSpaces(weeklyComplaint[i + 3].size(), 12);
 				cout << weeklyComplaint[i + 7];
-				printSpaces(weeklyComplaint[i + 7].size(), 26);
+				printSpaces(weeklyComplaint[i + 7].size(), 30);
 				cout << weeklyComplaint[i + 4];
 				printSpaces(weeklyComplaint[i + 4].size(), 14);
 				cout << weeklyComplaint[i + 8];
@@ -5214,4 +5286,85 @@ void printWeeklySales() {
 	}
 	cout << "\n\n\t\t\t";
 	system("pause");
+}
+
+// Code by Jakob
+// This function is called in the updateStaffDetails/updateParentDetails functions.
+// If a user updates their Name/ContactNum/Email, then the weeklyComplaint file needs to be updated as well.
+void updateWeeklyComplaint(string userID, string name, string contactNum, string email) {
+	ifstream complaintFile;
+	string line, tempStr;
+	vector<string> fileData;
+	int i, flag = 0;
+	bool isTrue = true;
+
+	complaintFile.open("Complaint_file.csv", ios::in);
+	if (complaintFile.good()) {
+		do {
+			while (getline(complaintFile, line)) {
+				stringstream ss(line);
+				while (!ss.eof()) {
+					getline(ss, tempStr, ',');
+					if (tempStr == userID) {
+						flag = 1;
+						isTrue = false;
+						break;
+					}
+				}
+			}
+		} while (isTrue);
+		complaintFile.close();
+
+		if (flag == 1) {
+			isTrue = true;
+			do {
+				complaintFile.open("Complaint_file.csv", ios::in);
+				while (getline(complaintFile, line)) {
+					stringstream ss(line);
+					while (!ss.eof()) {
+						getline(ss, tempStr, ',');
+						fileData.push_back(tempStr);
+					}
+				}
+				complaintFile.close();
+
+				for (i = 0; i < fileData.size(); i++) {
+					if (fileData[i] == userID) {
+						if (name != "+=-") {
+							fileData[i + 1] = name;
+						}
+						else if (contactNum != "+=-") {
+							fileData[i + 5] = contactNum;
+						}
+						else if (email != "+=-") {
+							fileData[i + 6] = email;
+						}
+					}
+				}
+
+				for (i = 0; i < fileData.size(); i++) {
+					cout << fileData[i] << "\n";
+				}
+				cout << "\n\t";
+
+				ofstream writeFile("Complaint_file.csv", ios::out);
+				if (!writeFile.good()) {
+					cout << "\n\t\t\tError: Could not update complaint file with new data. Please check it is not currently open.";
+				}
+				else {
+					for (i = 0; i < fileData.size();) {
+						writeFile << fileData[i] << "," << fileData[i + 1] << "," << fileData[i + 2] << "," << fileData[i + 3] << "," 
+							<< fileData[i + 4] << "," << fileData[i + 5] << "," << fileData[i + 6] << "," << fileData[i + 7] << "," << fileData[i + 8] << endl;
+						i = i + 9;
+					}
+				}
+				writeFile.close();
+				isTrue = false;
+			} while (isTrue);
+		}
+	}
+	else {
+		cout << "\n\t\tDIDN'T OPEN FILE";
+		system("pause");
+	}
 }
