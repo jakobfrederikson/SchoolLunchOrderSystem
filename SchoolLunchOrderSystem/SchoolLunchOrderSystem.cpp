@@ -184,6 +184,7 @@ struct FoodMenuList {
 	}
 };
 
+void schoolTitle();
 void programDescription();
 void loadingScreen();
 int printMenuList();
@@ -245,10 +246,28 @@ void updateWeeklyComplaint(string, string, string, string);
 int main()
 {
 	ShowWindow(GetConsoleWindow(), SW_MAXIMIZE); // set console window to full screen
-	//loadingScreen();
-	//programDescription();
+	loadingScreen();
+	programDescription();
 	createFiles();
 	return printMenuList();
+}
+
+void schoolTitle() {
+	string line, tempstr;
+	ifstream txtFile;
+
+	txtFile.open("schoolText.txt", ios::in);
+	while (getline(txtFile, line)) {
+		stringstream ss(line);
+		while (!ss.eof()) {
+			getline(ss, tempstr);
+			cout << "\t\t\t\t\t\t" << tempstr;
+		}
+		cout << endl;
+	}
+	txtFile.close();
+
+	cout << endl << endl;
 }
 
 void loadingScreen() {
@@ -305,7 +324,7 @@ void programDescription() {
 	cout << "\n\t\t\t\t\t\t\t\taccount, view the schools menu, and order food. Users are also able to file complaints and update";
 	cout << "\n\t\t\t\t\t\t\t\ttheir own account if they wish. An admin side also exists for viewing reports (view complaints, view";
 	cout << "\n\t\t\t\t\t\t\t\ttotal pay, view all members etc).";
-	cout << "\n\t\t\t\t\t\t\t\tA huge thank you to everyone who tested the program. You're feedback is incredibly valuable.";
+	cout << "\n\n\t\t\t\t\t\t\t\tA huge thank you to everyone who has tested/is testing the program. You're feedback is incredibly valuable.";
 	cout << "\n\t\t\t\t\t\t\t\tAs for the programming language, it was written entirely in C++.";
 
 	cout << "\n\n\t\t\t\t\t\t\t\tThe following is not a complete build and errors may occur. We thank you for trying out our program!";
@@ -322,8 +341,9 @@ int printMenuList() {
 	do {
 		system("cls");
 		system("Color 0F");
+		schoolTitle();
 		cout << "\n" << string(7, '\t') << "|-----------------------------------------|"
-			<< "\n" << string(7, '\t') << "|         SCHOOL LUNCH ORDER SYSTEM       |"
+			<< "\n" << string(7, '\t') << "|         Ultra Academy High School       |"
 			<< "\n" << string(7, '\t') << "|-----------------------------------------|"
 			<< "\n" << string(7, '\t') << "| 1. Weekly Menu                          |"
 			<< "\n" << string(7, '\t') << "| 2. Bulk Booking Discounts               | "
@@ -337,17 +357,20 @@ int printMenuList() {
 		switch (choice) {
 		case 1:
 			system("cls");
+			schoolTitle();
 			printWeeklyMenu();
-			cout << "\n\n\t\tInterested in the menu? Sign up to be able to order!";
-			cout << "\n\t\t";
+			cout << "\n\n\t\tHas the menu got your interest? Register now to order!";
+			cout << "\n\n\t\t";
 			system("pause");
 			break;
 		case 2:
 			system("cls");
+			schoolTitle();
 			printBulkDiscounts();
 			break;
 		case 3:
 			system("cls");
+			schoolTitle();
 			printContactLocationDetails();
 			break;
 		case 4: // Written by Jakob
@@ -400,12 +423,13 @@ void loginRegistrationScreen() { // Code written by Jakob
 
 	do {
 		system("cls");
+		schoolTitle();
 		cout << "\n" << string(7, '\t') << "|----------------------------|"
 			<< "\n" << string(7, '\t') << "|     LOG IN / REGISTER      |"
 			<< "\n" << string(7, '\t') << "|----------------------------|"
 			<< "\n" << string(7, '\t') << "|1. Login                    |"
 			<< "\n" << string(7, '\t') << "|2. Register                 |"
-			<< "\n" << string(7, '\t') << "|3. Forgot Password          |" 
+			<< "\n" << string(7, '\t') << "|3. Forgot Password          |"
 			<< "\n" << string(7, '\t') << "|4. Back                     |"
 			<< "\n" << string(7, '\t') << "|                            |"
 			<< "\n" << string(7, '\t') << "|Enter choice                |: ";
@@ -417,6 +441,7 @@ void loginRegistrationScreen() { // Code written by Jakob
 		}
 		else if (choice == 2) {
 			system("cls");
+			schoolTitle();
 			cout << "\n" << string(7, '\t') << "|----------------------------|"
 				<< "\n" << string(7, '\t') << "|      REGISTER ACCOUNT      |"
 				<< "\n" << string(7, '\t') << "|----------------------------|"
@@ -432,7 +457,7 @@ void loginRegistrationScreen() { // Code written by Jakob
 				break;
 			}
 			else if (registerChoice == 2) {
-				registerParent(); 
+				registerParent();
 				break;
 			}
 			else if (registerChoice == 3) {
@@ -442,11 +467,11 @@ void loginRegistrationScreen() { // Code written by Jakob
 				cout << "\n" << string(7, '\t') << "Please enter a number relevant to the given menu.\n";
 			}
 		}
-		else if (choice == 3) { 
+		else if (choice == 3) {
 			forgotPassword();
 			break;
 		}
-		else if (choice == 4) { 
+		else if (choice == 4) {
 			break;
 		}
 		else {
@@ -457,7 +482,7 @@ void loginRegistrationScreen() { // Code written by Jakob
 
 //Code by Jay
 //This function lets the user change there password if they have forgotten it
-void forgotPassword() { 
+void forgotPassword() {
 	vector<Parent> parent;
 	vector<Staff> staff;
 	vector<Login> login;
@@ -473,6 +498,7 @@ void forgotPassword() {
 
 	do {
 		system("cls");
+		schoolTitle();
 		cout << "\n" << string(8, '\t') << "|---------------------------------|"
 			<< "\n" << string(8, '\t') << "|          Forgot Password        |"
 			<< "\n" << string(8, '\t') << "|---------------------------------|"
@@ -605,6 +631,7 @@ void registerStaff() {
 	do { // Taking input for staff details
 		cin.ignore();
 		system("cls");
+		schoolTitle();
 		cout << "\n\t\t\t|----------------------------------|"
 			<< "\n\t\t\t|        Staff REGISTRATION        |"
 			<< "\n\t\t\t|----------------------------------|";
@@ -613,7 +640,8 @@ void registerStaff() {
 			getline(cin, staffRegister.fullName);
 			if (staffRegister.fullName.length() < 4 || staffRegister.fullName.length() > 22) {
 				cout << "\n\t\t\tName was less than 4 characters or greater than 22 characters. Please try again.\n";
-			} else if (staffRegister.fullName == "")
+			}
+			else if (staffRegister.fullName == "")
 				cout << "\n\t\t\tInvalid input, please Enter your name.\n";
 			else
 				break;
@@ -633,6 +661,7 @@ void registerStaff() {
 
 		do {
 			cout << "\t\t\t|Enter Date of birth               |"
+				<< "\n\t\t\t|E.g: 01/06/2003                   |"
 				<< "\n\t\t\t|DD/MM/YYYY                        |: " << setw(18);
 			getline(cin, staffRegister.dob);
 			if (staffRegister.dob == "")
@@ -821,6 +850,7 @@ void loginScreen() {
 
 	cin.ignore();
 	system("cls");
+	schoolTitle();
 	cout << "\n" << string(7, '\t') << "|----------------------------|"
 		<< "\n" << string(7, '\t') << "|        LOGIN SCREEN        |"
 		<< "\n" << string(7, '\t') << "|   Type 'back' to go back   |"
@@ -887,6 +917,7 @@ void registerParent() {
 	string password, verifyPass, uniqueID;
 	system("cls");
 	do {
+		schoolTitle();
 		cin.ignore();
 		cout << "\n\t\t\t|----------------------------------|"
 			<< "\n\t\t\t|        Parent REGISTRATION       |"
@@ -916,6 +947,7 @@ void registerParent() {
 
 		do {
 			cout << "\t\t\t|Enter Date of birth" << setw(17) << "| "
+				<< "\n\t\t\t|E.g: 01/06/2003                   |"
 				<< "\n\t\t\t|DD/MM/YYYY" << setw(27) << "|: ";
 			getline(cin, parentRegister.dob);
 			if (parentRegister.dob == "")
@@ -1517,10 +1549,11 @@ void printMainMenu(vector<string> accDetails) {
 			chooseBulkOrder(accDetails);
 			break;
 		case 4:
-			if (accDetails[0].substr(0, 3) == "270")
+			if (accDetails[0].substr(0, 3) == "270") 
 				updateParentDetails(accDetails[0], "user");
-			else
+			else 
 				updateStaffDetails(accDetails[0], "user");
+				
 			break;
 		case 5:
 			SetConsoleTextAttribute(h, 7);
@@ -1551,6 +1584,7 @@ void makeComplaint(vector<string> accDetails) {
 
 	do {
 		system("cls");
+		schoolTitle();
 		cout << "\n\t\t\t|----------------------------|";
 		cout << "\n\t\t\t| Enter the complaint reason |";
 		cout << "\n\t\t\t|----------------------------|";
@@ -1679,6 +1713,7 @@ void chooseBulkOrder(vector<string> accDetails) {
 	int choice, flag;
 	int orderCount = 0, i = 0;
 	int totalBulkOrderCount;
+	float purchaseAmount;
 	ofstream bulkOrderFile;
 	ifstream infile;
 	char errorChoice;
@@ -1687,31 +1722,47 @@ void chooseBulkOrder(vector<string> accDetails) {
 	bool accountExists = false;
 
 	do {
-		system("cls");
-		cout << "\n" << string(6, '\t') << "|----------------------------------------------------------------------------------------------|"
-			<< "\n" << string(6, '\t') << "|                                   BULK BOOKING DISCOUNTS                                     |"
-			<< "\n" << string(6, '\t') << "|----------------------------------------------------------------------------------------------|"
-			<< "\n" << string(6, '\t') << "|    1. GOLD FOOD PASS         |     2. SILVER FOOD PASS      |      3. COPPER FOOD PASS       |"
-			<< "\n" << string(6, '\t') << "|------------------------------|------------------------------|--------------------------------|"
-			<< "\n" << string(6, '\t') << "|    Pay for 30 days and       |     Pay for 15 days and      |      Pay for 7 days and        |"
-			<< "\n" << string(6, '\t') << "|    receive a 15% discount.   |     receive a 10% discount.  |      receive a 5% discount.    |"
-			<< "\n" << string(6, '\t') << "|    Without food pass: $150   |     Without food pass: $75   |      Without food pass: $35    |"
-			<< "\n" << string(6, '\t') << "|    With food pass: $127.5    |     With food pass: $67.50   |      With food pass: $33.25    |"
-			<< "\n" << string(6, '\t') << "|    Save $22.50               |     Save $7.50               |      Save $1.75                |"
-			<< "\n" << string(6, '\t') << "|----------------------------------------------------------------------------------------------|" << "\n\n" << string(7, '\t');
+		do {
+			system("cls");
+			schoolTitle();
+			cout << "\n" << string(6, '\t') << "|----------------------------------------------------------------------------------------------|"
+				<< "\n" << string(6, '\t') << "|                                   BULK BOOKING DISCOUNTS                                     |"
+				<< "\n" << string(6, '\t') << "|----------------------------------------------------------------------------------------------|"
+				<< "\n" << string(6, '\t') << "|    1. GOLD FOOD PASS         |     2. SILVER FOOD PASS      |      3. COPPER FOOD PASS       |"
+				<< "\n" << string(6, '\t') << "|------------------------------|------------------------------|--------------------------------|"
+				<< "\n" << string(6, '\t') << "|    Pay for 30 days and       |     Pay for 15 days and      |      Pay for 7 days and        |"
+				<< "\n" << string(6, '\t') << "|    receive a 15% discount.   |     receive a 10% discount.  |      receive a 5% discount.    |"
+				<< "\n" << string(6, '\t') << "|    Without food pass: $150   |     Without food pass: $75   |      Without food pass: $35    |"
+				<< "\n" << string(6, '\t') << "|    With food pass: $127.5    |     With food pass: $67.50   |      With food pass: $33.25    |"
+				<< "\n" << string(6, '\t') << "|    Save $22.50               |     Save $7.50               |      Save $1.75                |"
+				<< "\n" << string(6, '\t') << "|----------------------------------------------------------------------------------------------|" << "\n\n" << string(7, '\t');
 
-		cout << "\n" << string(6, '\t') << "Enter a pass number to purchase: ";
-		cin >> choice;
+			cout << "\n" << string(6, '\t') << "Enter a pass number to purchase or 0 to exit: ";
+			cin >> choice;
 
-		// Asking user to confirm bulk purchase
-		cout << "\n" << string(6, '\t') << "Confirm bulk purchase? Y/N: ";
-		cin >> confirmOrder;
+			if (choice == 0) {
+				isTrue = false;
+				break;
+			}
 
-		if (tolower(confirmOrder) == 'n') {
-			isTrue = false;
-			bulkOrderFile.close();
-			break;
-		}
+			// Asking user to confirm bulk purchase
+			cout << "\n" << string(6, '\t') << "Confirm bulk purchase? Y/N: ";
+			cin >> confirmOrder;
+
+			if (tolower(confirmOrder) == 'n') {
+				cout << "\n" << string(6, '\t') << "You have canceled your bulk purchase.";
+				cout << "\n" << string(6, '\t') << "Enter 1 to continue bulk purchase or 0 to exit: ";
+				char cancelChoice;
+				cin >> cancelChoice;
+				if (cancelChoice == '0') {
+					isTrue = false;
+					break;
+				}
+				else if (cancelChoice == '1') {
+					continue;
+				}
+			}
+		} while (true);
 
 		switch (choice) {
 		case 1:
@@ -1724,9 +1775,6 @@ void chooseBulkOrder(vector<string> accDetails) {
 			break;
 		case 3:
 			orderCount = 7;
-			isTrue = false;
-			break;
-		case 4:
 			isTrue = false;
 			break;
 		default:
@@ -1743,7 +1791,7 @@ void chooseBulkOrder(vector<string> accDetails) {
 					bulkOrderFile.open("BulkOrder_file.csv", ios::app);
 					if (bulkOrderFile.good()) {
 						bulkOrderFile << accDetails[0] << "," << orderCount << endl;
-						cout << "\n\t\t\tYour purchase of option " << choice << " was successful! You now have " << orderCount << " days of free meals.";
+						cout << "\n\t\t\tYour purchase of option " << choice << " was successful! You now have " << orderCount << " free meals.";
 						cout << "\n\t\t\t";
 						system("pause");
 						break;
@@ -1773,6 +1821,11 @@ void chooseBulkOrder(vector<string> accDetails) {
 
 			} while (true);
 		}
+	}
+	else {
+		cout << "\n\t\t\tCouldn't open bulk file. Please check that it isn't currently open.";
+		cout << "\n\t\t\t";
+		system("pause");
 	}
 
 	bulkOrderFile.close();
@@ -1867,7 +1920,7 @@ void createFoodMenuList() {
 								{"$5.00","$5.00","$5.00"},
 								{"4.","5.","6."},
 								{"Eggs Benedict", "Egg Fried Rice", "French Toast Wee Wee"},
-								{"Poached egg with bacon and hollandaise sauce on a muffin with a sprinkle of love.", "Rice egg and MSG just how Uncle Roger likes.","Just toast and diabetes. Oui oui!"},
+								{"Poached egg with bacon and hollandaise sauce on a muffin with a sprinkle of love.", "Rice with egg and MSG just how Uncle Roger likes.","Just toast and diabetes. Oui oui!"},
 								{"Vegan:No Gluten:Yes","Vegan:No Gluten:No","Vegan:Yes Gluten:Yes"},
 								{"$5.00","$5.00","$5.00"} };
 
@@ -1891,7 +1944,7 @@ void createFoodMenuList() {
 
 // Code by Jay
 //This function updates the food menu list
-void updateMenuList() { 
+void updateMenuList() {
 	int choice = 0, id = 0, foodNum, col = 0, nxt = 0;
 	float foodPrice;
 	string isVegan, isGlutten, foodName, foodDescription, foodDietary;
@@ -1917,6 +1970,7 @@ void updateMenuList() {
 
 	do {
 		isTrue = true;
+		schoolTitle();
 		printWeeklyMenu();
 		cout << "\n" << string(6, '\t') << "|------------------------------------------------|"
 			<< "\n" << string(6, '\t') << "|                 Update Food Menu               |"
@@ -2178,7 +2232,7 @@ void printWeeklyMenu() {
 	bool rowIsDone[3] = { 0,0,0 };
 
 	for (int row = 0; row < 10; row++) {
-		if (row == 2 || row == 4 || row == 6 || row == 8) {	//print line to separte food name, description and price		
+		if (row == 2 || row == 3 || row == 7 || row == 8) {	//print line to separte food name, description and price		
 			for (int print = 0; print < 3; print++) {
 				cout << "\t\t----------------------\t\t";
 				if (print == 2)
@@ -2334,7 +2388,8 @@ void orderFood(vector<string> user) {
 	unpaidOrders.clear();
 	unpaidOrders = getAllUnpaidOrders(user[0]); //check if user has unpaid orders
 
-	if (unpaidOrders.size() != 0) { //if user has unpaid order prompt user if they want to pay it		
+	if (unpaidOrders.size() != 0) { //if user has unpaid order prompt user if they want to pay it
+		schoolTitle();
 		printAllOrders(unpaidOrders); //print unpaid orders
 		do {//ask user if they want to keep the saved order or delete it			
 			cout << "\n\t\t\t\t\t\t\t|-----------------------------------------------------------------------| "
@@ -2391,6 +2446,7 @@ void orderFood(vector<string> user) {
 	if (tolower(choice) == 'n') {
 		do {
 			system("cls");
+			schoolTitle();
 			printWeeklyMenu();
 			cout << "\n\t\t\t\t\t\t\t Date: " << getCurrentDate()
 				<< "\n\t\t\t\t\t\t\t|---------------------------------|"
@@ -2494,6 +2550,7 @@ void orderFood(vector<string> user) {
 				break;
 			case 3:
 				system("cls");
+				schoolTitle();
 				printAllOrders(order);
 				system("pause");
 				break;
@@ -2557,6 +2614,7 @@ void printAllOrders(vector<Order> order) {
 		printSpaces(to_string(order[i].price).length(), 15);
 		cout << "$" << total;
 		cout << endl;
+		total = 0;
 	}
 	cout << endl;
 	/*cout << setprecision(3);
@@ -2592,6 +2650,7 @@ vector<Order> removeOrder(vector<Order> order) {
 		isTrue = true, isTrue2 = true, isTrue3 = true;
 		do {
 			system("cls");
+			schoolTitle();
 			cout << "\n\n\n" << string(7, '\t') << "|---------------------------|"
 				<< "\n" << string(7, '\t') << "| Press 1 to remove orders  |"
 				<< "\n" << string(7, '\t') << "| Press 2 to quit           |"
@@ -2604,9 +2663,10 @@ vector<Order> removeOrder(vector<Order> order) {
 				if (order.size() > 0) {
 					do {
 						system("cls");
+						schoolTitle();
 						printAllOrders(order);
 						cout << "\n\n\n" << string(4, '\t') << "|-------------------------------------------|"
-							<< "\n" << string(4, '\t') << "| Please enter order ID you wish to remove: ";
+							<< "\n" << string(4, '\t') << "| Please enter order number you wish to remove: ";
 						cin >> orderID;
 						for (int i = 0; i < order.size(); i++) {
 							if (order[i].orderNum == orderID) {
@@ -2615,6 +2675,7 @@ vector<Order> removeOrder(vector<Order> order) {
 
 								system("cls");
 								do {
+									schoolTitle();
 									cout << "\n" << string(7, '\t') << "|------------------------------------------------|"
 										<< "\n" << string(7, '\t') << "| Order ID:       " << order[vectOrderLoc].orderNum
 										<< "\n" << string(7, '\t') << "| Order Date:     " << order[vectOrderLoc].orderDate
@@ -2814,7 +2875,7 @@ vector<Order> checkoutOrder(vector<Order> order, vector<string> user) {
 			switch (numChoice) {
 			case 1:
 				do {
-					cout << "\n" << string(8, '\t') << "|------------------------------------|"//gohere
+					cout << "\n" << string(8, '\t') << "|-------------------------------------|"//gohere
 						<< "\n" << string(8, '\t') << "| Press 1 to pay now                  |"
 						<< "\n" << string(8, '\t') << "| Press 2 to save order for later     |"
 						<< "\n" << string(8, '\t') << "| Press 3 to exit                     |"
@@ -2867,6 +2928,9 @@ vector<Order> checkoutOrder(vector<Order> order, vector<string> user) {
 													isTrue4 = false;
 													break;
 												}
+												else if (tolower(choice) == 'q') {
+													break;
+												}
 												else {
 													cout << "\n" << string(8, '\t') << "|-----------------------------------|"
 														<< "\n" << string(8, '\t') << "| Invalid Input! Please try again.. |"
@@ -2897,6 +2961,7 @@ vector<Order> checkoutOrder(vector<Order> order, vector<string> user) {
 												cin >> choice;
 												discount = 5.00 * num;
 												if (tolower(choice) == 'y') {
+													hasPaid = true;
 													if (discount == payment.totalPrice) {//if amount of bulk payment used is equal to the amount need to pay
 														do {
 															cout << "\n" << string(7, '\t') << "|-----------------------------------------------|"
@@ -3082,7 +3147,7 @@ vector<Order> checkoutOrder(vector<Order> order, vector<string> user) {
 								<< "\n" << string(8, '\t') << "|TOTAL PRICE:      $" << payment.totalPrice
 								<< "\n" << string(8, '\t') << "|------------------------------------------|"
 								<< "\n" << string(8, '\t') << "|Type of Payment:  " << payment.typeOfPayment
-								<< "\n" << string(8, '\t') << "|Change:           $ 0.00"
+								<< "\n" << string(8, '\t') << "|Change:           $0.00"
 								<< "\n" << string(8, '\t') << "|GST Included      $" << payment.GSTAmount
 								<< "\n" << string(8, '\t') << "|GST Number:       " << payment.GSTNumber
 								<< "\n" << string(8, '\t') << "|------------------------------------------|\n\n\t\t\t";
@@ -3135,7 +3200,7 @@ vector<Order> checkoutOrder(vector<Order> order, vector<string> user) {
 						hasPaid = false;
 						removeAllUnpaidOrders(user[1]);
 						//save order to csv
-						ofstream saveOrder("Order_file.csv", ios::app); 
+						ofstream saveOrder("Order_file.csv", ios::app);
 						do {//generate a unique id for order and check if id is unique
 							ord.orderID = generateID(4);
 							if (checkUniqueID(4, ord.orderID))
@@ -3193,6 +3258,7 @@ void printWeeklyOrderReport(char choice) {	//fix
 
 	order = getAllOrderDetails();
 	cout << setprecision(3);
+	schoolTitle();
 	if (order.size() == 0) {
 		cout << "\n" << string(4, '\t') << "|--------------------|"
 			<< "\n" << string(4, '\t') << "|   No Data Found    |"
@@ -3681,7 +3747,7 @@ vector<Staff> getAllStaffDetails() {
 
 //Code by Jay
 //This function gets all order data from csv and stores it in vector
-vector<Order> getAllOrderDetails() { 
+vector<Order> getAllOrderDetails() {
 
 	vector<Order> vectOrder;
 	vector<string> orderData;
@@ -3719,7 +3785,7 @@ vector<Order> getAllOrderDetails() {
 
 //Code by Jay
 //This function gets all the unpaid orders of the user and returns it as a vector Order
-vector<Order> getAllUnpaidOrders(string userID) { 
+vector<Order> getAllUnpaidOrders(string userID) {
 
 	vector<Order> vectOrder;
 	vector<string> orderData;
@@ -3763,7 +3829,7 @@ vector<Order> getAllUnpaidOrders(string userID) {
 
 //Code by Jay
 //This function removes the saved order from the user
-void removeAllUnpaidOrders(string userID) { 
+void removeAllUnpaidOrders(string userID) {
 	vector<Order> vectOrder;
 	vectOrder = getAllOrderDetails();
 
@@ -3914,6 +3980,7 @@ void updateParentDetails(string userID, string user) {
 		tempData = "";
 		do {
 			system("cls");
+			schoolTitle();
 			cout << "\n" << string(8, '\t') << "|--------------------------------------------|"
 				<< "\n" << string(8, '\t') << "|                PARENT USER                 |"
 				<< "\n" << string(8, '\t') << "|--------------------------------------------|"
@@ -3927,6 +3994,7 @@ void updateParentDetails(string userID, string user) {
 				isTrue = true;
 				do {
 					system("cls");
+					schoolTitle();
 					cout << "\n" << string(8, '\t') << "|---------------------------------------------|"
 						<< "\n" << string(8, '\t') << "|            UPDATE PARENT DETAILS            |"
 						<< "\n" << string(8, '\t') << "|---------------------------------------------|"
@@ -3971,7 +4039,7 @@ void updateParentDetails(string userID, string user) {
 									cout << "\n" << string(8, '\t') << "|---------------------------------------------|"
 										<< "\n" << string(8, '\t') << "|            NAME HAS BEEN UPDATED            |"
 										<< "\n" << string(8, '\t') << "|---------------------------------------------|\n" << string(8, '\t') << "";
-									parent[userVectLocation].fullName = tempData;									
+									parent[userVectLocation].fullName = tempData;
 									name = tempData; // Code by Jakob
 									system("pause");
 									break;
@@ -4276,7 +4344,7 @@ void updateParentDetails(string userID, string user) {
 							cout << "\n" << string(8, '\t') << "| Current User Status: ";
 							if (parent[userVectLocation].accountStatus) cout << "ACTIVE"; else cout << "INACTIVE";
 							do {
-								cout << "\n" << string(8, '\t') << "|--------------------------------------------|" 
+								cout << "\n" << string(8, '\t') << "|--------------------------------------------|"
 									<< "\n" << string(8, '\t') << "| Press Y to Activate User Account           |"
 									<< "\n" << string(8, '\t') << "| Press N to De-Activate User Account        |"
 									<< "\n" << string(8, '\t') << "|--------------------------------------------|"
@@ -4329,7 +4397,7 @@ void updateParentDetails(string userID, string user) {
 						system("pause");
 						break;
 					}
-					ofstream parentFile("Parent_file.csv", ios::out);					
+					ofstream parentFile("Parent_file.csv", ios::out);
 					//ADD HEADERS TO CSV
 					parentFile << "LOGIN_ID" << "," << "NAME" << "," << "GENDER" << "," << "D.O.B" << "," << "CONTACT_NUM" << "," << "EMAIL"
 						<< "," << "CHILD_NAME" << "," << "ROOM_NUM" << "," << "VISA_NUM" << "," << "VISA_EXPIRY" << "," << "ACC_STATUS" << endl;
@@ -4492,6 +4560,7 @@ void updateStaffDetails(string userID, string user) {
 		tempData = "";
 		do {
 			system("cls");
+			schoolTitle();
 			cout << "\n" << string(8, '\t') << "|--------------------------------------------|"
 				<< "\n" << string(8, '\t') << "|                STAFF USER                  |"
 				<< "\n" << string(8, '\t') << "|--------------------------------------------|"
@@ -4505,6 +4574,7 @@ void updateStaffDetails(string userID, string user) {
 				isTrue = true;
 				do {
 					system("cls");
+					schoolTitle();
 					cout << "\n" << string(8, '\t') << "|--------------------------------------------|"
 						<< "\n" << string(8, '\t') << "|             UPDATE STAFF DETAILS           |"
 						<< "\n" << string(8, '\t') << "|--------------------------------------------|"
@@ -4780,7 +4850,7 @@ void updateStaffDetails(string userID, string user) {
 							cout << "\n" << string(8, '\t') << "| Current User Status: ";
 							if (staff[userVectLocation].accountStatus) cout << "ACTIVE"; else cout << "INACTIVE";
 							do {
-								cout << "\n" << string(8, '\t') << "|--------------------------------------------|" 
+								cout << "\n" << string(8, '\t') << "|--------------------------------------------|"
 									<< "\n" << string(8, '\t') << "| Press Y to Activate User Account           |"
 									<< "\n" << string(8, '\t') << "| Press N to De-Activate User Account        |"
 									<< "\n" << string(8, '\t') << "|--------------------------------------------|"
@@ -4972,6 +5042,7 @@ void adminScreen() {
 
 	do {
 		system("cls");
+		schoolTitle();
 		cout << "\n" << string(8, '\t') << "|---------------------------|";
 		cout << "\n" << string(8, '\t') << "|        ADMIN SCREEN       |";
 		cout << "\n" << string(8, '\t') << "|---------------------------|";
@@ -4993,7 +5064,6 @@ void adminScreen() {
 		case 1:
 			system("cls");
 			updateMenuList();
-			system("pause");
 			break;
 		case 2:
 			system("cls");
@@ -5014,6 +5084,7 @@ void adminScreen() {
 		case 6:
 			system("cls");
 			do {
+				schoolTitle();
 				cout << "\n" << string(8, '\t') << "|-------------------------------------------------------|"
 					<< "\n" << string(8, '\t') << "|               Print All Parent Details                |"
 					<< "\n" << string(8, '\t') << "|-------------------------------------------------------|"
@@ -5035,6 +5106,7 @@ void adminScreen() {
 		case 7:
 			system("cls");
 			do {
+				schoolTitle();
 				cout << "\n" << string(8, '\t') << "|-------------------------------------------------------|"
 					<< "\n" << string(8, '\t') << "|                Print All Staff Details                |"
 					<< "\n" << string(8, '\t') << "|-------------------------------------------------------|"
@@ -5055,11 +5127,13 @@ void adminScreen() {
 			break;
 		case 8:
 			system("cls");
+			schoolTitle();
 			printAllParentDetails('a');
 			updateParentDetails(printUpdateDetailsMenu(), "admin");
 			break;
 		case 9:
 			system("cls");
+			schoolTitle();
 			printAllStaffDetails('a');
 			updateStaffDetails(printUpdateDetailsMenu(), "admin");
 			break;
@@ -5103,6 +5177,7 @@ void printWeeklyComplaint() {
 	}
 	do {
 		system("cls");
+		schoolTitle();
 		if (flag != 1) {
 			for (int i = 0; i < weeklyComplaint.size();) {
 				if (i == 0) {
@@ -5309,7 +5384,7 @@ void printWeeklySales() {
 		getPayData.close();
 
 		system("cls");
-
+		schoolTitle();
 		cout << "\n\t\t\t|---------------------------------------------|";
 		cout << "\n\t\t\t| TOTAL SALES (Weekly coming in later builds) |";
 		cout << "\n\t\t\t|---------------------------------------------|";
@@ -5391,7 +5466,7 @@ void updateWeeklyComplaint(string userID, string name, string contactNum, string
 				}
 				else {
 					for (i = 0; i < fileData.size();) {
-						writeFile << fileData[i] << "," << fileData[i + 1] << "," << fileData[i + 2] << "," << fileData[i + 3] << "," 
+						writeFile << fileData[i] << "," << fileData[i + 1] << "," << fileData[i + 2] << "," << fileData[i + 3] << ","
 							<< fileData[i + 4] << "," << fileData[i + 5] << "," << fileData[i + 6] << "," << fileData[i + 7] << "," << fileData[i + 8] << endl;
 						i = i + 9;
 					}
