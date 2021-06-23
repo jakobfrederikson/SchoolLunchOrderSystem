@@ -1,9 +1,11 @@
-//Programmer:			Jakob Frederikson, Jay Anino   
+//Programmers:			Jakob Frederikson, Jay Anino   
 //Student ID:			Jakob's ID: 270029667, Jay's ID: 270115050
 //School:				Yoobee College
 //Due Date:				28/06/2021
-//Project Reference:	Group Project School Lunch Ordering System
-//Project Description:  N/A
+//Project Name:    	    School Lunch Ordering System
+//Project Description:  Develop an application for the NZ School Lunch Order system. The app contains several screens;
+//                      each will have relevant menu options. All user login verified against their corresponding
+//                      registration file.
 
 #include <iostream>
 #include <string>
@@ -242,12 +244,14 @@ void removeAllUnpaidOrders(string);
 void forgotPassword();
 string printUpdateDetailsMenu();
 void updateWeeklyComplaint(string, string, string, string);
+void plusUltra();
 
 int main()
 {
 	ShowWindow(GetConsoleWindow(), SW_MAXIMIZE); // set console window to full screen
 	loadingScreen();
 	programDescription();
+	plusUltra();
 	createFiles();
 	return printMenuList();
 }
@@ -809,7 +813,11 @@ void registerStaff() {
 				loginFile << staffRegister.login.loginID << "," << staffRegister.login.userForeignID << "," << staffRegister.login.username << "," << staffRegister.login.password << endl;
 				loginFile.close();
 
-				cout << "\n\t\t\tAccount has been successfully created\n\t\t\t";
+				cout << "\n\t\t\t|-----------------------------------------------|"
+					<< "\n\t\t\t| Account has been successfully created         |"
+					<< "\n\t\t\t| Please write down your ID: " << staffRegister.staffID
+					<< "\n\t\t\t| This is useful when you forget your password  |"
+					<< "\n\t\t\t|-----------------------------------------------|\n\t\t\t";
 				system("pause");
 				break;
 			}
@@ -1106,8 +1114,11 @@ void registerParent() {
 				loginFile << parentRegister.login.loginID << "," << parentRegister.login.userForeignID << "," << parentRegister.login.username << "," << parentRegister.login.password << endl;
 				loginFile.close();
 
-				cout << "\n\t\t\tAccount has been successfully created";
-				cout << "\n\t\t\t";
+				cout << "\n\t\t\t|-----------------------------------------------|"
+					<< "\n\t\t\t| Account has been successfully created         |"
+					<< "\n\t\t\t| Please write down your ID: " << parentRegister.parentID
+					<< "\n\t\t\t| This is useful when you forget your password  |"
+					<< "\n\t\t\t|-----------------------------------------------|\n\t\t\t";
 				system("pause");
 				break;
 			}
@@ -1653,7 +1664,7 @@ void makeComplaint(vector<string> accDetails) {
 			}
 		} while (isTrue);
 		readFile.close();
-
+		schoolTitle();
 		cout << "\n\n\t\t\tComplaint ID:      " << complaint.complaintID;
 		cout << "\n\t\t\tName:              " << accDetails[1];
 		cout << "\n\t\t\tDate of complaint: " << date;
@@ -2008,10 +2019,10 @@ void updateMenuList() {
 			cout << "\n" << string(6, '\t') << "|------------------------------------------------|"
 				<< "\n" << string(6, '\t') << "|                 Update Food Menu               |"
 				<< "\n" << string(6, '\t') << "|------------------------------------------------|"
-				<< "\n" << string(6, '\t') << "| Current Food Name:           " << fml[id].foodName
-				<< "\n" << string(6, '\t') << "| Current Food Description:    " << fml[id].foodDescription
-				<< "\n" << string(6, '\t') << "| Current Food Dietary Option: " << fml[id].foodDietary
-				<< "\n" << string(6, '\t') << "| Current Food Price:          " << fml[id].foodPrice
+				<< "\n" << string(6, '\t') << "| Current Food Name:           " << fml[id-1].foodName
+				<< "\n" << string(6, '\t') << "| Current Food Description:    " << fml[id-1].foodDescription
+				<< "\n" << string(6, '\t') << "| Current Food Dietary Option: " << fml[id-1].foodDietary
+				<< "\n" << string(6, '\t') << "| Current Food Price:          " << fml[id-1].foodPrice
 				<< "\n\n" << string(6, '\t') << "|------------------------------------------------|"
 				<< "\n" << string(6, '\t') << "|                 Update Food Menu               |"
 				<< "\n" << string(6, '\t') << "|------------------------------------------------|"
@@ -2029,7 +2040,7 @@ void updateMenuList() {
 			switch (choice) {
 			case 1:
 				do {
-					do {
+					do {						
 						cout << "\n" << string(6, '\t') << "|----------------------------------------------------"
 							<< "\n" << string(6, '\t') << "| Current Food name: " << fml[id].foodName
 							<< "\n" << string(6, '\t') << "| Enter food name: ";
@@ -2041,6 +2052,7 @@ void updateMenuList() {
 							system("pause");
 						}
 						system("cls");
+						schoolTitle();
 					} while (true);
 					fml[id].foodName = foodName;
 					cout << "\n" << string(6, '\t') << "|------------------------------------------------|"
@@ -2065,6 +2077,7 @@ void updateMenuList() {
 							system("pause");
 						}
 						system("cls");
+						schoolTitle();
 					} while (true);
 					fml[id].foodDescription = foodDescription;
 					cout << "\n" << string(6, '\t') << "|------------------------------------------------|"
@@ -2093,6 +2106,7 @@ void updateMenuList() {
 							system("pause");
 						}
 						system("cls");
+						schoolTitle();
 					} while (true);
 					do {
 						cout << "\n" << string(6, '\t') << "|-------------------------------------|"
@@ -2109,6 +2123,7 @@ void updateMenuList() {
 							system("pause");
 						}
 						system("cls");
+						schoolTitle();
 					} while (true);
 					if (tolower(isVegan[0]) == 'y')
 						isVegan = "Yes";
@@ -2142,6 +2157,7 @@ void updateMenuList() {
 							system("pause");
 						}
 						system("cls");
+						schoolTitle();
 					} while (true);
 					fml[id].foodPrice = foodPrice;
 					break;
@@ -2165,6 +2181,7 @@ void updateMenuList() {
 				break;
 			}
 			system("cls");
+			schoolTitle();
 		} while (isTrue);
 	}
 
@@ -3317,36 +3334,6 @@ void printWeeklyOrderReport(char choice) {	//fix
 		}
 	}
 	cout << endl;
-
-	/*cout << "\n\t\t\t|---------------------------------------------|"
-		<< "\n\t\t\t|              Parent Order Details           |"
-		<< "\n\t\t\t|---------------------------------------------|";
-	for (int i = 0; i < parent.size(); i++) {
-		for (int x = 0; x < parent[i].order.size(); x++) {
-			cout << "\n\t\t\t| Order ID:         " << parent[i].order[x].orderID
-				<< "\n\t\t\t| Order Foreign ID: " << parent[i].order[x].foreignKey
-				<< "\n\t\t\t| Order date:       " << parent[i].order[x].orderDate
-				<< "\n\t\t\t| Order item name:  " << parent[i].order[x].itemName
-				<< "\n\t\t\t| Order quantity:   " << parent[i].order[x].quantity
-				<< "\n\t\t\t| Order price:      " << parent[i].order[x].price
-				<< "\n\t\t\t|-----------------------------------------------\n";
-		}
-	}
-	cout << "\n\t\t\t|---------------------------------------------|"
-		<< "\n\t\t\t|              Staff Order Details           |"
-		<< "\n\t\t\t|---------------------------------------------|";
-	for (int i = 0; i < staff.size(); i++) {
-		for (int x = 0; x < staff[i].order.size(); x++) {
-			cout << "\n\t\t\t| Order ID:         " << staff[i].order[x].orderID
-				<< "\n\t\t\t| Order Foreign ID: " << staff[i].order[x].foreignKey
-				<< "\n\t\t\t| Order date:       " << staff[i].order[x].orderDate
-				<< "\n\t\t\t| Order item name:  " << staff[i].order[x].itemName
-				<< "\n\t\t\t| Order quantity:   " << staff[i].order[x].quantity
-				<< "\n\t\t\t| Order price:      " << staff[i].order[x].price
-				<< "\n\t\t\t|-----------------------------------------------\n";
-		}
-	}
-	cout << "\n\t\t\t";*/
 }
 
 //Code by Jay
@@ -3454,25 +3441,6 @@ void printAllParentDetails(char choice) {
 	}
 
 	cout << "\n\t\t\t";
-
-	/*vectParent = getAllParentDetails();
-	cout << "\n\t\t\t|--------------------------------------------|"
-		<< "\n\t\t\t|                Parent Details              |"
-		<< "\n\t\t\t|--------------------------------------------|";
-	for (int i = 0; i < vectParent.size(); i++) {
-		cout << "\n\t\t\t| Parent ID:             " << vectParent[i].parentID
-			<< "\n\t\t\t| Parent name:           " << vectParent[i].fullName
-			<< "\n\t\t\t| Parent gender:         " << vectParent[i].gender
-			<< "\n\t\t\t| Parent date of birth:  " << vectParent[i].dob
-			<< "\n\t\t\t| Parent contact number: " << vectParent[i].countNum
-			<< "\n\t\t\t| Parent email:          " << vectParent[i].email
-			<< "\n\t\t\t| Child fullname:        " << vectParent[i].childFullName
-			<< "\n\t\t\t| Child room number:     " << vectParent[i].childRoomNum
-			<< "\n\t\t\t| Visa card no:          " << vectParent[i].visaCardNo
-			<< "\n\t\t\t| Visa Expiry date:      " << vectParent[i].visaCardExpiry
-			<< "\n\t\t\t|-----------------------------------------------\n";
-	}
-	cout << "\n\t\t\t";*/
 }
 
 //This functions prints spaces;
@@ -3571,22 +3539,6 @@ void printAllStaffDetails(char choice) {
 				cout << "INACTIVE\n";
 		}
 	}
-	/*vectStaff = getAllStaffDetails();
-	cout << "\n\t\t\t|--------------------------------------------|"
-		<< "\n\t\t\t|                Staff Details               |"
-		<< "\n\t\t\t|--------------------------------------------|";
-	for (int i = 0; i < vectStaff.size(); i++) {
-		cout << "\n\t\t\t| Staff ID:             " << vectStaff[i].staffID
-			<< "\n\t\t\t| Staff name:           " << vectStaff[i].fullName
-			<< "\n\t\t\t| Staff gender:         " << vectStaff[i].gender
-			<< "\n\t\t\t| Staff date of birth:  " << vectStaff[i].dob
-			<< "\n\t\t\t| Staff contact number: " << vectStaff[i].countNum
-			<< "\n\t\t\t| Staff email:          " << vectStaff[i].email
-			<< "\n\t\t\t| Visa card no:         " << vectStaff[i].visaCardNo
-			<< "\n\t\t\t| Visa Expiry date:     " << vectStaff[i].visaCardExpiry
-			<< "\n\t\t\t|-----------------------------------------------\n";
-	}
-	cout << "\n\t\t\t";*/
 }
 
 //Code by Jay
@@ -3666,6 +3618,74 @@ vector<Parent> getAllParentDetails() {
 		}
 	}
 	return vectParent;
+}
+
+//Code by Jay
+//This function prints out a video of ALL MIGHT!!!
+void plusUltra() {
+	string tempstr, line, filename;
+	ifstream myfile;
+	int delay = 10;
+
+	system("Color 03");
+	system("cls");
+
+	//print title
+	for (int i = 0; i < 8; i++) {
+		for (int i = 10; i <= 13; i++) {
+			filename = "Plusultra/" + to_string(i) + ".txt";
+			myfile.open(filename, ios::in);
+
+			cout << "\n\n\n\n\n\n\n\n\n";
+			while (getline(myfile, line)) {
+				cout << "\t\t\t\t\t\t\t\t\t";
+				stringstream ss(line);
+				cout << line << endl;
+			}
+
+			myfile.close();
+			Sleep(80);
+			system("cls");
+		}
+	}
+
+	//show video
+	for (int i = 1; i <= 246; i++) {
+		if (i == 71 || i == 182) 
+			delay = 60;
+		else 
+			delay = 10;
+		filename = "Smash/" + to_string(i) + ".txt";
+		myfile.open(filename, ios::in);
+
+		while (getline(myfile, line)) {
+			stringstream ss(line);
+			cout << line << endl;
+		}
+
+		myfile.close();
+		Sleep(delay);
+		system("cls");
+	}
+
+	//print plus ultra
+	for (int i = 0; i < 8; i++) {
+		for (int i = 10; i <= 13; i++) {
+			filename = "Plusultra/" + to_string(i) + ".txt";
+			myfile.open(filename, ios::in);
+
+			cout << "\n\n\n\n\n\n\n";
+			while (getline(myfile, line)) {
+				cout << "\t\t\t\t\t\t\t";
+				stringstream ss(line);
+				cout << line << endl;
+			}
+
+			myfile.close();
+			Sleep(80);
+			system("cls");
+		}
+	}
 }
 
 //Code by Jay
@@ -3913,6 +3933,8 @@ vector<Login>& getAllLoginDetails(vector<Login>* vectLogin) {
 	return vecRef;
 }
 
+//Code by Jay
+//This function gets all bulk payment data and stores it in a vector and returns it
 vector<BulkPayment> getAllBulkDetails() {
 
 	vector<string> bulkData;
