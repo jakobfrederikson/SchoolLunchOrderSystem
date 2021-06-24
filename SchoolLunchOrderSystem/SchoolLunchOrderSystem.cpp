@@ -1779,8 +1779,8 @@ void chooseBulkOrder(vector<string> accDetails) {
 			else {
 				cout << "\n\t\t\tYou didn't enter y or n to confirm your order. Please try again.";
 			}
-			}
 		} while (true);
+		
 
 		switch (choice) {
 		case 1:
@@ -1845,7 +1845,6 @@ void chooseBulkOrder(vector<string> accDetails) {
 		cout << "\n\t\t\t";
 		system("pause");
 	}
-
 	bulkOrderFile.close();
 }
 
