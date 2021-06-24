@@ -296,7 +296,7 @@ void loadingScreen() {
 	cout << "\n\t\t\t\t\t\t\t\t\t\t\t\tClass: Bachelor of Software Engineering, first year";
 	cout << "\n\t\t\t\t\t\t\t\t\t\t\t\tPaper: CS103";
 	cout << "\n\t\t\t\t\t\t\t\t\t\t\t\tSchool: Yoobee College";
-	cout << "\n\t\t\t\t\t\t\t\t\t\t\t\t© Copyright 2021, all rights reserved.";
+	cout << "\n\t\t\t\t\t\t\t\t\t\t\t\tÂ© Copyright 2021, all rights reserved.";
 	cout << endl;
 	cout << "\n\t\t\t\t\t\t\t\t\t\t\t\t";
 	system("pause");
@@ -1772,6 +1772,13 @@ void chooseBulkOrder(vector<string> accDetails) {
 				else if (cancelChoice == '1') {
 					continue;
 				}
+			}
+			else if (tolower(confirmOrder == 'y')) {
+				break;
+			}
+			else {
+				cout << "\n\t\t\tYou didn't enter y or n to confirm your order. Please try again.";
+			}
 			}
 		} while (true);
 
